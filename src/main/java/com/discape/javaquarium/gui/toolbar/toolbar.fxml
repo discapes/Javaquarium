@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane fx:id="toolbarRoot" prefHeight="20.0" prefWidth="1000.0" styleClass="frame" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.discape.javaquarium.gui.toolbar.ToolbarPresenter">
+   <children>
+      <ToolBar prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+            <Button mnemonicParsing="false" onAction="#loadFromFile" text="Load from file" />
+            <Button mnemonicParsing="false" onAction="#saveToFile" text="Save to file" />
+          <Button mnemonicParsing="false" onAction="#openSettings" text="Settings" />
+            <Button mnemonicParsing="false" onAction="#reload" text="Reload" />
+        </items>
+      </ToolBar>
+   </children>
+</AnchorPane>
