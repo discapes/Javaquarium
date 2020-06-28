@@ -5,6 +5,8 @@ import com.discape.javaquarium.business.Aquarium;
 import com.discape.javaquarium.gui.app.AppView;
 import com.discape.javaquarium.gui.settings.SettingsView;
 import javafx.application.Application;
+import javafx.beans.property.ReadOnlyIntegerWrapper;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -26,11 +28,12 @@ public class JavaquariumApplication extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws InterruptedException {
-        Map<String, Object> customProperties = new HashMap<>(); Injector.setConfigurationSource(customProperties::get);
-        customProperties.put("chartUpdateRateMs", 100);
+    public void start(Stage stage) {
+        Map<String, Object> customProperties = new HashMap<>();
+        Injector.setConfigurationSource(customProperties::get);
+        customProperties.put("chartUpdateRateMs", new SimpleIntegerProperty(100));
+        customProperties.put("chartHistoryS", new SimpleIntegerProperty(10));
         customProperties.put("tickRateMs", 20);
-        customProperties.put("chartHistoryS", 10);
         Injector.setModelOrService(IThemes.class, new Themes());
         Injector.injectMembers(getClass(), this);
 

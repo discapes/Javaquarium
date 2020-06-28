@@ -4,24 +4,21 @@ import com.discape.javaquarium.Utils;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import static javafx.collections.FXCollections.observableArrayList;
 
-abstract class AquariumFile {
+public abstract class AquariumFile {
 
-    static Aquarium getAquarium(String fileName) throws IOException {
+    public static Aquarium getAquarium(File file) throws IOException {
         ObservableList<Fish> fishList = observableArrayList();
 
-        Path file = Paths.get(fileName);
+        Path path = file.toPath();
 
-        for (String line : Files.readAllLines(file)) {
+        for (String line : Files.readAllLines(path)) {
             String[] parts = line.split("\\s+");
             fishList.add(new Fish(
                     parts[0],
@@ -33,8 +30,13 @@ abstract class AquariumFile {
         return new Aquarium(fishList);
     }
 
-    static void setAquarium(Aquarium aquarium, String fileName) throws FileNotFoundException {
-        PrintWriter pw = new PrintWriter(new FileOutputStream(fileName));
+    public static void setAquarium(Aquarium aquarium, File file) throws FileNotFoundException {
+        FileOutputStream fileOutputStream = null;
+        try {
+            fileOutputStream = new FileOutputStream(file);
+        } catch (NullPointerException e) {}
+        if (fileOutputStream == null) return;
+        PrintWriter pw = new PrintWriter(fileOutputStream);
 
         for (Fish fish : aquarium.getFishList()) {
             pw.print(fish.getName() + " ");

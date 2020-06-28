@@ -16,7 +16,7 @@ public class Stages {
 
     public void reload() {
         appStage.setScene(themes.setTheme(new Scene(new AppView().getView())));
-        settingsStage.setScene(themes.setTheme(new Scene(new SettingsView().getView())));
+        if (settingsStage != null) settingsStage.setScene(themes.setTheme(new Scene(new SettingsView().getView())));
     }
 
     public void setAppStage(Stage appStage) {

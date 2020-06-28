@@ -10,7 +10,7 @@
     <packaging>jar</packaging>
 
     <name>Javaquarium</name>
-    <description>Manage a virtual aquarium with JavaFX </description>
+    <description>Manage a virtual aquarium with JavaFX</description>
     <developers>
         <developer>
             <name>Discape</name>

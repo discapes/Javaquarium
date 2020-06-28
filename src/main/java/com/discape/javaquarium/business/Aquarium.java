@@ -19,12 +19,7 @@ public class Aquarium {
     private final ObservableList<Fish> fishList;
 
     public Aquarium() {
-        fishList = observableArrayList(
-                new Fish("Dave", FishSpecies.BLUETANG),
-                new Fish("Jack", FishSpecies.BLUETANG),
-                new Fish("Luke", FishSpecies.COD),
-                new Fish("Bob", FishSpecies.COD)
-        );
+        fishList = observableArrayList();
     }
 
     public Aquarium(ObservableList<Fish> fishList)  {
