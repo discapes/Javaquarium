@@ -1,6 +1,7 @@
 package com.discape.javaquarium.gui.chart;
 
 import com.discape.javaquarium.business.Aquarium;
+import com.discape.javaquarium.gui.ChartDataUpdater;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.CategoryAxis;
@@ -10,8 +11,6 @@ import javafx.scene.chart.XYChart;
 import javax.inject.Inject;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import static javafx.collections.FXCollections.observableArrayList;
 
 public class ChartPresenter implements Initializable {
 

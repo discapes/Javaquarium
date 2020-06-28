@@ -1,13 +1,11 @@
 package com.discape.javaquarium.gui.toolbar;
 
 import com.airhacks.afterburner.injection.Injector;
-import com.discape.javaquarium.Javaquarium;
 import com.discape.javaquarium.business.Aquarium;
 import com.discape.javaquarium.business.AquariumFile;
+import com.discape.javaquarium.gui.ChartDataUpdater;
 import com.discape.javaquarium.gui.IThemes;
-import com.discape.javaquarium.gui.JavaquariumApplication;
 import com.discape.javaquarium.gui.Stages;
-import com.discape.javaquarium.gui.chart.ChartDataUpdater;
 import com.discape.javaquarium.gui.settings.SettingsView;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -29,8 +27,9 @@ public class ToolbarPresenter {
     @Inject private Stages stages;
 
     @Inject private ChartDataUpdater chartDataUpdater;
-    
-    @FXML private void loadFromFile() {
+
+    @FXML
+    private void loadFromFile() {
         FileChooser fileChooser = new FileChooser();
         File selectedFile = fileChooser.showOpenDialog(new Stage());
         try {
@@ -39,7 +38,8 @@ public class ToolbarPresenter {
         stages.reload();
     }
 
-    @FXML private void saveToFile() {
+    @FXML
+    private void saveToFile() {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
         fileChooser.getExtensionFilters().add(extFilter);
@@ -49,8 +49,10 @@ public class ToolbarPresenter {
         } catch (IOException e) { e.printStackTrace(); }
     }
 
-    @FXML private void openSettings() {
+    @FXML
+    private void openSettings() {
         Stage settingsStage = new Stage();
+        settingsStage.setTitle("Settings");
         stages.setSettingsStage(settingsStage);
         settingsStage.initModality(Modality.APPLICATION_MODAL);
         Scene scene = new Scene(new SettingsView().getView());
@@ -59,11 +61,13 @@ public class ToolbarPresenter {
         settingsStage.showAndWait();
     }
 
-    @FXML private void nukeFish() {
+    @FXML
+    private void nukeFish() {
         aquarium.getFishList().clear();
     }
 
-    @FXML private void resetChart() {
+    @FXML
+    private void resetChart() {
         chartDataUpdater.reload();
     }
 

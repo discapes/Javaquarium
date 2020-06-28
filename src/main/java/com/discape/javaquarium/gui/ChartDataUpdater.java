@@ -1,18 +1,14 @@
-package com.discape.javaquarium.gui.chart;
+package com.discape.javaquarium.gui;
 
 import com.discape.javaquarium.business.Aquarium;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ReadOnlyFloatProperty;
-import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.collections.ObservableList;
-import javafx.fxml.Initializable;
 import javafx.scene.chart.XYChart;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-import java.net.URL;
-import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -22,7 +18,7 @@ public class ChartDataUpdater {
 
     private TimerTask currentTask = null;
 
-    private Timer timer = null;
+    private final Timer timer = new Timer(true);
 
     @Inject
     private IntegerProperty chartUpdateRateMs;
@@ -34,6 +30,18 @@ public class ChartDataUpdater {
     private XYChart.Series<String, Number> foodSeries;
     private XYChart.Series<String, Number> oxygenSeries;
     private ObservableList<String> categories;
+    private int numCategories;
+    private float updatesPerSecond;
+
+    // so we can haz lambdas
+    private static TimerTask wrap(Runnable r) {
+        return new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(r);
+            }
+        };
+    }
 
     public XYChart.Series<String, Number> getFoodSeries() {
         return foodSeries;
@@ -47,9 +55,6 @@ public class ChartDataUpdater {
         return categories;
     }
 
-    private int numCategories;
-    private float updatesPerSecond;
-
     private void initialize(int numCategories, float updatesPerSecond) {
         categories.clear();
         foodSeries.getData().clear();
@@ -61,13 +66,24 @@ public class ChartDataUpdater {
             foodSeries.getData().add(new XYChart.Data<>(Float.toString((float) (numCategories - i - 1) / updatesPerSecond), amountFood.get()));
             oxygenSeries.getData().add(new XYChart.Data<>(Float.toString((float) (numCategories - i - 1) / updatesPerSecond), amountOxygen.get()));
         }
+        System.out.println("numCategories = " + numCategories);
+        System.out.println("series.getData().size() = " + foodSeries.getData().size());
+
 
         if (currentTask != null) currentTask.cancel();
 
         currentTask = wrap(() -> {
             for (int i = 0; i < numCategories - 1; i++) {
                 for (XYChart.Series<String, Number> series : new XYChart.Series[]{foodSeries, oxygenSeries}) {
-                    XYChart.Data<String, Number> pointToBeMoved = series.getData().get(i + 1);
+                    XYChart.Data<String, Number> pointToBeMoved;
+                    try {
+                        pointToBeMoved = series.getData().get(i + 1);
+                    } catch (IndexOutOfBoundsException e) {
+                        // current task is still running while series are cleared and made shorter
+                        // I COULD check if numCategories > series.getData().size().
+                        // checking for an exception is a hack, but it is probably faster so I'll use it.
+                        return;
+                    }
                     XYChart.Data<String, Number> newPoint = new XYChart.Data<>(Float.toString((float) (numCategories - i - 1) / updatesPerSecond), pointToBeMoved.getYValue());
                     series.getData().set(i, newPoint);
                 }
@@ -75,7 +91,8 @@ public class ChartDataUpdater {
             foodSeries.getData().set(numCategories - 1, new XYChart.Data<>("0.0", amountFood.get()));
             oxygenSeries.getData().set(numCategories - 1, new XYChart.Data<>("0.0", amountOxygen.get()));
         });
-        timer.scheduleAtFixedRate(currentTask, chartUpdateRateMs.get(), chartUpdateRateMs.get());
+        if (chartUpdateRateMs.get() > 0)
+            timer.scheduleAtFixedRate(currentTask, chartUpdateRateMs.get(), chartUpdateRateMs.get());
 
     }
 
@@ -83,16 +100,6 @@ public class ChartDataUpdater {
         updatesPerSecond = (float) 1000 / (float) chartUpdateRateMs.get();
         numCategories = (int) (chartHistoryS.get() * updatesPerSecond) + 1;
         initialize(numCategories, updatesPerSecond);
-    }
-
-    // so we can haz lambdas
-    private static TimerTask wrap(Runnable r) {
-        return new TimerTask() {
-            @Override
-            public void run() {
-                Platform.runLater(r);
-            }
-        };
     }
 
     @PostConstruct
@@ -104,13 +111,11 @@ public class ChartDataUpdater {
         oxygenSeries.setName("Oxygen");
 
         chartUpdateRateMs.addListener((observable, oldValue, newValue) -> {
-             reload();
-        });
-         chartHistoryS.addListener((observable, oldValue, newValue) -> {
             reload();
         });
-
-        timer = new Timer(true);
+        chartHistoryS.addListener((observable, oldValue, newValue) -> {
+            reload();
+        });
         reload();
     }
 }

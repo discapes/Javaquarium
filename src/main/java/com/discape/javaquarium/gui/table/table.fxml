@@ -3,19 +3,23 @@
 <!--suppress JavaFxDefaultTag -->
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane prefHeight="500.0" prefWidth="800.0" styleClass="frame" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.discape.javaquarium.gui.table.TablePresenter" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-   <children>
-      <TableView fx:id="tableView" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <columns>
-          <TableColumn fx:id="nameCol" editable="false" prefWidth="75.0" text="Name" />
-            <TableColumn fx:id="speciesCol" editable="false" prefWidth="75.0" text="Species"/>
-            <TableColumn fx:id="speedCol" editable="false" prefWidth="75.0" text="Speed" />
-          <TableColumn fx:id="colorCol" editable="false" prefWidth="75.0" text="Color" />
-            <TableColumn fx:id="saturationCol" editable="false" prefWidth="75.0" text="Saturation" />
-        </columns>
-         <columnResizePolicy>
-            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-         </columnResizePolicy>
-      </TableView>
-   </children>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="500.0" prefWidth="800.0" styleClass="frame"
+            xmlns="http://javafx.com/javafx/10.0.2-internal" fx:controller="com.discape.javaquarium.gui.table.TablePresenter"
+            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+            AnchorPane.topAnchor="0.0">
+    <children>
+        <TableView fx:id="tableView" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0"
+                   AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <columns>
+                <TableColumn fx:id="nameCol" editable="false" prefWidth="75.0" text="Name"/>
+                <TableColumn fx:id="speciesCol" editable="false" prefWidth="75.0" text="Species"/>
+                <TableColumn fx:id="speedCol" editable="false" prefWidth="75.0" text="Speed"/>
+                <TableColumn fx:id="colorCol" editable="false" prefWidth="75.0" text="Color"/>
+                <TableColumn fx:id="saturationCol" editable="false" prefWidth="75.0" text="Saturation"/>
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+            </columnResizePolicy>
+        </TableView>
+    </children>
 </AnchorPane>

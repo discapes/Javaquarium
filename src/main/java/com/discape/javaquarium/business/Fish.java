@@ -30,9 +30,14 @@ public class Fish {
     }
 
     public int getSaturation() { return saturation; }
+
     public String getName() { return name; }
+
     public int getSpeed() { return speed; }
+
     public Color getColor() { return color; }
+
     public String getSpeciesName() { return species.getName(); }
+
     public FishSpecies getSpecies() { return species; }
 }

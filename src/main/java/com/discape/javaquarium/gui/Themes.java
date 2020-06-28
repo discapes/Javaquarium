@@ -8,14 +8,20 @@ import jfxtras.styles.jmetro.Style;
 
 public class Themes implements IThemes {
 
-    private JMetro jMetro;
+    private final JMetro jMetro;
+    private String currentTheme = "Modena";
+    private final String[] themes = {
+            "Light",
+            "Dark",
+            "Metro Dark",
+            "Metro Light",
+            "Old"
+    };
 
     public Themes() {
         jMetro = new JMetro();
         jMetro.automaticallyColorPanesProperty().set(true);
     }
-
-    private String currentTheme = "Modena";
 
     @Override
     public String getCurrentTheme() {
@@ -27,14 +33,6 @@ public class Themes implements IThemes {
         this.currentTheme = currentTheme;
     }
 
-    private String[] themes = {
-            "Light",
-            "Dark",
-            "Metro Dark",
-            "Metro Light",
-            "Old"
-    };
-
     @Override
     public String[] getThemes() {
         return themes;
@@ -45,7 +43,7 @@ public class Themes implements IThemes {
         StyleManager.getInstance().platformUserAgentStylesheetContainers.clear();
         Application.setUserAgentStylesheet(Application.STYLESHEET_MODENA);
         jMetro.sceneProperty().set(null);
-        
+
         switch (currentTheme) {
             case "Light":
                 break;

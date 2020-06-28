@@ -6,8 +6,8 @@ import static javafx.scene.paint.Color.BLUE;
 import static javafx.scene.paint.Color.PALEGOLDENROD;
 
 public enum FishSpecies {
-    BLUETANG(   0,  100,    BLUE,            "Blue tang"),
-    COD(        1,  120,    PALEGOLDENROD,   "Cod");
+    BLUETANG(0, 100, BLUE, "Blue tang"),
+    COD(1, 120, PALEGOLDENROD, "Cod");
 
     private final int value;
     private final int speed;
