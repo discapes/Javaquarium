@@ -12,13 +12,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
-import javax.inject.Inject;
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-//TODO when writing about dialog, mention that higher update speeds make more lag actually just set max numcategories
 //TODO inspect code
 
 public class JavaquariumApplication extends Application {
@@ -32,10 +29,10 @@ public class JavaquariumApplication extends Application {
         // set configuration
         Map<String, Object> customProperties = new HashMap<>();
         Injector.setConfigurationSource(customProperties::get);
-        customProperties.put("chartUpdateRateMs", new SimpleIntegerProperty(50));
+        customProperties.put("chartDataPoints", new SimpleIntegerProperty(200));
         customProperties.put("chartHistoryS", new SimpleIntegerProperty(10));
         customProperties.put("tickRateMs", new SimpleIntegerProperty(20));
-        String defaultTheme = "Metro Dark";
+        String defaultTheme = "Light";
 
 
         // instantiate objects that have non-default constructors, or implement interfaces

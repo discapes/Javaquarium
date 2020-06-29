@@ -5,8 +5,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.paint.Color;
 
-import javax.inject.Inject;
-
 public class Utils {
 
     private static IThemes themes;

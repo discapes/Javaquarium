@@ -18,32 +18,41 @@
                     </font>
                 </Label>
                 <ChoiceBox fx:id="themePicker" prefWidth="150.0" VBox.vgrow="ALWAYS"/>
-                <Label text="Chart history (seconds) = ">
+                <Label fx:id="historyLabel" text="Chart history (seconds) = ">
                     <font>
                         <Font size="16.0"/>
                     </font>
                 </Label>
-                <Slider fx:id="chartHistorySSlider" blockIncrement="5.0" majorTickUnit="10.0" minorTickCount="1"
-                        showTickLabels="true" showTickMarks="true" snapToTicks="true" value="20.0"/>
-                <Label text="Chart update rate (ms) = ">
+                <Slider fx:id="chartHistorySSlider" blockIncrement="1.0" majorTickUnit="1.0" min="1.0"
+                        minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true"/>
+                <Label fx:id="dataLabel" text="Chart data points = ">
                     <font>
                         <Font size="16.0"/>
                     </font>
                 </Label>
-                <Slider fx:id="chartUpdateRateMsSlider" majorTickUnit="100.0" max="1000.0" minorTickCount="1"
-                        showTickLabels="true" showTickMarks="true" snapToTicks="true" value="50.0"/>
-                <Label text="Tick rate (ms) = ">
+                <Slider fx:id="chartDataPointsSlider" blockIncrement="50.0" majorTickUnit="50.0" max="500.0"
+                        minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true"/>
+                <Label fx:id="tickLabel" text="Tick rate (ms) = ">
                     <font>
                         <Font size="16.0"/>
                     </font>
                 </Label>
                 <Slider fx:id="tickRateMsSlider" blockIncrement="5.0" majorTickUnit="100.0" max="1000.0"
                         minorTickCount="1" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="50.0"/>
-                <Button mnemonicParsing="false" onAction="#apply" text="Apply">
-                    <font>
-                        <Font size="17.0"/>
-                    </font>
-                </Button>
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                    <children>
+                        <Button mnemonicParsing="false" onAction="#apply" text="Apply">
+                            <font>
+                                <Font size="17.0"/>
+                            </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#question" text="?">
+                            <font>
+                                <Font size="17.0"/>
+                            </font>
+                        </Button>
+                    </children>
+                </HBox>
             </children>
             <opaqueInsets>
                 <Insets/>

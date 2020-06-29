@@ -9,7 +9,6 @@ import jfxtras.styles.jmetro.Style;
 public class Themes implements IThemes {
 
     private final JMetro jMetro;
-    private String currentTheme = "Modena";
     private final String[] themes = {
             "Light",
             "Dark",
@@ -17,6 +16,7 @@ public class Themes implements IThemes {
             "Metro Light",
             "Old"
     };
+    private String currentTheme = "Modena";
 
     public Themes() {
         jMetro = new JMetro();

@@ -5,7 +5,6 @@ import javafx.beans.property.ReadOnlyFloatProperty;
 import javafx.beans.property.ReadOnlyFloatWrapper;
 import javafx.collections.ObservableList;
 
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -82,7 +81,7 @@ public class Aquarium {
                 tick();
             }
         };
-        timer.scheduleAtFixedRate(updateTask, tickRateMs.get(), tickRateMs.get());
+        if (tickRateMs.get() > 0) timer.scheduleAtFixedRate(updateTask, tickRateMs.get(), tickRateMs.get());
     }
 
     public void init() {

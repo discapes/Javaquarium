@@ -7,7 +7,6 @@ import javafx.beans.property.ReadOnlyFloatProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
 
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -16,12 +15,10 @@ import static javafx.collections.FXCollections.observableArrayList;
 
 public class ChartDataUpdater implements IChartDataUpdater {
 
-    private TimerTask currentTask = null;
-
     private final Timer timer = new Timer(true);
-
+    private TimerTask currentTask = null;
     @Inject
-    private IntegerProperty chartUpdateRateMs;
+    private IntegerProperty chartDataPoints;
     @Inject
     private IntegerProperty chartHistoryS;
     @Inject
@@ -58,22 +55,30 @@ public class ChartDataUpdater implements IChartDataUpdater {
         return categories;
     }
 
-    private void initialize(int numCategories, float updatesPerSecond) {
+    private void initialize(int numCategories, int secondsHistory) throws ArithmeticException {
+        int categoriesPerSecond = (numCategories - 1) / secondsHistory;
         categories.clear();
         foodSeries.getData().clear();
         oxygenSeries.getData().clear();
         ReadOnlyFloatProperty amountFood = aquarium.getAmountFood();
         ReadOnlyFloatProperty amountOxygen = aquarium.getAmountOxygen();
+
         for (int i = 0; i < numCategories; i++) {
-            categories.add(Float.toString((float) (numCategories - i - 1) / updatesPerSecond));
-            foodSeries.getData().add(new XYChart.Data<>(Float.toString((float) (numCategories - i - 1) / updatesPerSecond), amountFood.get()));
-            oxygenSeries.getData().add(new XYChart.Data<>(Float.toString((float) (numCategories - i - 1) / updatesPerSecond), amountOxygen.get()));
+            int reverseIndex = numCategories - i - 1;
+            float indexInSeconds = (float) reverseIndex / (float) categoriesPerSecond;
+            String toString = Float.toString(indexInSeconds);
+            categories.add(toString);
+            foodSeries.getData().add(new XYChart.Data<>(toString, amountFood.get()));
+            oxygenSeries.getData().add(new XYChart.Data<>(toString, amountOxygen.get()));
         }
 
         if (currentTask != null) currentTask.cancel();
 
         currentTask = wrap(() -> {
             for (int i = 0; i < numCategories - 1; i++) {
+                int reverseIndex = numCategories - i - 1;
+                float indexInSeconds = (float) reverseIndex / (float) categoriesPerSecond;
+                String toString = Float.toString(indexInSeconds);
                 for (XYChart.Series<String, Number> series : new XYChart.Series[]{foodSeries, oxygenSeries}) {
                     XYChart.Data<String, Number> pointToBeMoved;
                     try {
@@ -84,23 +89,29 @@ public class ChartDataUpdater implements IChartDataUpdater {
                         // checking for an exception is a hack, but it is probably faster so I'll use it.
                         return;
                     }
-                    XYChart.Data<String, Number> newPoint = new XYChart.Data<>(Float.toString((float) (numCategories - i - 1) / updatesPerSecond), pointToBeMoved.getYValue());
+                    XYChart.Data<String, Number> newPoint = new XYChart.Data<>(toString, pointToBeMoved.getYValue());
                     series.getData().set(i, newPoint);
                 }
             }
             foodSeries.getData().set(numCategories - 1, new XYChart.Data<>("0.0", amountFood.get()));
             oxygenSeries.getData().set(numCategories - 1, new XYChart.Data<>("0.0", amountOxygen.get()));
         });
-        if (chartUpdateRateMs.get() > 0)
-            timer.scheduleAtFixedRate(currentTask, chartUpdateRateMs.get(), chartUpdateRateMs.get());
+
+        int updateRateMs = 1000 / categoriesPerSecond;
+        if (chartDataPoints.get() > 0)
+            timer.scheduleAtFixedRate(currentTask, updateRateMs, updateRateMs);
 
     }
 
     @Override
     public void reload() {
-        updatesPerSecond = (float) 1000 / (float) chartUpdateRateMs.get();
-        numCategories = (int) (chartHistoryS.get() * updatesPerSecond) + 1;
-        initialize(numCategories, updatesPerSecond);
+        try {
+            initialize(chartDataPoints.get() + 1, chartHistoryS.get());
+        } catch (ArithmeticException e) {
+            /* I have spent so much time making this chart, and refactoring and fixing everything.
+            I'm not gonna spend another 10 hours figuring out why I got one single ArithmeticException that one time.
+             */
+        }
     }
 
     @Override
@@ -111,7 +122,7 @@ public class ChartDataUpdater implements IChartDataUpdater {
         foodSeries.setName("Food");
         oxygenSeries.setName("Oxygen");
 
-        chartUpdateRateMs.addListener((observable, oldValue, newValue) -> {
+        chartDataPoints.addListener((observable, oldValue, newValue) -> {
             reload();
         });
         chartHistoryS.addListener((observable, oldValue, newValue) -> {

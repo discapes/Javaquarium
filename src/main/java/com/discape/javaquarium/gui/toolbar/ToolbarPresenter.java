@@ -10,6 +10,8 @@ import com.discape.javaquarium.gui.Stages;
 import com.discape.javaquarium.gui.settings.SettingsView;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -20,8 +22,7 @@ import java.io.IOException;
 
 public class ToolbarPresenter {
 
-    @Inject
-    private Aquarium aquarium;
+    @Inject private Aquarium aquarium;
 
     @Inject private IThemes themes;
 
@@ -29,13 +30,12 @@ public class ToolbarPresenter {
 
     @Inject private IChartDataUpdater IChartDataUpdater;
 
-    @FXML
     private void loadFromFile() {
         FileChooser fileChooser = new FileChooser();
         File selectedFile = fileChooser.showOpenDialog(new Stage());
         try {
             Injector.setModelOrService(Aquarium.class, AquariumFile.getAquarium(selectedFile));
-        } catch (Exception e) { if(!(e instanceof NullPointerException)) Utils.errorAlert("Invalid file"); }
+        } catch (Exception e) { if (!(e instanceof NullPointerException)) Utils.errorAlert("Invalid file"); }
         stages.reload();
     }
 
@@ -72,7 +72,18 @@ public class ToolbarPresenter {
         IChartDataUpdater.reload();
     }
 
-    public void about() {
 
+    public void about() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Javaquarium\n" +
+                "Written by Discape\n" +
+                "Manage a virtual aquarium,\n" +
+                "and make sure the fish have appropriate amounts\n" +
+                "of food and oxygen.\n" +
+                "In settings you can change the theme,\n" +
+                "How fast the oxygen and food levels change,\n" +
+                "How fast the chart updates and how much history it shows.", ButtonType.OK);
+        themes.setTheme(alert.getDialogPane().getScene());
+        alert.setHeaderText("About");
+        alert.show();
     }
 }
