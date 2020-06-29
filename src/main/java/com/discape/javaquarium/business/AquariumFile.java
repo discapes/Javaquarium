@@ -12,7 +12,7 @@ import static javafx.collections.FXCollections.observableArrayList;
 
 public abstract class AquariumFile {
 
-    public static Aquarium getAquarium(File file) throws IOException {
+    public static Aquarium getAquarium(File file) throws Exception {
         ObservableList<Fish> fishList = observableArrayList();
 
         Path path = file.toPath();

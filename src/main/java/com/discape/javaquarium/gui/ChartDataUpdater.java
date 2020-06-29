@@ -14,7 +14,7 @@ import java.util.TimerTask;
 
 import static javafx.collections.FXCollections.observableArrayList;
 
-public class ChartDataUpdater {
+public class ChartDataUpdater implements IChartDataUpdater {
 
     private TimerTask currentTask = null;
 
@@ -43,14 +43,17 @@ public class ChartDataUpdater {
         };
     }
 
+    @Override
     public XYChart.Series<String, Number> getFoodSeries() {
         return foodSeries;
     }
 
+    @Override
     public XYChart.Series<String, Number> getOxygenSeries() {
         return oxygenSeries;
     }
 
+    @Override
     public ObservableList<String> getCategories() {
         return categories;
     }
@@ -66,9 +69,6 @@ public class ChartDataUpdater {
             foodSeries.getData().add(new XYChart.Data<>(Float.toString((float) (numCategories - i - 1) / updatesPerSecond), amountFood.get()));
             oxygenSeries.getData().add(new XYChart.Data<>(Float.toString((float) (numCategories - i - 1) / updatesPerSecond), amountOxygen.get()));
         }
-        System.out.println("numCategories = " + numCategories);
-        System.out.println("series.getData().size() = " + foodSeries.getData().size());
-
 
         if (currentTask != null) currentTask.cancel();
 
@@ -96,14 +96,15 @@ public class ChartDataUpdater {
 
     }
 
+    @Override
     public void reload() {
         updatesPerSecond = (float) 1000 / (float) chartUpdateRateMs.get();
         numCategories = (int) (chartHistoryS.get() * updatesPerSecond) + 1;
         initialize(numCategories, updatesPerSecond);
     }
 
-    @PostConstruct
-    private void postConstruct() {
+    @Override
+    public void init() {
         categories = observableArrayList();
         foodSeries = new XYChart.Series<>();
         oxygenSeries = new XYChart.Series<>();

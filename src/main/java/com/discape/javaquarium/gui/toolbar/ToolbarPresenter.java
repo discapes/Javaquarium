@@ -1,9 +1,10 @@
 package com.discape.javaquarium.gui.toolbar;
 
 import com.airhacks.afterburner.injection.Injector;
+import com.discape.javaquarium.Utils;
 import com.discape.javaquarium.business.Aquarium;
 import com.discape.javaquarium.business.AquariumFile;
-import com.discape.javaquarium.gui.ChartDataUpdater;
+import com.discape.javaquarium.gui.IChartDataUpdater;
 import com.discape.javaquarium.gui.IThemes;
 import com.discape.javaquarium.gui.Stages;
 import com.discape.javaquarium.gui.settings.SettingsView;
@@ -26,7 +27,7 @@ public class ToolbarPresenter {
 
     @Inject private Stages stages;
 
-    @Inject private ChartDataUpdater chartDataUpdater;
+    @Inject private IChartDataUpdater IChartDataUpdater;
 
     @FXML
     private void loadFromFile() {
@@ -34,7 +35,7 @@ public class ToolbarPresenter {
         File selectedFile = fileChooser.showOpenDialog(new Stage());
         try {
             Injector.setModelOrService(Aquarium.class, AquariumFile.getAquarium(selectedFile));
-        } catch (IOException e) { e.printStackTrace(); }
+        } catch (Exception e) { if(!(e instanceof NullPointerException)) Utils.errorAlert("Invalid file"); }
         stages.reload();
     }
 
@@ -68,7 +69,10 @@ public class ToolbarPresenter {
 
     @FXML
     private void resetChart() {
-        chartDataUpdater.reload();
+        IChartDataUpdater.reload();
     }
 
+    public void about() {
+
+    }
 }

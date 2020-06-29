@@ -1,7 +1,7 @@
 package com.discape.javaquarium.gui.chart;
 
 import com.discape.javaquarium.business.Aquarium;
-import com.discape.javaquarium.gui.ChartDataUpdater;
+import com.discape.javaquarium.gui.IChartDataUpdater;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.CategoryAxis;
@@ -20,18 +20,18 @@ public class ChartPresenter implements Initializable {
     private CategoryAxis categoryAxis;
 
     @Inject
-    private ChartDataUpdater chartDataUpdater;
+    private IChartDataUpdater IChartDataUpdater;
 
     @Inject
     private Aquarium aquarium;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        categoryAxis.setCategories(chartDataUpdater.getCategories());
+        categoryAxis.setCategories(IChartDataUpdater.getCategories());
 
         // for some reason if I set the series straight it produces a visual glitch. mb the linechart modifies the series somehow?
-        XYChart.Series<String, Number> oxygen = new XYChart.Series<>(chartDataUpdater.getOxygenSeries().getData());
-        XYChart.Series<String, Number> food = new XYChart.Series<>(chartDataUpdater.getFoodSeries().getData());
+        XYChart.Series<String, Number> oxygen = new XYChart.Series<>(IChartDataUpdater.getOxygenSeries().getData());
+        XYChart.Series<String, Number> food = new XYChart.Series<>(IChartDataUpdater.getFoodSeries().getData());
         oxygen.setName("Oxygen");
         food.setName("Food");
         lineChart.getData().add(oxygen);

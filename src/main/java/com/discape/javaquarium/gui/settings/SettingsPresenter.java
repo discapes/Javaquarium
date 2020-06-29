@@ -30,6 +30,7 @@ public class SettingsPresenter implements Initializable {
     @Inject private IntegerProperty chartUpdateRateMs;
     @Inject private IntegerProperty tickRateMs;
 
+    @FXML
     private void apply() {
         //TODO bind slider values to the labels
         themes.setCurrentTheme(themePicker.getValue());

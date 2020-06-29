@@ -85,10 +85,10 @@ public class Aquarium {
         timer.scheduleAtFixedRate(updateTask, tickRateMs.get(), tickRateMs.get());
     }
 
-    @PostConstruct
-    public void postConstruct() {
+    public void init() {
         tickRateMs.addListener((observable, oldValue, newValue) -> {
             restartClock();
         });
+        restartClock();
     }
 }
