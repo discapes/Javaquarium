@@ -97,4 +97,13 @@ public class Aquarium {
         });
         restartClock();
     }
+
+    @Override
+    public String toString() {
+        String string = "";
+        for (Fish fish : fishList) {
+            string = string.concat(fish.toString() + "\n");
+        }
+        return string;
+    }
 }

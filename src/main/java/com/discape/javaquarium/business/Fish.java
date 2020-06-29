@@ -1,5 +1,6 @@
 package com.discape.javaquarium.business;
 
+import com.discape.javaquarium.Utils;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -28,6 +29,11 @@ public class Fish {
         this.species.set(species);
         this.speed.set((int) (ThreadLocalRandom.current().nextDouble(0.25f, 2.f) * species.getSpeed()));
         this.color.set(species.getColor().deriveColor(ThreadLocalRandom.current().nextDouble(-50, 50), 1, 1, 1));
+    }
+
+    @Override
+    public String toString() {
+        return name.get() + " " + species.get().name() + " " + speed.get() + " " + Utils.colorToString(color.get()) + " " + saturation.get();
     }
 
     public SimpleStringProperty nameProperty() { return name; }

@@ -43,15 +43,8 @@ public abstract class AquariumFile {
         if (fileOutputStream == null) return;
         PrintWriter pw = new PrintWriter(fileOutputStream);
 
-        for (Fish fish : aquarium.getFishList()) {
-            pw.print(fish.getName() + " ");
-            pw.print(fish.getSpecies().getName() + " ");
-            pw.print(fish.getSpeed() + " ");
-            pw.print(Utils.colorToString(fish.getColor()) + " ");
-            pw.print(fish.getSaturation() + " ");
+        pw.print(aquarium.toString());
 
-            pw.println();
-        }
         pw.close();
     }
 
