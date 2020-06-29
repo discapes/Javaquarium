@@ -1,15 +1,18 @@
 package com.discape.javaquarium.gui.settings;
 
 import com.discape.javaquarium.gui.IThemes;
+import com.discape.javaquarium.gui.JavaquariumApplication;
 import com.discape.javaquarium.gui.Stages;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
 import javax.inject.Inject;
 import java.net.URL;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import static javafx.collections.FXCollections.observableArrayList;
@@ -32,6 +35,14 @@ public class SettingsPresenter implements Initializable {
     @Inject private IntegerProperty chartHistoryS;
     @Inject private IntegerProperty chartDataPoints;
     @Inject private IntegerProperty tickRateMs;
+
+    private static IntegerProperty getDisplayValue(Slider slider) {
+        IntegerProperty integerProperty = new SimpleIntegerProperty((int) slider.getValue());
+        slider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            integerProperty.set((int) slider.getBlockIncrement() * Math.round(newValue.floatValue() / (float) slider.getBlockIncrement()));
+        });
+        return integerProperty;
+    }
 
     @FXML
     private void question() {
@@ -58,19 +69,36 @@ public class SettingsPresenter implements Initializable {
         stages.reload();
     }
 
+    @FXML
+    private void reset() {
+        Map<String, Object> defaults = JavaquariumApplication.getDefaults();
+        chartHistorySSlider.setValue(((SimpleIntegerProperty) defaults.get("chartHistoryS")).getValue());
+        chartDataPointsSlider.setValue(((SimpleIntegerProperty) defaults.get("chartDataPoints")).getValue());
+        tickRateMsSlider.setValue(((SimpleIntegerProperty) defaults.get("tickRateMs")).getValue());
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         themePicker.setItems(observableArrayList(themes.getThemes()));
         themePicker.setValue(themes.getCurrentTheme());
 
+        /* SPENT WAYYY TOO LONG ON ALL THESE SLIDERS */
         chartHistorySSlider.setValue(chartHistoryS.getValue());
         chartDataPointsSlider.setValue(chartDataPoints.getValue());
         tickRateMsSlider.setValue(tickRateMs.getValue());
 
-        chartDataPointsSlider.minProperty().bind(chartHistorySSlider.valueProperty());
+        chartDataPointsSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if ((double) newValue < chartHistorySSlider.getValue())
+                chartDataPointsSlider.setValue(chartHistorySSlider.getValue());
+        });
+        chartHistorySSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if ((double) newValue < 1) chartHistorySSlider.setValue(1);
+            if ((double) newValue > chartDataPointsSlider.getValue())
+                chartDataPointsSlider.setValue(chartHistorySSlider.getValue());
+        });
 
-        historyLabel.textProperty().bind(Bindings.concat(historyLabel.getText(), chartHistorySSlider.valueProperty()));
-        dataLabel.textProperty().bind(Bindings.concat(dataLabel.getText(), chartDataPointsSlider.valueProperty()));
-        tickLabel.textProperty().bind(Bindings.concat(tickLabel.getText(), tickRateMsSlider.valueProperty()));
+        historyLabel.textProperty().bind(Bindings.concat(historyLabel.getText(), getDisplayValue(chartHistorySSlider)));
+        dataLabel.textProperty().bind(Bindings.concat(dataLabel.getText(), getDisplayValue(chartDataPointsSlider)));
+        tickLabel.textProperty().bind(Bindings.concat(tickLabel.getText(), getDisplayValue(tickRateMsSlider)));
     }
 }

@@ -7,7 +7,8 @@
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="settingsRootPane" prefHeight="400.0" prefWidth="300.0"
             styleClass="frame" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
             AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"
-            xmlns="http://javafx.com/javafx/10.0.2-internal" fx:controller="com.discape.javaquarium.gui.settings.SettingsPresenter">
+            xmlns="http://javafx.com/javafx/10.0.2-internal"
+            fx:controller="com.discape.javaquarium.gui.settings.SettingsPresenter">
     <children>
         <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" AnchorPane.bottomAnchor="0.0"
               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -23,24 +24,29 @@
                         <Font size="16.0"/>
                     </font>
                 </Label>
-                <Slider fx:id="chartHistorySSlider" blockIncrement="1.0" majorTickUnit="1.0" min="1.0"
-                        minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true"/>
+                <Slider fx:id="chartHistorySSlider" blockIncrement="1.0" majorTickUnit="1.0" minorTickCount="0"
+                        showTickLabels="true" snapToTicks="true"/>
                 <Label fx:id="dataLabel" text="Chart data points = ">
                     <font>
                         <Font size="16.0"/>
                     </font>
                 </Label>
-                <Slider fx:id="chartDataPointsSlider" blockIncrement="50.0" majorTickUnit="50.0" max="500.0"
-                        minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true"/>
+                <Slider fx:id="chartDataPointsSlider" blockIncrement="20.0" majorTickUnit="20.0" max="500.0"
+                        minorTickCount="0" showTickLabels="true" snapToTicks="true"/>
                 <Label fx:id="tickLabel" text="Tick rate (ms) = ">
                     <font>
                         <Font size="16.0"/>
                     </font>
                 </Label>
-                <Slider fx:id="tickRateMsSlider" blockIncrement="5.0" majorTickUnit="100.0" max="1000.0"
-                        minorTickCount="1" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="50.0"/>
+                <Slider fx:id="tickRateMsSlider" majorTickUnit="10.0" max="1000.0" minorTickCount="0"
+                        showTickLabels="true" snapToTicks="true" value="50.0"/>
                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                     <children>
+                        <Button mnemonicParsing="false" onAction="#reset" text="Reset">
+                            <font>
+                                <Font size="17.0"/>
+                            </font>
+                        </Button>
                         <Button mnemonicParsing="false" onAction="#apply" text="Apply">
                             <font>
                                 <Font size="17.0"/>

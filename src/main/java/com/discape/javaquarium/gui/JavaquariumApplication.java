@@ -24,15 +24,22 @@ public class JavaquariumApplication extends Application {
         launch(args);
     }
 
+    public static Map<String, Object> getDefaults() {
+        HashMap<String, Object> defaults = new HashMap<>();
+        defaults.put("chartDataPoints", new SimpleIntegerProperty(200));
+        defaults.put("chartHistoryS", new SimpleIntegerProperty(10));
+        defaults.put("tickRateMs", new SimpleIntegerProperty(20));
+        defaults.put("defaultTheme", "Dark");
+        return defaults;
+    }
+
     @Override
     public void start(Stage stage) {
         // set configuration
         Map<String, Object> customProperties = new HashMap<>();
         Injector.setConfigurationSource(customProperties::get);
-        customProperties.put("chartDataPoints", new SimpleIntegerProperty(200));
-        customProperties.put("chartHistoryS", new SimpleIntegerProperty(10));
-        customProperties.put("tickRateMs", new SimpleIntegerProperty(20));
-        String defaultTheme = "Light";
+        customProperties.putAll(getDefaults());
+        String defaultTheme = (String) customProperties.get("defaultTheme");
 
 
         // instantiate objects that have non-default constructors, or implement interfaces

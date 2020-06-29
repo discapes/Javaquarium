@@ -36,6 +36,27 @@ public class Aquarium {
         wrapper.set(wrapper.get() + val);
     }
 
+    public void tick() {
+        if (ticks % 10 == 5)
+            oxygenAddAmount = (float) ThreadLocalRandom.current().nextDouble(-1, 1);
+        add(oxygenAddAmount, amountOxygen);
+
+        if (ticks % 10 == 0)
+            foodAddAmount = (float) ThreadLocalRandom.current().nextDouble(-1, 1);
+
+        add(foodAddAmount, amountFood);
+
+        if (amountOxygen.get() < 0) { amountOxygen.set(0); }
+        if (amountFood.get() < 0) { amountFood.set(0); }
+
+        if (ticks % 100 == 0)
+            fishList.get(ThreadLocalRandom.current().nextInt(0, fishList.size())).setSpecies(FishSpecies.BLUETANG);
+
+        if (ticks % 50 == 0)
+            fishList.get(ThreadLocalRandom.current().nextInt(0, fishList.size())).setSaturation(ThreadLocalRandom.current().nextInt(0, 100));
+        ticks++;
+    }
+
     public void increaseFood() {
         add(10, amountFood);
     }
@@ -58,20 +79,6 @@ public class Aquarium {
 
     public ReadOnlyFloatProperty getAmountOxygen() { return amountOxygen.getReadOnlyProperty(); }
 
-    public void tick() {
-        if (ticks % 10 == 5)
-            oxygenAddAmount = (float) ThreadLocalRandom.current().nextDouble(-1, 1);
-        add(oxygenAddAmount, amountOxygen);
-
-        if (ticks % 10 == 0)
-            foodAddAmount = (float) ThreadLocalRandom.current().nextDouble(-1, 1);
-        add(foodAddAmount, amountFood);
-
-        if (amountOxygen.get() < 0) { amountOxygen.set(0); }
-        if (amountFood.get() < 0) { amountFood.set(0); }
-
-        ticks++;
-    }
 
     public void restartClock() {
         if (updateTask != null) updateTask.cancel();
