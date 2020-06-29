@@ -36,7 +36,10 @@ public abstract class AquariumFile {
         FileOutputStream fileOutputStream = null;
         try {
             fileOutputStream = new FileOutputStream(file);
-        } catch (NullPointerException e) {}
+        } catch (NullPointerException e) {
+        } catch (FileNotFoundException e) {
+            Utils.errorAlert(e.getMessage());
+        }
         if (fileOutputStream == null) return;
         PrintWriter pw = new PrintWriter(fileOutputStream);
 

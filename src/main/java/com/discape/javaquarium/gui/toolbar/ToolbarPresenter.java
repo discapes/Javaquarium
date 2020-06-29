@@ -30,6 +30,7 @@ public class ToolbarPresenter {
 
     @Inject private IChartDataUpdater IChartDataUpdater;
 
+    @FXML
     private void loadFromFile() {
         FileChooser fileChooser = new FileChooser();
         File selectedFile = fileChooser.showOpenDialog(new Stage());

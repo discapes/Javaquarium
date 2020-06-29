@@ -10,7 +10,7 @@
         <ToolBar prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
                  AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <items>
-                <Button mnemonicParsing="false" text="Load from file"/>
+                <Button mnemonicParsing="false" onAction="#loadFromFile" text="Load from file"/>
                 <Button mnemonicParsing="false" onAction="#saveToFile" text="Save to file"/>
                 <Button mnemonicParsing="false" onAction="#openSettings" text="Settings"/>
                 <Button mnemonicParsing="false" onAction="#nukeFish" text="Nuke fish"/>

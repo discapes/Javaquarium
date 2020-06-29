@@ -13,7 +13,7 @@
                    AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                    AnchorPane.topAnchor="0.0">
             <columns>
-                <TableColumn fx:id="nameCol" prefWidth="75.0" text="Name"/>
+                <TableColumn editable="true" fx:id="nameCol" prefWidth="75.0" text="Name"/>
                 <TableColumn fx:id="speciesCol" prefWidth="75.0" text="Species"/>
                 <TableColumn fx:id="speedCol" prefWidth="75.0" text="Speed"/>
                 <TableColumn fx:id="colorCol" prefWidth="75.0" text="Color"/>
