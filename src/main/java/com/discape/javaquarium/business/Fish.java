@@ -24,11 +24,11 @@ public class Fish {
         this.species.set(species);
     }
 
-    public Fish(String name, FishSpecies species) {
+    public Fish(String name) {
         this.name.set(name);
-        this.species.set(species);
-        this.speed.set((int) (ThreadLocalRandom.current().nextDouble(0.25f, 2.f) * species.getSpeed()));
-        this.color.set(species.getColor().deriveColor(ThreadLocalRandom.current().nextDouble(-50, 50), 1, 1, 1));
+        this.species.set(FishSpecies.values()[ThreadLocalRandom.current().nextInt(FishSpecies.values().length)]);
+        this.speed.set((int) (ThreadLocalRandom.current().nextDouble(0.25f, 2.f) * species.get().getSpeed()));
+        this.color.set(species.get().getColor().deriveColor(ThreadLocalRandom.current().nextDouble(-50, 50), 1, 1, 1));
     }
 
     @Override

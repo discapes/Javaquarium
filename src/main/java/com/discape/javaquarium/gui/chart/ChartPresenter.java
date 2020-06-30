@@ -1,7 +1,7 @@
 package com.discape.javaquarium.gui.chart;
 
 import com.discape.javaquarium.business.Aquarium;
-import com.discape.javaquarium.gui.IChartDataUpdater;
+import com.discape.javaquarium.gui.ChartDataUpdater;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.CategoryAxis;
@@ -20,7 +20,7 @@ public class ChartPresenter implements Initializable {
     private CategoryAxis categoryAxis;
 
     @Inject
-    private IChartDataUpdater IChartDataUpdater;
+    private ChartDataUpdater IChartDataUpdater;
 
     @Inject
     private Aquarium aquarium;

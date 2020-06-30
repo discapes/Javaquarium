@@ -6,7 +6,9 @@ import javafx.scene.Scene;
 import jfxtras.styles.jmetro.JMetro;
 import jfxtras.styles.jmetro.Style;
 
-public class Themes implements IThemes {
+import java.net.URL;
+
+public class Themes {
 
     private final JMetro jMetro;
     private final String[] themes = {
@@ -23,22 +25,18 @@ public class Themes implements IThemes {
         jMetro.automaticallyColorPanesProperty().set(true);
     }
 
-    @Override
     public String getCurrentTheme() {
         return currentTheme;
     }
 
-    @Override
     public void setCurrentTheme(String currentTheme) {
         this.currentTheme = currentTheme;
     }
 
-    @Override
     public String[] getThemes() {
         return themes;
     }
 
-    @Override
     public Scene setTheme(Scene scene) {
         StyleManager.getInstance().platformUserAgentStylesheetContainers.clear();
         Application.setUserAgentStylesheet(Application.STYLESHEET_MODENA);
@@ -60,7 +58,8 @@ public class Themes implements IThemes {
                 jMetro.setScene(scene);
                 break;
             default:
-                StyleManager.getInstance().addUserAgentStylesheet(getClass().getResource("/" + currentTheme + ".css").toString());
+                URL styleSheet = getClass().getResource("/" + currentTheme + ".css");
+                StyleManager.getInstance().addUserAgentStylesheet(styleSheet.toString());
         }
         currentTheme = currentTheme;
         return scene;

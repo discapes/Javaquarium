@@ -4,17 +4,20 @@ import com.airhacks.afterburner.injection.Injector;
 import com.discape.javaquarium.Utils;
 import com.discape.javaquarium.business.Aquarium;
 import com.discape.javaquarium.business.AquariumFile;
-import com.discape.javaquarium.gui.IChartDataUpdater;
-import com.discape.javaquarium.gui.IThemes;
+import com.discape.javaquarium.business.Fish;
+import com.discape.javaquarium.gui.ChartDataUpdater;
 import com.discape.javaquarium.gui.Stages;
+import com.discape.javaquarium.gui.Themes;
 import com.discape.javaquarium.gui.settings.SettingsView;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
+import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import jdk.jshell.execution.Util;
 
 import javax.inject.Inject;
 import java.io.File;
@@ -22,13 +25,17 @@ import java.io.IOException;
 
 public class ToolbarPresenter {
 
+    @FXML private AnchorPane toolbarRoot;
+
+    private TableView<Fish> tableView;
+
     @Inject private Aquarium aquarium;
 
-    @Inject private IThemes themes;
+    @Inject private Themes themes;
 
     @Inject private Stages stages;
 
-    @Inject private IChartDataUpdater IChartDataUpdater;
+    @Inject private ChartDataUpdater IChartDataUpdater;
 
     @FXML
     private void loadFromFile() {
@@ -53,19 +60,9 @@ public class ToolbarPresenter {
 
     @FXML
     private void openSettings() {
-        Stage settingsStage = new Stage();
-        settingsStage.setTitle("Settings");
-        stages.setSettingsStage(settingsStage);
-        settingsStage.initModality(Modality.APPLICATION_MODAL);
-        Scene scene = new Scene(new SettingsView().getView());
-        themes.setTheme(scene);
-        settingsStage.setScene(scene);
-        settingsStage.showAndWait();
-    }
-
-    @FXML
-    private void nukeFish() {
-        aquarium.getFishList().clear();
+        Stage stage = Utils.makeWindow(new SettingsView().getView(), "Settings");
+        stages.setSettingsStage(stage);
+        stage.showAndWait();
     }
 
     @FXML
@@ -82,9 +79,16 @@ public class ToolbarPresenter {
                 "of food and oxygen.\n" +
                 "In settings you can change the theme,\n" +
                 "How fast the oxygen and food levels change,\n" +
-                "How fast the chart updates and how much history it shows.", ButtonType.OK);
+                "How fast the chart updates and how much history it shows.\n" +
+                "You can delete fish by pressing DELETE",  ButtonType.OK);
         themes.setTheme(alert.getDialogPane().getScene());
         alert.setHeaderText("About");
         alert.show();
     }
+
+    @FXML private void nuke() {
+        if (Utils.confirm("Delete all fish?")) aquarium.getFishList().clear();
+    }
+
+    @FXML private void addFish() { aquarium.getFishList().add(new Fish("New fish")); }
 }

@@ -9,7 +9,7 @@ import javax.inject.Inject;
 
 public class Stages {
 
-    @Inject private IThemes themes;
+    @Inject private Themes themes;
 
     private Stage appStage;
     private Stage settingsStage;

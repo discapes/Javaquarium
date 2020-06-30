@@ -1,4 +1,6 @@
-Dave BLUETANG 97 #0015ff 100 
-Jack BLUETANG 154 #009bff 100 
-Luke COD 65 #eed2aa 100 
-Bob COD 219 #e8eeaa 100 
+Candice COD 164 #eedfaa 100
+Bob COD 234 #eebbaa 100
+Angelina BLUETANG 84 #b600ff 100
+Dave COD 197 #eedeaa 100
+Jack BLUETANG 195 #9900ff 100
+Joe BLUETANG 118 #00cdff 100

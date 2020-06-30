@@ -1,8 +1,8 @@
 package com.discape.javaquarium.gui.settings;
 
-import com.discape.javaquarium.gui.IThemes;
 import com.discape.javaquarium.gui.JavaquariumApplication;
 import com.discape.javaquarium.gui.Stages;
+import com.discape.javaquarium.gui.Themes;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -21,7 +21,7 @@ public class SettingsPresenter implements Initializable {
 
     @Inject private Stages stages;
 
-    @Inject private IThemes themes;
+    @Inject private Themes themes;
 
     @FXML private ChoiceBox<String> themePicker;
 

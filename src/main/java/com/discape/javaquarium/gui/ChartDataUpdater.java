@@ -13,7 +13,7 @@ import java.util.TimerTask;
 
 import static javafx.collections.FXCollections.observableArrayList;
 
-public class ChartDataUpdater implements IChartDataUpdater {
+public class ChartDataUpdater {
 
     private final Timer timer = new Timer(true);
     private TimerTask currentTask = null;
@@ -40,17 +40,14 @@ public class ChartDataUpdater implements IChartDataUpdater {
         };
     }
 
-    @Override
     public XYChart.Series<String, Number> getFoodSeries() {
         return foodSeries;
     }
 
-    @Override
     public XYChart.Series<String, Number> getOxygenSeries() {
         return oxygenSeries;
     }
 
-    @Override
     public ObservableList<String> getCategories() {
         return categories;
     }
@@ -103,7 +100,6 @@ public class ChartDataUpdater implements IChartDataUpdater {
 
     }
 
-    @Override
     public void reload() {
         try {
             initialize(chartDataPoints.get() + 1, chartHistoryS.get());
@@ -114,7 +110,6 @@ public class ChartDataUpdater implements IChartDataUpdater {
         }
     }
 
-    @Override
     public void init() {
         categories = observableArrayList();
         foodSeries = new XYChart.Series<>();

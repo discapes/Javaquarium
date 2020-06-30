@@ -49,11 +49,6 @@ public class Aquarium {
         if (amountOxygen.get() < 0) { amountOxygen.set(0); }
         if (amountFood.get() < 0) { amountFood.set(0); }
 
-        if (ticks % 100 == 0)
-            fishList.get(ThreadLocalRandom.current().nextInt(0, fishList.size())).setSpecies(FishSpecies.BLUETANG);
-
-        if (ticks % 50 == 0)
-            fishList.get(ThreadLocalRandom.current().nextInt(0, fishList.size())).setSaturation(ThreadLocalRandom.current().nextInt(0, 100));
         ticks++;
     }
 

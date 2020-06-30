@@ -28,4 +28,9 @@ public enum FishSpecies {
     public Color getColor() { return color; }
 
     public String getName() { return name; }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

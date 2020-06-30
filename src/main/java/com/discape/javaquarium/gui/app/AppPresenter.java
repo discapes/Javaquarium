@@ -1,8 +1,10 @@
 package com.discape.javaquarium.gui.app;
 
 import com.discape.javaquarium.gui.chart.ChartView;
+import com.discape.javaquarium.gui.fishtable.FishTablePresenter;
 import com.discape.javaquarium.gui.search.SearchView;
-import com.discape.javaquarium.gui.table.TableView;
+import com.discape.javaquarium.gui.fishtable.FishTableView;
+import com.discape.javaquarium.gui.toolbar.ToolbarPresenter;
 import com.discape.javaquarium.gui.toolbar.ToolbarView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -21,14 +23,10 @@ public class AppPresenter implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // supa fast
-//        new TableView().getViewAsync(tablePane.getChildren()::add);
-//        new ChartView().getViewAsync(chartPane.getChildren()::add);
-//        new SearchView().getViewAsync(searchPane.getChildren()::add);
-//        new ToolbarView().getViewAsync(toolbarPane.getChildren()::add);
-        tablePane.getChildren().add(new TableView().getView());
-        chartPane.getChildren().add(new ChartView().getView());
-        searchPane.getChildren().add(new SearchView().getView());
-        toolbarPane.getChildren().add(new ToolbarView().getView());
+        new ChartView().getViewAsync(chartPane.getChildren()::add);
+        new SearchView().getViewAsync(searchPane.getChildren()::add);
+        new ToolbarView().getViewAsync(toolbarPane.getChildren()::add);
+        new FishTableView().getViewAsync(tablePane.getChildren()::add);
     }
 
 }
