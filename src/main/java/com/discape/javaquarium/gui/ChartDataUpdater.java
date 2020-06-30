@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
 
 import javax.inject.Inject;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -27,8 +28,6 @@ public class ChartDataUpdater {
     private XYChart.Series<String, Number> foodSeries;
     private XYChart.Series<String, Number> oxygenSeries;
     private ObservableList<String> categories;
-    private int numCategories;
-    private float updatesPerSecond;
 
     // so we can haz lambdas
     private static TimerTask wrap(Runnable r) {
@@ -76,7 +75,7 @@ public class ChartDataUpdater {
                 int reverseIndex = numCategories - i - 1;
                 float indexInSeconds = (float) reverseIndex / (float) categoriesPerSecond;
                 String toString = Float.toString(indexInSeconds);
-                for (XYChart.Series<String, Number> series : new XYChart.Series[]{foodSeries, oxygenSeries}) {
+                for (XYChart.Series<String, Number> series : List.of(foodSeries, oxygenSeries)) {
                     XYChart.Data<String, Number> pointToBeMoved;
                     try {
                         pointToBeMoved = series.getData().get(i + 1);
@@ -117,12 +116,8 @@ public class ChartDataUpdater {
         foodSeries.setName("Food");
         oxygenSeries.setName("Oxygen");
 
-        chartDataPoints.addListener((observable, oldValue, newValue) -> {
-            reload();
-        });
-        chartHistoryS.addListener((observable, oldValue, newValue) -> {
-            reload();
-        });
+        chartDataPoints.addListener((observable, oldValue, newValue) -> reload());
+        chartHistoryS.addListener((observable, oldValue, newValue) -> reload());
         reload();
     }
 }

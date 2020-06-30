@@ -11,7 +11,7 @@ public class CustomIntegerStringConverter extends IntegerStringConverter {
     public Integer fromString(String string) {
         try {
             return converter.fromString(string);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException ignored) {
         }
 
         /* if letters */

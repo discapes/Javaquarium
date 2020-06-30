@@ -8,6 +8,7 @@ import javafx.scene.paint.Color;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+@SuppressWarnings("unused")
 public class Fish {
 
     private final SimpleStringProperty name = new SimpleStringProperty();
@@ -29,6 +30,13 @@ public class Fish {
         this.species.set(FishSpecies.values()[ThreadLocalRandom.current().nextInt(FishSpecies.values().length)]);
         this.speed.set((int) (ThreadLocalRandom.current().nextDouble(0.25f, 2.f) * species.get().getSpeed()));
         this.color.set(species.get().getColor().deriveColor(ThreadLocalRandom.current().nextDouble(-50, 50), 1, 1, 1));
+    }
+
+    public Fish(String name, FishSpecies species) {
+        this.name.set(name);
+        this.species.set(species);
+        this.speed.set((int) (ThreadLocalRandom.current().nextDouble(0.25f, 2.f) * species.getSpeed()));
+        this.color.set(species.getColor().deriveColor(ThreadLocalRandom.current().nextDouble(-50, 50), 1, 1, 1));
     }
 
     @Override

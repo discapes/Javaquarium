@@ -4,10 +4,7 @@ import com.discape.javaquarium.Utils;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -32,11 +29,11 @@ public abstract class AquariumFile {
         return new Aquarium(fishList);
     }
 
-    public static void setAquarium(Aquarium aquarium, File file) throws FileNotFoundException {
+    public static void setAquarium(Aquarium aquarium, File file) {
         FileOutputStream fileOutputStream = null;
         try {
             fileOutputStream = new FileOutputStream(file);
-        } catch (NullPointerException e) {
+        } catch (NullPointerException ignored) {
         } catch (FileNotFoundException e) {
             Utils.errorAlert(e.getMessage());
         }

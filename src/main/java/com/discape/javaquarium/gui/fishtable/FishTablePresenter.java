@@ -5,7 +5,6 @@ import com.discape.javaquarium.business.Aquarium;
 import com.discape.javaquarium.business.Fish;
 import com.discape.javaquarium.business.FishSpecies;
 import com.discape.javaquarium.gui.CustomIntegerStringConverter;
-import com.discape.javaquarium.gui.Stages;
 import javafx.beans.property.ObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,7 +14,6 @@ import javafx.scene.control.cell.ChoiceBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -55,21 +53,19 @@ public class FishTablePresenter implements Initializable {
 
         AtomicBoolean pickerOpen = new AtomicBoolean(false);
         colorCol.setCellFactory(param -> new TableCell<>() {
-                @Override
-                protected void updateItem(Void item, boolean empty) {
-                    if (empty) {
-                        setBackground(Background.EMPTY);
-                        return;
-                    }
-
-                    Fish fish = param.getTableView().getItems().get(indexProperty().getValue());
-
-                    ObjectProperty<Color> color = fish.colorProperty();
-                    color.addListener((observable, oldVal, newVal) -> {
-                        setBackground(new Background(new BackgroundFill(newVal, CornerRadii.EMPTY, Insets.EMPTY)));
-                    });
-                    setBackground(new Background(new BackgroundFill(color.get(), CornerRadii.EMPTY, Insets.EMPTY)));
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                if (empty) {
+                    setBackground(Background.EMPTY);
+                    return;
                 }
+
+                Fish fish = param.getTableView().getItems().get(indexProperty().getValue());
+
+                ObjectProperty<Color> color = fish.colorProperty();
+                color.addListener((observable, oldVal, newVal) -> setBackground(new Background(new BackgroundFill(newVal, CornerRadii.EMPTY, Insets.EMPTY))));
+                setBackground(new Background(new BackgroundFill(color.get(), CornerRadii.EMPTY, Insets.EMPTY)));
+            }
         });
         colorCol.setOnEditStart(e -> {
             Fish fish = e.getRowValue();
@@ -82,9 +78,7 @@ public class FishTablePresenter implements Initializable {
 
                 pickerOpen.set(true);
                 Stage stage = Utils.makeWindow(hBox, "Change color");
-                closeBtn.setOnAction(saveEvt -> {
-                    stage.close();
-                });
+                closeBtn.setOnAction(saveEvt -> stage.close());
                 stage.showAndWait();
                 pickerOpen.set(false);
             }

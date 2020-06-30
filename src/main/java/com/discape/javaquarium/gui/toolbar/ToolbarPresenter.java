@@ -9,15 +9,12 @@ import com.discape.javaquarium.gui.ChartDataUpdater;
 import com.discape.javaquarium.gui.Stages;
 import com.discape.javaquarium.gui.Themes;
 import com.discape.javaquarium.gui.settings.SettingsView;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import jdk.jshell.execution.Util;
 
 import javax.inject.Inject;
 import java.io.File;
@@ -26,8 +23,6 @@ import java.io.IOException;
 public class ToolbarPresenter {
 
     @FXML private AnchorPane toolbarRoot;
-
-    private TableView<Fish> tableView;
 
     @Inject private Aquarium aquarium;
 
@@ -41,6 +36,7 @@ public class ToolbarPresenter {
     private void loadFromFile() {
         FileChooser fileChooser = new FileChooser();
         File selectedFile = fileChooser.showOpenDialog(new Stage());
+        //noinspection CatchMayIgnoreException
         try {
             Injector.setModelOrService(Aquarium.class, AquariumFile.getAquarium(selectedFile));
         } catch (Exception e) { if (!(e instanceof NullPointerException)) Utils.errorAlert("Invalid file"); }
@@ -53,9 +49,7 @@ public class ToolbarPresenter {
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
         fileChooser.getExtensionFilters().add(extFilter);
         File selectedFile = fileChooser.showSaveDialog(new Stage());
-        try {
-            AquariumFile.setAquarium(aquarium, selectedFile);
-        } catch (IOException e) { e.printStackTrace(); }
+        AquariumFile.setAquarium(aquarium, selectedFile);
     }
 
     @FXML
@@ -80,15 +74,17 @@ public class ToolbarPresenter {
                 "In settings you can change the theme,\n" +
                 "How fast the oxygen and food levels change,\n" +
                 "How fast the chart updates and how much history it shows.\n" +
-                "You can delete fish by pressing DELETE",  ButtonType.OK);
+                "You can delete fish by pressing DELETE", ButtonType.OK);
         themes.setTheme(alert.getDialogPane().getScene());
         alert.setHeaderText("About");
         alert.show();
     }
 
-    @FXML private void nuke() {
+    @FXML
+    private void nuke() {
         if (Utils.confirm("Delete all fish?")) aquarium.getFishList().clear();
     }
 
-    @FXML private void addFish() { aquarium.getFishList().add(new Fish("New fish")); }
+    @FXML
+    private void addFish() { aquarium.getFishList().add(new Fish("New fish")); }
 }

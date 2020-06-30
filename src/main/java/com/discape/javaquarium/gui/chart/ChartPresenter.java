@@ -29,7 +29,7 @@ public class ChartPresenter implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         categoryAxis.setCategories(IChartDataUpdater.getCategories());
 
-        // for some reason if I set the series straight it produces a visual glitch. mb the linechart modifies the series somehow?
+        // for some reason if I set the series straight it produces a visual glitch. mb the lineChart modifies the series somehow?
         XYChart.Series<String, Number> oxygen = new XYChart.Series<>(IChartDataUpdater.getOxygenSeries().getData());
         XYChart.Series<String, Number> food = new XYChart.Series<>(IChartDataUpdater.getFoodSeries().getData());
         oxygen.setName("Oxygen");

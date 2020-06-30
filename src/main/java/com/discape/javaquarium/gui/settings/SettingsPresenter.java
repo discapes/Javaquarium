@@ -38,9 +38,8 @@ public class SettingsPresenter implements Initializable {
 
     private static IntegerProperty getDisplayValue(Slider slider) {
         IntegerProperty integerProperty = new SimpleIntegerProperty((int) slider.getValue());
-        slider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            integerProperty.set((int) slider.getBlockIncrement() * Math.round(newValue.floatValue() / (float) slider.getBlockIncrement()));
-        });
+        slider.valueProperty().addListener((observable, oldValue, newValue) ->
+                integerProperty.set((int) slider.getBlockIncrement() * Math.round(newValue.floatValue() / (float) slider.getBlockIncrement())));
         return integerProperty;
     }
 
@@ -77,6 +76,7 @@ public class SettingsPresenter implements Initializable {
         tickRateMsSlider.setValue(((SimpleIntegerProperty) defaults.get("tickRateMs")).getValue());
     }
 
+    @SuppressWarnings("SpellCheckingInspection")
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         themePicker.setItems(observableArrayList(themes.getThemes()));

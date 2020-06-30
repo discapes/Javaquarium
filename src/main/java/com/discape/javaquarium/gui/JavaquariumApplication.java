@@ -40,14 +40,14 @@ public class JavaquariumApplication extends Application {
     @Override
     public void start(Stage stage) {
         // set configuration
-        Map<String, Object> customProperties = new HashMap<>();
+        Map<String, Object> customProperties = new HashMap<>(getDefaults());
+        //noinspection SuspiciousMethodCalls
         Injector.setConfigurationSource(customProperties::get);
-        customProperties.putAll(getDefaults());
         String defaultTheme = (String) customProperties.get("defaultTheme");
 
         Aquarium aquarium = null;
         try {
-            aquarium = AquariumFile.getAquarium(new File("fish.txt"));
+            aquarium = AquariumFile.getAquarium(new File("javaquarium/fish.txt"));
         } catch (Exception e) { System.out.println("No valid default file fish.txt"); }
         if (aquarium == null) aquarium = new Aquarium();
         Injector.injectMembers(Aquarium.class, aquarium);
@@ -62,7 +62,7 @@ public class JavaquariumApplication extends Application {
         chartDataUpdater.init();
 
         stage.setOnCloseRequest((evt) -> {
-            if (Utils.confirm("Close?") == false) evt.consume();
+            if (!Utils.confirm("Close?")) evt.consume();
         });
         Scene scene = new Scene(new AppView().getView());
         themes.setTheme(scene);

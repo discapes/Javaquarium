@@ -87,9 +87,7 @@ public class Aquarium {
     }
 
     public void init() {
-        tickRateMs.addListener((observable, oldValue, newValue) -> {
-            restartClock();
-        });
+        tickRateMs.addListener((observable, oldValue, newValue) -> restartClock());
         restartClock();
     }
 

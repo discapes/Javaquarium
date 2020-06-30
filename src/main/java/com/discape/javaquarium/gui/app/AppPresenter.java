@@ -1,10 +1,8 @@
 package com.discape.javaquarium.gui.app;
 
 import com.discape.javaquarium.gui.chart.ChartView;
-import com.discape.javaquarium.gui.fishtable.FishTablePresenter;
-import com.discape.javaquarium.gui.search.SearchView;
 import com.discape.javaquarium.gui.fishtable.FishTableView;
-import com.discape.javaquarium.gui.toolbar.ToolbarPresenter;
+import com.discape.javaquarium.gui.search.SearchView;
 import com.discape.javaquarium.gui.toolbar.ToolbarView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

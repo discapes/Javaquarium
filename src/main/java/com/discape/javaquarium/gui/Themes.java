@@ -61,7 +61,6 @@ public class Themes {
                 URL styleSheet = getClass().getResource("/" + currentTheme + ".css");
                 StyleManager.getInstance().addUserAgentStylesheet(styleSheet.toString());
         }
-        currentTheme = currentTheme;
         return scene;
     }
 }

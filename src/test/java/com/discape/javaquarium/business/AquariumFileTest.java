@@ -3,7 +3,6 @@ package com.discape.javaquarium.business;
 import org.junit.Test;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 
 import static javafx.collections.FXCollections.observableArrayList;
 import static org.junit.Assert.*;

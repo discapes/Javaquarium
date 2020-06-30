@@ -5,6 +5,7 @@ import javafx.scene.paint.Color;
 import static javafx.scene.paint.Color.BLUE;
 import static javafx.scene.paint.Color.PALEGOLDENROD;
 
+@SuppressWarnings("unused")
 public enum FishSpecies {
     BLUETANG(0, 100, BLUE, "Blue tang"),
     COD(1, 120, PALEGOLDENROD, "Cod");
