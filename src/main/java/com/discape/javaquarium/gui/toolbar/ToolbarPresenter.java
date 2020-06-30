@@ -2,9 +2,9 @@ package com.discape.javaquarium.gui.toolbar;
 
 import com.airhacks.afterburner.injection.Injector;
 import com.discape.javaquarium.Utils;
-import com.discape.javaquarium.business.Aquarium;
-import com.discape.javaquarium.business.AquariumFile;
-import com.discape.javaquarium.business.Fish;
+import com.discape.javaquarium.business.model.Aquarium;
+import com.discape.javaquarium.business.model.AquariumFile;
+import com.discape.javaquarium.business.model.Fish;
 import com.discape.javaquarium.gui.ChartDataUpdater;
 import com.discape.javaquarium.gui.Stages;
 import com.discape.javaquarium.gui.Themes;
@@ -18,7 +18,6 @@ import javafx.stage.Stage;
 
 import javax.inject.Inject;
 import java.io.File;
-import java.io.IOException;
 
 public class ToolbarPresenter {
 

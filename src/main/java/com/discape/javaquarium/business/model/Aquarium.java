@@ -1,4 +1,4 @@
-package com.discape.javaquarium.business;
+package com.discape.javaquarium.business.model;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ReadOnlyFloatProperty;

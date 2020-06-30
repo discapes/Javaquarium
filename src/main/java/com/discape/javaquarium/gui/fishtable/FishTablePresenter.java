@@ -1,9 +1,9 @@
 package com.discape.javaquarium.gui.fishtable;
 
 import com.discape.javaquarium.Utils;
-import com.discape.javaquarium.business.Aquarium;
-import com.discape.javaquarium.business.Fish;
-import com.discape.javaquarium.business.FishSpecies;
+import com.discape.javaquarium.business.model.Aquarium;
+import com.discape.javaquarium.business.model.Fish;
+import com.discape.javaquarium.business.model.FishSpecies;
 import com.discape.javaquarium.gui.CustomIntegerStringConverter;
 import javafx.beans.property.ObjectProperty;
 import javafx.fxml.FXML;
@@ -64,6 +64,9 @@ public class FishTablePresenter implements Initializable {
 
                 ObjectProperty<Color> color = fish.colorProperty();
                 color.addListener((observable, oldVal, newVal) -> setBackground(new Background(new BackgroundFill(newVal, CornerRadii.EMPTY, Insets.EMPTY))));
+                fish.triggerFlipFlop.addListener((observable, oldVal, newVal) ->
+                        setStyle("-fx-background-color: " + Utils.colorToString(color.get())));
+
                 setBackground(new Background(new BackgroundFill(color.get(), CornerRadii.EMPTY, Insets.EMPTY)));
             }
         });
@@ -93,5 +96,8 @@ public class FishTablePresenter implements Initializable {
             }
         });
         tableView.setItems(aquarium.getFishList());
+
+        /* We have to reapply the color bc on metro themes selecting sets it to grey */
+        tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> newVal.triggerFlipFlop.set(!newVal.triggerFlipFlop.get()));
     }
 }

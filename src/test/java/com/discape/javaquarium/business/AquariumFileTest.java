@@ -1,5 +1,9 @@
 package com.discape.javaquarium.business;
 
+import com.discape.javaquarium.business.model.Aquarium;
+import com.discape.javaquarium.business.model.AquariumFile;
+import com.discape.javaquarium.business.model.Fish;
+import com.discape.javaquarium.business.model.FishSpecies;
 import org.junit.Test;
 
 import java.io.File;

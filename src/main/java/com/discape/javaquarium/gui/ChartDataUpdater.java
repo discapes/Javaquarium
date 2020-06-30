@@ -1,6 +1,6 @@
 package com.discape.javaquarium.gui;
 
-import com.discape.javaquarium.business.Aquarium;
+import com.discape.javaquarium.business.model.Aquarium;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ReadOnlyFloatProperty;

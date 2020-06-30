@@ -1,6 +1,7 @@
-package com.discape.javaquarium.business;
+package com.discape.javaquarium.business.model;
 
 import com.discape.javaquarium.Utils;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -16,6 +17,9 @@ public class Fish {
     private final SimpleObjectProperty<Color> color = new SimpleObjectProperty<>();
     private final SimpleObjectProperty<FishSpecies> species = new SimpleObjectProperty<>();
     private final SimpleIntegerProperty saturation = new SimpleIntegerProperty(100);
+    public final SimpleBooleanProperty triggerFlipFlop = new SimpleBooleanProperty();
+    /* tablePresenter triggers this when user selects. cell listens to this and updates color when updated.
+    * Because on metro themes selecting row removes the color otherwise */
 
     public Fish(String name, FishSpecies species, int speed, Color color, int saturation) {
         this.saturation.set(saturation);

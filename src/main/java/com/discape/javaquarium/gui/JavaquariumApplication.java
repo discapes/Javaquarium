@@ -2,8 +2,8 @@ package com.discape.javaquarium.gui;
 
 import com.airhacks.afterburner.injection.Injector;
 import com.discape.javaquarium.Utils;
-import com.discape.javaquarium.business.Aquarium;
-import com.discape.javaquarium.business.AquariumFile;
+import com.discape.javaquarium.business.model.Aquarium;
+import com.discape.javaquarium.business.model.AquariumFile;
 import com.discape.javaquarium.gui.app.AppView;
 import javafx.application.Application;
 import javafx.beans.property.SimpleIntegerProperty;

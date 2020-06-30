@@ -1,6 +1,6 @@
 package com.discape.javaquarium.gui.chart;
 
-import com.discape.javaquarium.business.Aquarium;
+import com.discape.javaquarium.business.model.Aquarium;
 import com.discape.javaquarium.gui.ChartDataUpdater;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

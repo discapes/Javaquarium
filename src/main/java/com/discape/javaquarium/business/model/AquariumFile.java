@@ -1,10 +1,13 @@
-package com.discape.javaquarium.business;
+package com.discape.javaquarium.business.model;
 
 import com.discape.javaquarium.Utils;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
