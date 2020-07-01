@@ -3,7 +3,6 @@ package com.discape.javaquarium.gui;
 import com.airhacks.afterburner.injection.Injector;
 import com.discape.javaquarium.Utils;
 import com.discape.javaquarium.business.model.Aquarium;
-import com.discape.javaquarium.business.model.AquariumFile;
 import com.discape.javaquarium.gui.app.AppView;
 import javafx.application.Application;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -11,7 +10,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import javax.inject.Inject;
-import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,7 +47,7 @@ public class JavaquariumApplication extends Application {
 
         Aquarium aquarium = null;
         try {
-            aquarium = AquariumFile.getAquarium(new File("javaquarium/fish.txt"));
+            aquarium = Aquarium.fromString(new String(Files.readAllBytes(Paths.get("javaquarium/fish.txt"))));
         } catch (Exception e) { System.out.println("No valid default file fish.txt"); }
         if (aquarium == null) aquarium = new Aquarium();
         Injector.injectMembers(Aquarium.class, aquarium);

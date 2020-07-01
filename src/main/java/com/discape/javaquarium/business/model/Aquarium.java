@@ -4,8 +4,10 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ReadOnlyFloatProperty;
 import javafx.beans.property.ReadOnlyFloatWrapper;
 import javafx.collections.ObservableList;
+import javafx.scene.paint.Color;
 
 import javax.inject.Inject;
+import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ThreadLocalRandom;
@@ -34,6 +36,23 @@ public class Aquarium {
 
     private static void add(float val, ReadOnlyFloatWrapper wrapper) {
         wrapper.set(wrapper.get() + val);
+    }
+
+    public static Aquarium fromString(String string) {
+        ObservableList<Fish> fishList = observableArrayList();
+
+        Scanner scanner = new Scanner(string);
+        while (scanner.hasNext()) {
+            String line = scanner.nextLine();
+            String[] parts = line.split("\\s+");
+            fishList.add(new Fish(
+                    parts[0],
+                    FishSpecies.valueOf(parts[1]),
+                    Integer.parseInt(parts[2]),
+                    Color.web(parts[3]),
+                    Integer.parseInt(parts[4])));
+        }
+        return new Aquarium(fishList);
     }
 
     public void tick() {
@@ -73,7 +92,6 @@ public class Aquarium {
     public ReadOnlyFloatProperty getAmountFood() { return amountFood.getReadOnlyProperty(); }
 
     public ReadOnlyFloatProperty getAmountOxygen() { return amountOxygen.getReadOnlyProperty(); }
-
 
     public void restartClock() {
         if (updateTask != null) updateTask.cancel();

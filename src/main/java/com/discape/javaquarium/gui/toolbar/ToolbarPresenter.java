@@ -2,22 +2,28 @@ package com.discape.javaquarium.gui.toolbar;
 
 import com.airhacks.afterburner.injection.Injector;
 import com.discape.javaquarium.Utils;
+import com.discape.javaquarium.business.Cryptographer;
 import com.discape.javaquarium.business.model.Aquarium;
-import com.discape.javaquarium.business.model.AquariumFile;
 import com.discape.javaquarium.business.model.Fish;
 import com.discape.javaquarium.gui.ChartDataUpdater;
 import com.discape.javaquarium.gui.Stages;
 import com.discape.javaquarium.gui.Themes;
 import com.discape.javaquarium.gui.settings.SettingsView;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
+import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
 import javax.inject.Inject;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.security.InvalidKeyException;
 
 public class ToolbarPresenter {
 
@@ -29,27 +35,27 @@ public class ToolbarPresenter {
 
     @Inject private Stages stages;
 
-    @Inject private ChartDataUpdater IChartDataUpdater;
+    @Inject private ChartDataUpdater chartDataUpdater;
+
+    @Inject private Cryptographer cryptographer;
 
     @FXML
-    private void loadFromFile() {
-        FileChooser fileChooser = new FileChooser();
-        File selectedFile = fileChooser.showOpenDialog(new Stage());
-        //noinspection CatchMayIgnoreException
-        try {
-            Injector.setModelOrService(Aquarium.class, AquariumFile.getAquarium(selectedFile));
-        } catch (Exception e) { if (!(e instanceof NullPointerException)) Utils.errorAlert("Invalid file"); }
-        stages.reload();
+    private void resetChart() {
+        chartDataUpdater.reload();
     }
 
+
     @FXML
-    private void saveToFile() {
-        FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
-        fileChooser.getExtensionFilters().add(extFilter);
-        File selectedFile = fileChooser.showSaveDialog(new Stage());
-        AquariumFile.setAquarium(aquarium, selectedFile);
+    private void nuke() {
+        if (Utils.confirm("Delete all fish?")) aquarium.getFishList().clear();
     }
+
+
+    @FXML
+    private void addFish() {
+        aquarium.getFishList().add(new Fish("New fish"));
+    }
+
 
     @FXML
     private void openSettings() {
@@ -58,13 +64,9 @@ public class ToolbarPresenter {
         stage.showAndWait();
     }
 
+
     @FXML
-    private void resetChart() {
-        IChartDataUpdater.reload();
-    }
-
-
-    public void about() {
+    private void about() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Javaquarium\n" +
                 "Written by Discape\n" +
                 "Manage a virtual aquarium,\n" +
@@ -79,11 +81,126 @@ public class ToolbarPresenter {
         alert.show();
     }
 
-    @FXML
-    private void nuke() {
-        if (Utils.confirm("Delete all fish?")) aquarium.getFishList().clear();
-    }
 
     @FXML
-    private void addFish() { aquarium.getFishList().add(new Fish("New fish")); }
+    private void saveToFile() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt"));
+        File file = fileChooser.showSaveDialog(new Stage());
+
+        TextField keyField = new TextField();
+        keyField.setPromptText("Key");
+        Button button = new Button("Save");
+        keyField.textProperty().addListener((observableValue, s, t1) -> {
+            if (t1.length() > 0) button.setText("Encrypt");
+            else button.setText("Save");
+        });
+        VBox vBox = new VBox(new Label("Key: "), keyField, button);
+        Stage stage = Utils.makeWindow(vBox, "Save");
+        Utils.setAnchors(vBox, 50);
+
+        button.setOnAction(evt ->
+                save(stage, keyField.getText(), file)
+        );
+        keyField.setOnKeyReleased(e -> {
+            if (e.getCode() == KeyCode.ENTER)
+                load(stage, keyField.getText(), file);
+        });
+        stage.showAndWait();
+    }
+
+
+    @FXML
+    private void loadFromFile() {
+        FileChooser fileChooser = new FileChooser();
+        File file = fileChooser.showOpenDialog(new Stage());
+        TextField keyField = new TextField();
+        keyField.setPromptText("Key");
+        Button button = new Button("Load");
+        keyField.textProperty().addListener((observableValue, s, t1) -> {
+            if (t1.length() > 0) button.setText("Decrypt");
+            else button.setText("Load");
+        });
+        VBox vBox = new VBox(new Label("Key: "), keyField, button);
+        Utils.setAnchors(vBox, 50);
+        Stage stage = Utils.makeWindow(vBox, "Load");
+        Utils.setAnchors(vBox, 50);
+
+        keyField.setOnKeyReleased(e -> {
+            if (e.getCode() == KeyCode.ENTER) {
+                load(stage, keyField.getText(), file);
+            }
+        });
+        button.setOnAction(evt -> load(stage, keyField.getText(), file));
+        stage.showAndWait();
+    }
+
+    private void save(Stage stage, String key, File file) {
+        String str;
+        if (key.length() > 0) {
+            try {
+                str = cryptographer.base64Encrypt(aquarium.toString(), key);
+            } catch (BadPaddingException | IllegalBlockSizeException e) {
+                Utils.errorAlert("Wrong key or invalid data!");
+                stage.close();
+                return;
+            } catch (InvalidKeyException e) {
+                Utils.errorAlert("Invalid key!");
+                stage.close();
+                return;
+            }
+        } else {
+            str = aquarium.toString();
+        }
+
+        try {
+            Files.writeString(file.toPath(), str);
+        } catch (IOException e) {
+            Utils.errorAlert("Could not write to file: " + e.getMessage());
+            stage.close();
+            return;
+        }
+        Utils.inform("Saved aquarium to " + file.getPath() + (key.length() > 0 ? " encrypted with " + key : ""));
+        stage.close();
+    }
+
+    private void load(Stage stage, String key, File file) {
+        String rawStr;
+        try {
+            rawStr = new String(Files.readAllBytes(file.toPath()));
+        } catch (IOException e) {
+            Utils.errorAlert("Could not read from file: " + e.getMessage());
+            stage.close();
+            return;
+        }
+        String aquariumStr = rawStr;
+        if (key.length() > 0) {
+            try {
+                aquariumStr = cryptographer.base64Decrypt(rawStr, key);
+            } catch (BadPaddingException | IllegalBlockSizeException e) {
+                Utils.errorAlert("Wrong key or bad encryption!");
+                stage.close();
+                return;
+            } catch (InvalidKeyException e) {
+                Utils.errorAlert("Invalid key!");
+                stage.close();
+                return;
+            } catch (IllegalArgumentException e) {
+                Utils.errorAlert(e.getMessage());
+                stage.close();
+                return;
+            }
+        }
+        try {
+            Aquarium aquarium = Aquarium.fromString(aquariumStr);
+            Injector.setModelOrService(Aquarium.class, aquarium);
+            stages.reload();
+        } catch (Exception e) {
+            Utils.errorAlert("Invalid data: " + e.getMessage());
+            stage.close();
+            return;
+        }
+        Utils.inform("Loaded aquarium from " + file.getPath() + (key.length() > 0 ? " encrypted with " + key : ""));
+        stage.close();
+    }
 }

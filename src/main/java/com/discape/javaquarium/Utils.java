@@ -28,6 +28,12 @@ public class Utils {
         alert.show();
     }
 
+    public static void inform(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, message, ButtonType.OK);
+        themes.setTheme(alert.getDialogPane().getScene());
+        alert.show();
+    }
+
     public static boolean confirm(String msg) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, msg, ButtonType.YES, ButtonType.NO);
         themes.setTheme(alert.getDialogPane().getScene());
@@ -40,6 +46,13 @@ public class Utils {
         AnchorPane.setBottomAnchor(node, 0.);
         AnchorPane.setRightAnchor(node, 0.);
         AnchorPane.setLeftAnchor(node, 0.);
+    }
+
+    public static void setAnchors(Node node, double length) {
+        AnchorPane.setTopAnchor(node, length);
+        AnchorPane.setBottomAnchor(node, length);
+        AnchorPane.setRightAnchor(node, length);
+        AnchorPane.setLeftAnchor(node, length);
     }
 
     public static Stage makeWindow(Node node, String title) {
