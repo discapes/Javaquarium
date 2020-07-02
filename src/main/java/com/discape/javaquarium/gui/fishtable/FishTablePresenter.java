@@ -81,7 +81,6 @@ public class FishTablePresenter implements Initializable {
 
                 pickerOpen.set(true);
                 Stage stage = Utils.makeWindow(hBox, "Change color");
-                Utils.setAnchors(hBox, 50);
                 closeBtn.setOnAction(saveEvt -> stage.close());
                 stage.showAndWait();
                 pickerOpen.set(false);

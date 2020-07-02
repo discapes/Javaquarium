@@ -2,27 +2,21 @@ package com.discape.javaquarium.gui;
 
 import com.airhacks.afterburner.injection.Injector;
 import com.discape.javaquarium.Utils;
-import com.discape.javaquarium.business.model.Aquarium;
-import com.discape.javaquarium.gui.app.AppView;
+import com.discape.javaquarium.gui.toolbar.Intro;
 import javafx.application.Application;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.scene.Scene;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.stage.Stage;
 
 import javax.inject.Inject;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
-//TODO inspect code
 
 public class JavaquariumApplication extends Application {
 
     @Inject private Themes themes;
-    @Inject private ChartDataUpdater chartDataUpdater;
-    @Inject private Stages stages;
-    @Inject private Aquarium aquarium;
 
     public static void main(String[] args) {
         launch(args);
@@ -34,41 +28,30 @@ public class JavaquariumApplication extends Application {
         defaults.put("chartHistoryS", new SimpleIntegerProperty(10));
         defaults.put("tickRateMs", new SimpleIntegerProperty(20));
         defaults.put("defaultTheme", "Dark");
+        defaults.put("usersFile", System.getProperty("user.home") + "/.javaquariumusers");
+        defaults.put("accountLine", new SimpleStringProperty("Guest N/A N/A"));
         return defaults;
     }
 
     @Override
     public void start(Stage stage) {
-        // set configuration
         Map<String, Object> customProperties = new HashMap<>(getDefaults());
         //noinspection SuspiciousMethodCalls
         Injector.setConfigurationSource(customProperties::get);
         String defaultTheme = (String) customProperties.get("defaultTheme");
-
-        Aquarium aquarium = null;
-        try {
-            aquarium = Aquarium.fromString(new String(Files.readAllBytes(Paths.get("javaquarium/fish.txt"))));
-        } catch (Exception e) { System.out.println("No valid default file fish.txt"); }
-        if (aquarium == null) aquarium = new Aquarium();
-        Injector.injectMembers(Aquarium.class, aquarium);
-        Injector.setModelOrService(Aquarium.class, aquarium);
-
         Injector.injectMembers(this.getClass(), this);
+
+        try {
+            //noinspection ResultOfMethodCallIgnored
+            new File((String) customProperties.get("usersFile")).createNewFile();
+        } catch (IOException e) {
+            System.out.println("Could not create users file: " + e.getMessage());
+        }
 
         themes.setCurrentTheme(defaultTheme);
         Utils.setThemes(themes);
-        stages.setAppStage(stage);
-        aquarium.init();
-        chartDataUpdater.init();
 
-        stage.setOnCloseRequest((evt) -> {
-            if (!Utils.confirm("Close?")) evt.consume();
-        });
-        Scene scene = new Scene(new AppView().getView());
-        themes.setTheme(scene);
-        stage.setScene(scene);
-        stage.setTitle("Javaquarium");
-        stage.show();
+        ((Intro) Injector.instantiateModelOrService(Intro.class)).show(stage);
     }
 
     @Override

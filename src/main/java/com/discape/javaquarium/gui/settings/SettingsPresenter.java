@@ -74,6 +74,8 @@ public class SettingsPresenter implements Initializable {
         chartHistorySSlider.setValue(((SimpleIntegerProperty) defaults.get("chartHistoryS")).getValue());
         chartDataPointsSlider.setValue(((SimpleIntegerProperty) defaults.get("chartDataPoints")).getValue());
         tickRateMsSlider.setValue(((SimpleIntegerProperty) defaults.get("tickRateMs")).getValue());
+        themes.setCurrentTheme((String) defaults.get("defaultTheme"));
+        stages.reload();
     }
 
     @SuppressWarnings("SpellCheckingInspection")

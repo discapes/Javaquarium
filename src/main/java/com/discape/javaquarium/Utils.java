@@ -10,6 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+@SuppressWarnings("unused")
 public class Utils {
 
     private static Themes themes;
@@ -55,16 +56,34 @@ public class Utils {
         AnchorPane.setLeftAnchor(node, length);
     }
 
-    public static Stage makeWindow(Node node, String title) {
-        Stage stage = new Stage();
+    public static Stage prepareWindow(Node node, String title, double anchors, Stage stage) {
         AnchorPane root = new AnchorPane();
-        Utils.tightenAnchors(node);
+        Utils.setAnchors(node, anchors);
         root.getChildren().add(node);
         Scene scene = new Scene(root);
         themes.setTheme(scene);
         stage.setTitle(title);
         stage.setScene(scene);
-        stage.initModality(Modality.APPLICATION_MODAL);
+        try {
+            stage.initModality(Modality.APPLICATION_MODAL);
+        } catch (IllegalStateException ignored) {}
+        /* Cant set modality for primary stages, but because isPrimary() is private we do it this way */
         return stage;
+    }
+
+    public static Stage makeWindow(Node node, String title, double anchors) {
+        return prepareWindow(node, title, anchors, new Stage());
+    }
+
+    public static Stage makeWindow(Node node, String title) {
+        return makeWindow(node, title, 50);
+    }
+
+    public static Stage prepareWindow(Node node, String title, Stage stage) {
+        return prepareWindow(node, title, 50, stage);
+    }
+
+    public static Stage prepareWindow(Node node, String title, Stage stage, double anchors) {
+        return prepareWindow(node, title, anchors, stage);
     }
 }

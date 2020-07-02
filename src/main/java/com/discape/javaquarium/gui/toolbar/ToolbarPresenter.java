@@ -9,6 +9,7 @@ import com.discape.javaquarium.gui.ChartDataUpdater;
 import com.discape.javaquarium.gui.Stages;
 import com.discape.javaquarium.gui.Themes;
 import com.discape.javaquarium.gui.settings.SettingsView;
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -24,6 +25,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.security.InvalidKeyException;
+import java.util.Optional;
 
 public class ToolbarPresenter {
 
@@ -39,9 +41,13 @@ public class ToolbarPresenter {
 
     @Inject private Cryptographer cryptographer;
 
+    @Inject private StringProperty accountLine;
+
     @FXML
     private void resetChart() {
-        chartDataUpdater.reload();
+        //chartDataUpdater.reload();
+        String out = cryptographer.saltHashPassword("MYPASSWD");
+        System.out.println(out);
     }
 
 
@@ -81,6 +87,26 @@ public class ToolbarPresenter {
         alert.show();
     }
 
+    @FXML
+    private void account() {
+        ButtonType logoutBtn = new ButtonType("Logout", ButtonBar.ButtonData.CANCEL_CLOSE);
+        String acc = accountLine.get();
+        String username = acc.substring(0, acc.indexOf(" "));
+        String salt = acc.substring(acc.indexOf(' ') + 1, acc.lastIndexOf(' '));
+        String hash = accountLine.get().substring(acc.lastIndexOf(' ') + 1, acc.length());
+        Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                "Username: " + username + "\n" +
+                        "Salt: " + salt + "\n" +
+                        "Hash: " + hash, logoutBtn, ButtonType.OK);
+        themes.setTheme(alert.getDialogPane().getScene());
+        alert.setHeaderText("Account");
+        Optional<ButtonType> buttonPressed = alert.showAndWait();
+        if(buttonPressed.isPresent())
+            if (buttonPressed.get() == logoutBtn) {
+                System.out.println("LOGOUT");
+                // TODO
+            }
+    }
 
     @FXML
     private void saveToFile() {
@@ -97,14 +123,17 @@ public class ToolbarPresenter {
         });
         VBox vBox = new VBox(new Label("Key: "), keyField, button);
         Stage stage = Utils.makeWindow(vBox, "Save");
-        Utils.setAnchors(vBox, 50);
 
-        button.setOnAction(evt ->
-                save(stage, keyField.getText(), file)
+        button.setOnAction(evt -> {
+                    save(keyField.getText(), file);
+                    stage.close();
+                }
         );
         keyField.setOnKeyReleased(e -> {
-            if (e.getCode() == KeyCode.ENTER)
-                load(stage, keyField.getText(), file);
+            if (e.getCode() == KeyCode.ENTER) {
+                save(keyField.getText(), file);
+                stage.close();
+            }
         });
         stage.showAndWait();
     }
@@ -122,31 +151,28 @@ public class ToolbarPresenter {
             else button.setText("Load");
         });
         VBox vBox = new VBox(new Label("Key: "), keyField, button);
-        Utils.setAnchors(vBox, 50);
         Stage stage = Utils.makeWindow(vBox, "Load");
-        Utils.setAnchors(vBox, 50);
 
         keyField.setOnKeyReleased(e -> {
             if (e.getCode() == KeyCode.ENTER) {
-                load(stage, keyField.getText(), file);
+                load(keyField.getText(), file);
+                stage.close();
             }
         });
-        button.setOnAction(evt -> load(stage, keyField.getText(), file));
+        button.setOnAction(evt -> {
+            load(keyField.getText(), file);
+            stage.close();
+        });
         stage.showAndWait();
     }
 
-    private void save(Stage stage, String key, File file) {
+    private void save(String key, File file) {
         String str;
         if (key.length() > 0) {
             try {
-                str = cryptographer.base64Encrypt(aquarium.toString(), key);
-            } catch (BadPaddingException | IllegalBlockSizeException e) {
-                Utils.errorAlert("Wrong key or invalid data!");
-                stage.close();
-                return;
-            } catch (InvalidKeyException e) {
-                Utils.errorAlert("Invalid key!");
-                stage.close();
+                str = cryptographer.encrypt(aquarium.toString(), key);
+            } catch (BadPaddingException | IllegalBlockSizeException | InvalidKeyException e) {
+                Utils.errorAlert("Error: " + e.getMessage());
                 return;
             }
         } else {
@@ -157,37 +183,31 @@ public class ToolbarPresenter {
             Files.writeString(file.toPath(), str);
         } catch (IOException e) {
             Utils.errorAlert("Could not write to file: " + e.getMessage());
-            stage.close();
             return;
         }
         Utils.inform("Saved aquarium to " + file.getPath() + (key.length() > 0 ? " encrypted with " + key : ""));
-        stage.close();
     }
 
-    private void load(Stage stage, String key, File file) {
+    private void load(String key, File file) {
         String rawStr;
         try {
             rawStr = new String(Files.readAllBytes(file.toPath()));
         } catch (IOException e) {
             Utils.errorAlert("Could not read from file: " + e.getMessage());
-            stage.close();
             return;
         }
         String aquariumStr = rawStr;
         if (key.length() > 0) {
             try {
-                aquariumStr = cryptographer.base64Decrypt(rawStr, key);
+                aquariumStr = cryptographer.decrypt(rawStr, key);
             } catch (BadPaddingException | IllegalBlockSizeException e) {
                 Utils.errorAlert("Wrong key or bad encryption!");
-                stage.close();
                 return;
             } catch (InvalidKeyException e) {
                 Utils.errorAlert("Invalid key!");
-                stage.close();
                 return;
             } catch (IllegalArgumentException e) {
                 Utils.errorAlert(e.getMessage());
-                stage.close();
                 return;
             }
         }
@@ -197,10 +217,8 @@ public class ToolbarPresenter {
             stages.reload();
         } catch (Exception e) {
             Utils.errorAlert("Invalid data: " + e.getMessage());
-            stage.close();
             return;
         }
         Utils.inform("Loaded aquarium from " + file.getPath() + (key.length() > 0 ? " encrypted with " + key : ""));
-        stage.close();
     }
 }

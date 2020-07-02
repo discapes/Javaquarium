@@ -89,6 +89,7 @@ public class ChartDataUpdater {
                     series.getData().set(i, newPoint);
                 }
             }
+
             foodSeries.getData().set(numCategories - 1, new XYChart.Data<>("0.0", amountFood.get()));
             oxygenSeries.getData().set(numCategories - 1, new XYChart.Data<>("0.0", amountOxygen.get()));
         });
