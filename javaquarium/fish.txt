@@ -1,6 +1,6 @@
 Candice COD 164 #eedfaa 100
 Bob COD 234 #eebbaa 100
-Angelina BLUETANG 84 #b600ff 100
-Dave COD 197 #eedeaa 100
-Jack BLUETANG 195 #9900ff 100
-Joe BLUETANG 118 #00cdff 100
+Angelina BLUETANG 84 #00ff00 100
+Dave COD 197 #ff9980 0
+Jack BLUETANG 195 #800080 231
+Joe COD 118 #00cdff 100
