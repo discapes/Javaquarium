@@ -1,6 +1,5 @@
 package com.discape.javaquarium.display.toolbar;
 
-import com.airhacks.afterburner.injection.Injector;
 import com.discape.javaquarium.display.Alerts;
 import com.discape.javaquarium.display.StageUtilities;
 import com.discape.javaquarium.display._pages.LoginRegisterPage;
@@ -21,45 +20,35 @@ import java.util.Optional;
 
 public class ToolbarPresenter {
 
-    @FXML private AnchorPane toolbarRoot;
-
-    @Inject private Aquarium aquarium;
-    @Inject private SettingsPage settingsPage;
-    @Inject private AquariumFile aquariumFile;
     @Inject private StageUtilities stageUtilities;
-    @Inject private ChartDataUpdater chartDataUpdater;
-    @Inject private AccountManager accountManager;
-    @Inject private LoginRegisterPage loginRegisterPage;
-    @Inject private Alerts alerts;
-    @Inject private Session session;
-    @Inject private MainPage mainPage;
 
-    @FXML
-    private void resetChart() {
+/******************************************************************************/
+
+    @Inject private ChartDataUpdater chartDataUpdater;
+    @FXML private void resetChart() {
         chartDataUpdater.reload();
     }
+/******************************************************************************/
 
+    @Inject private Aquarium aquarium;
 
-    @FXML
-    private void nuke() {
-        if (alerts.confirm("Delete all fish?")) aquarium.getFishList().clear();
+    @FXML private void nuke() {
+        if (alerts.confirm("Delete all fish?"))
+            aquarium.getFishList().clear();
     }
-
-
-    @FXML
-    private void addFish() {
+    @FXML private void addFish() {
         aquarium.getFishList().add(new Fish("New fish"));
     }
+/******************************************************************************/
 
-
-    @FXML
-    private void openSettings() {
+    @Inject private SettingsPage settingsPage;
+    @FXML private void openSettings() {
         stageUtilities.newTemporaryStage(settingsPage).showAndWait();
     }
+/******************************************************************************/
 
-
-    @FXML
-    private void about() {
+    @Inject private Alerts alerts;
+    @FXML private void about() {
         alerts.inform("Javaquarium\n" +
                 "Written by Discape\n" +
                 "Manage a virtual aquarium,\n" +
@@ -70,9 +59,12 @@ public class ToolbarPresenter {
                 "How fast the chart updates and how much history it shows.\n" +
                 "You can delete fish by pressing DELETE", "About");
     }
+/******************************************************************************/
 
-    @FXML
-    private void account() {
+    @Inject private AccountManager accountManager;
+    @Inject private LoginRegisterPage loginRegisterPage;
+    @Inject private Session session;
+    @FXML private void account() {
         ButtonType logoutBtn = new ButtonType("Logout", ButtonBar.ButtonData.CANCEL_CLOSE);
         Optional<ButtonType> buttonPressed = alerts.inform(
                 "Username: " + accountManager.getUsername() + "\n" +
@@ -87,9 +79,12 @@ public class ToolbarPresenter {
             }
         }
     }
+/******************************************************************************/
 
-    @FXML
-    private void saveToFile() {
+    @Inject private AquariumFile aquariumFile;
+    @Inject private MainPage mainPage;
+
+    @FXML private void saveToFile() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt"));
         File file = fileChooser.showSaveDialog(new Stage());
@@ -120,9 +115,7 @@ public class ToolbarPresenter {
         stage.showAndWait();
     }
 
-
-    @FXML
-    private void loadFromFile() {
+    @FXML private void loadFromFile() {
         FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(new Stage());
         if (file == null) return;
@@ -154,4 +147,5 @@ public class ToolbarPresenter {
         });
         stage.showAndWait();
     }
+/******************************************************************************/
 }

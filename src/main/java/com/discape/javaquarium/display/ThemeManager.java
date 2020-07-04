@@ -29,7 +29,7 @@ public class ThemeManager {
         return "Dark";
     }
 
-    public Scene applyTheme(Scene scene) {
+    public void applyTheme(Scene scene) {
         StyleManager.getInstance().platformUserAgentStylesheetContainers.clear();
         Application.setUserAgentStylesheet(Application.STYLESHEET_MODENA);
         jMetro.sceneProperty().set(null);
@@ -53,7 +53,6 @@ public class ThemeManager {
                 URL styleSheet = getClass().getResource("/" + currentTheme + ".css");
                 StyleManager.getInstance().addUserAgentStylesheet(styleSheet.toString());
         }
-        return scene;
     }
 
     public String getCurrentTheme() {

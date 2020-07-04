@@ -18,6 +18,7 @@ import java.nio.file.Paths;
 
 public class MainPage extends Page {
 
+    private final BooleanProperty hardReset = new SimpleBooleanProperty(true);
     @Inject private ChartDataUpdater chartDataUpdater;
     @Inject private Alerts alerts;
     @Inject private Session session;
@@ -41,7 +42,6 @@ public class MainPage extends Page {
         chartDataUpdater.init(aquarium);
     }
 
-    private BooleanProperty hardReset = new SimpleBooleanProperty(true);
     @Override
     public Parent getView() {
         if (hardReset.get()) {

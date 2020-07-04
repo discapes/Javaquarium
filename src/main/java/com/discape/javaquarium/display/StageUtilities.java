@@ -12,7 +12,6 @@ import javax.inject.Inject;
 
 public class StageUtilities {
 
-    @Inject Alerts alerts;
     @Inject private ThemeManager themeManager;
     @Inject private Stage stage;
     private Stage temporaryStage;
@@ -29,16 +28,18 @@ public class StageUtilities {
         page.modifyStage(stage);
     }
 
-    public void setPage(Page page) {
-        setPage(page, stage);
+    public void setTemporaryPage(Page page) {
+        setPage(page, temporaryStage);
     }
-
     public Stage newTemporaryStage(Page page) {
         temporaryStage = new Stage();
         setPage(page, temporaryStage);
         return temporaryStage;
     }
 
+    public void setPage(Page page) {
+        setPage(page, stage);
+    }
     public Stage newStage(Page page) {
         Stage stage = new Stage();
         setPage(page, stage);
@@ -60,9 +61,5 @@ public class StageUtilities {
         });
         stage.initModality(Modality.APPLICATION_MODAL);
         return stage;
-    }
-
-    public void setTemporaryPage(Page page) {
-        setPage(page, temporaryStage);
     }
 }

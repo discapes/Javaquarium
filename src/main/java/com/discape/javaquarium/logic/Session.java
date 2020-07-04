@@ -1,10 +1,7 @@
 package com.discape.javaquarium.logic;
 
-import com.discape.javaquarium.display._pages.MainPage;
-import com.sun.tools.javac.Main;
 import javafx.beans.property.BooleanProperty;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.TimerTask;
 

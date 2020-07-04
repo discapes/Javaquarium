@@ -43,15 +43,7 @@ public class SettingsPresenter implements Initializable {
     @Inject private IntegerProperty chartNumData;
     @Inject private IntegerProperty tickRate;
 
-    private static IntegerProperty getDisplayValue(Slider slider) {
-        IntegerProperty integerProperty = new SimpleIntegerProperty((int) slider.getValue());
-        slider.valueProperty().addListener((observable, oldValue, newValue) ->
-                integerProperty.set((int) slider.getBlockIncrement() * Math.round(newValue.floatValue() / (float) slider.getBlockIncrement())));
-        return integerProperty;
-    }
-
-    @FXML
-    private void question() {
+    @FXML private void question() {
         alerts.inform("The chart has an adjustable number of data points, and\n" +
                 "the update rate of the chart is automatically calculated\n" +
                 "so that each data point will be one update.\n" +
@@ -64,7 +56,6 @@ public class SettingsPresenter implements Initializable {
     @FXML
     private void apply() {
         themeManager.setCurrentTheme(themePicker.getValue());
-
         chartHistory.setValue(chartHistoryS.getValue());
         chartNumData.setValue(chartNumDataS.getValue());
         tickRate.setValue(tickRateS.getValue());
@@ -73,8 +64,7 @@ public class SettingsPresenter implements Initializable {
         stageUtilities.setTemporaryPage(settingsPage);
     }
 
-    @FXML
-    private void reset() {
+    @FXML private void reset() {
         Map<String, Object> defaults = JavaquariumApplication.getDefaults();
         chartHistoryS.setValue(((SimpleIntegerProperty) defaults.get("chartHistory")).getValue());
         chartNumDataS.setValue(((SimpleIntegerProperty) defaults.get("chartNumData")).getValue());
@@ -106,5 +96,12 @@ public class SettingsPresenter implements Initializable {
         historyLabel.textProperty().bind(Bindings.concat(historyLabel.getText(), getDisplayValue(chartHistoryS)));
         dataLabel.textProperty().bind(Bindings.concat(dataLabel.getText(), getDisplayValue(chartNumDataS)));
         tickLabel.textProperty().bind(Bindings.concat(tickLabel.getText(), getDisplayValue(tickRateS)));
+    }
+
+    private static IntegerProperty getDisplayValue(Slider slider) {
+        IntegerProperty integerProperty = new SimpleIntegerProperty((int) slider.getValue());
+        slider.valueProperty().addListener((observable, oldValue, newValue) ->
+                integerProperty.set((int) slider.getBlockIncrement() * Math.round(newValue.floatValue() / (float) slider.getBlockIncrement())));
+        return integerProperty;
     }
 }
