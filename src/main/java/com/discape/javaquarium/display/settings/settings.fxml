@@ -24,21 +24,21 @@
                         <Font size="16.0"/>
                     </font>
                 </Label>
-                <Slider fx:id="chartHistorySSlider" blockIncrement="1.0" majorTickUnit="1.0" minorTickCount="0"
+                <Slider fx:id="chartHistoryS" blockIncrement="1.0" majorTickUnit="1.0" minorTickCount="0"
                         showTickLabels="true" snapToTicks="true"/>
                 <Label fx:id="dataLabel" text="Chart data points = ">
                     <font>
                         <Font size="16.0"/>
                     </font>
                 </Label>
-                <Slider fx:id="chartDataPointsSlider" blockIncrement="20.0" majorTickUnit="20.0" max="500.0"
+                <Slider fx:id="chartNumDataS" blockIncrement="20.0" majorTickUnit="20.0" max="500.0"
                         minorTickCount="0" showTickLabels="true" snapToTicks="true"/>
                 <Label fx:id="tickLabel" text="Tick rate (ms) = ">
                     <font>
                         <Font size="16.0"/>
                     </font>
                 </Label>
-                <Slider fx:id="tickRateMsSlider" majorTickUnit="10.0" max="1000.0" minorTickCount="0"
+                <Slider fx:id="tickRateS" majorTickUnit="10.0" max="1000.0" minorTickCount="0"
                         showTickLabels="true" snapToTicks="true" value="50.0"/>
                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                     <children>

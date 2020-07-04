@@ -18,15 +18,15 @@ public class ThemeManager {
             "Metro Light",
             "Old"
     };
-    private String currentTheme = "Dark";
+    private String currentTheme = getDefaultTheme();
 
     public ThemeManager() {
         jMetro = new JMetro();
         jMetro.automaticallyColorPanesProperty().set(true);
     }
 
-    public void resetTheme() {
-        currentTheme = "Dark";
+    public String getDefaultTheme() {
+        return "Dark";
     }
 
     public Scene applyTheme(Scene scene) {

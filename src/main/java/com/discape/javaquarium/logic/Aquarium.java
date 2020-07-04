@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
 
 import javax.inject.Inject;
+import javax.swing.plaf.synth.SynthUI;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -27,8 +28,12 @@ public class Aquarium {
     @Inject private IntegerProperty tickRate;
     @Inject private Session session;
 
+    public void postConstruct() {
+        tickRate.addListener((observable, oldValue, newValue) -> restartClock());
+    }
+
     public Aquarium() {
-        fishList = observableArrayList();
+        this(observableArrayList());
     }
 
     public Aquarium(ObservableList<Fish> fishList) {
@@ -104,11 +109,6 @@ public class Aquarium {
         };
         session.addTask(updateTask);
         if (tickRate.get() > 0) timer.scheduleAtFixedRate(updateTask, tickRate.get(), tickRate.get());
-    }
-
-    public void init() {
-        tickRate.addListener((observable, oldValue, newValue) -> restartClock());
-        restartClock();
     }
 
     @Override

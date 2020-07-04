@@ -104,6 +104,8 @@ public class FishTablePresenter implements Initializable {
         tableView.setItems(aquarium.getFishList());
 
         /* We have to reapply the color bc on metro themes selecting sets it to grey */
-        tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> newVal.triggerFlipFlop.set(!newVal.triggerFlipFlop.get()));
+        tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) newVal.triggerFlipFlop.set(!newVal.triggerFlipFlop.get());
+        });
     }
 }

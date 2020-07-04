@@ -1,5 +1,6 @@
 package com.discape.javaquarium.display.toolbar;
 
+import com.airhacks.afterburner.injection.Injector;
 import com.discape.javaquarium.display.Alerts;
 import com.discape.javaquarium.display.StageUtilities;
 import com.discape.javaquarium.display._pages.LoginRegisterPage;
@@ -139,13 +140,15 @@ public class ToolbarPresenter {
 
         keyField.setOnKeyReleased(e -> {
             if (e.getCode() == KeyCode.ENTER) {
-                aquariumFile.load(keyField.getText(), file);
+                Aquarium aquarium = aquariumFile.load(keyField.getText(), file);
+                mainPage.setAquarium(aquarium);
                 stageUtilities.setPage(mainPage);
                 stage.close();
             }
         });
         button.setOnAction(evt -> {
-            aquariumFile.load(keyField.getText(), file);
+            Aquarium aquarium = aquariumFile.load(keyField.getText(), file);
+            mainPage.setAquarium(aquarium);
             stageUtilities.setPage(mainPage);
             stage.close();
         });

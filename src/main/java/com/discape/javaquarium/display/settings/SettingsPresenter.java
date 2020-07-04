@@ -29,11 +29,11 @@ public class SettingsPresenter implements Initializable {
     @FXML private ChoiceBox<String> themePicker;
 
     @FXML private Label historyLabel;
-    @FXML private Slider chartHistorySSlider;
+    @FXML private Slider chartHistoryS;
     @FXML private Label dataLabel;
-    @FXML private Slider chartDataPointsSlider;
+    @FXML private Slider chartNumDataS;
     @FXML private Label tickLabel;
-    @FXML private Slider tickRateMsSlider;
+    @FXML private Slider tickRateS;
 
     @Inject private MainPage mainPage;
     @Inject private SettingsPage settingsPage;
@@ -65,9 +65,9 @@ public class SettingsPresenter implements Initializable {
     private void apply() {
         themeManager.setCurrentTheme(themePicker.getValue());
 
-        chartHistory.setValue(chartHistorySSlider.getValue());
-        chartNumData.setValue(chartDataPointsSlider.getValue());
-        tickRate.setValue(tickRateMsSlider.getValue());
+        chartHistory.setValue(chartHistoryS.getValue());
+        chartNumData.setValue(chartNumDataS.getValue());
+        tickRate.setValue(tickRateS.getValue());
 
         stageUtilities.setPage(mainPage);
         stageUtilities.setTemporaryPage(settingsPage);
@@ -76,13 +76,10 @@ public class SettingsPresenter implements Initializable {
     @FXML
     private void reset() {
         Map<String, Object> defaults = JavaquariumApplication.getDefaults();
-        chartHistorySSlider.setValue(((SimpleIntegerProperty) defaults.get("chartHistoryS")).getValue());
-        chartDataPointsSlider.setValue(((SimpleIntegerProperty) defaults.get("chartDataPoints")).getValue());
-        tickRateMsSlider.setValue(((SimpleIntegerProperty) defaults.get("tickRateMs")).getValue());
-        themeManager.resetTheme();
-
-        stageUtilities.setPage(mainPage);
-        stageUtilities.setTemporaryPage(settingsPage);
+        chartHistoryS.setValue(((SimpleIntegerProperty) defaults.get("chartHistory")).getValue());
+        chartNumDataS.setValue(((SimpleIntegerProperty) defaults.get("chartNumData")).getValue());
+        tickRateS.setValue(((SimpleIntegerProperty) defaults.get("tickRate")).getValue());
+        themePicker.setValue(themeManager.getDefaultTheme());
     }
 
     @SuppressWarnings("SpellCheckingInspection")
@@ -92,22 +89,22 @@ public class SettingsPresenter implements Initializable {
         themePicker.setValue(themeManager.getCurrentTheme());
 
         /* SPENT WAYYY TOO LONG ON ALL THESE SLIDERS */
-        chartHistorySSlider.setValue(chartHistory.getValue());
-        chartDataPointsSlider.setValue(chartNumData.getValue());
-        tickRateMsSlider.setValue(tickRate.getValue());
+        chartHistoryS.setValue(chartHistory.getValue());
+        chartNumDataS.setValue(chartNumData.getValue());
+        tickRateS.setValue(tickRate.getValue());
 
-        chartDataPointsSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            if ((double) newValue < chartHistorySSlider.getValue())
-                chartDataPointsSlider.setValue(chartHistorySSlider.getValue());
+        chartNumDataS.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if ((double) newValue < chartHistoryS.getValue())
+                chartNumDataS.setValue(chartHistoryS.getValue());
         });
-        chartHistorySSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            if ((double) newValue < 1) chartHistorySSlider.setValue(1);
-            if ((double) newValue > chartDataPointsSlider.getValue())
-                chartDataPointsSlider.setValue(chartHistorySSlider.getValue());
+        chartHistoryS.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if ((double) newValue < 1) chartHistoryS.setValue(1);
+            if ((double) newValue > chartNumDataS.getValue())
+                chartNumDataS.setValue(chartHistoryS.getValue());
         });
 
-        historyLabel.textProperty().bind(Bindings.concat(historyLabel.getText(), getDisplayValue(chartHistorySSlider)));
-        dataLabel.textProperty().bind(Bindings.concat(dataLabel.getText(), getDisplayValue(chartDataPointsSlider)));
-        tickLabel.textProperty().bind(Bindings.concat(tickLabel.getText(), getDisplayValue(tickRateMsSlider)));
+        historyLabel.textProperty().bind(Bindings.concat(historyLabel.getText(), getDisplayValue(chartHistoryS)));
+        dataLabel.textProperty().bind(Bindings.concat(dataLabel.getText(), getDisplayValue(chartNumDataS)));
+        tickLabel.textProperty().bind(Bindings.concat(tickLabel.getText(), getDisplayValue(tickRateS)));
     }
 }

@@ -41,13 +41,13 @@ public class AquariumFile {
         alerts.inform("Saved aquarium to " + file.getPath() + (key.length() > 0 ? " encrypted with " + key : ""));
     }
 
-    public void load(String key, File file) {
+    public Aquarium load(String key, File file) {
         String rawStr;
         try {
             rawStr = new String(Files.readAllBytes(file.toPath()));
         } catch (IOException e) {
             alerts.errorAlert("Could not read from file: " + e.getMessage());
-            return;
+            return aquarium;
         }
         String aquariumStr = rawStr;
         if (key.length() > 0) {
@@ -55,22 +55,25 @@ public class AquariumFile {
                 aquariumStr = cryptographer.decrypt(rawStr, key);
             } catch (BadPaddingException | IllegalBlockSizeException e) {
                 alerts.errorAlert("Wrong key or bad encryption!");
-                return;
+                return aquarium;
             } catch (InvalidKeyException e) {
                 alerts.errorAlert("Invalid key!");
-                return;
+                return aquarium;
             } catch (IllegalArgumentException e) {
                 alerts.errorAlert(e.getMessage());
-                return;
+                return aquarium;
             }
         }
+        Aquarium aquarium;
         try {
-            Aquarium aquarium = Aquarium.fromString(aquariumStr);
+            aquarium = Aquarium.fromString(aquariumStr);
             Injector.setModelOrService(Aquarium.class, aquarium);
+            Injector.injectMembers(Aquarium.class, aquarium);
         } catch (Exception e) {
             alerts.errorAlert("Invalid data: " + e.getMessage());
-            return;
+            return this.aquarium;
         }
         alerts.inform("Loaded aquarium from " + file.getPath() + (key.length() > 0 ? " encrypted with " + key : ""));
+        return aquarium;
     }
 }
