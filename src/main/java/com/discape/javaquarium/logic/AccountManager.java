@@ -55,7 +55,6 @@ public class AccountManager {
         Scanner scanner = new Scanner(file);
         while (scanner.hasNext()) {
             String line = scanner.nextLine();
-            System.out.println(line);
             String lineUsername;
             try {
                 lineUsername = line.substring(0, line.indexOf(" "));

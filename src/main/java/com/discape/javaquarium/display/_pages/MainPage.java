@@ -4,6 +4,7 @@ import com.airhacks.afterburner.injection.Injector;
 import com.discape.javaquarium.display.Alerts;
 import com.discape.javaquarium.display.app.AppView;
 import com.discape.javaquarium.logic.Aquarium;
+import com.discape.javaquarium.logic.AquariumFile;
 import com.discape.javaquarium.logic.ChartDataUpdater;
 import com.discape.javaquarium.logic.Session;
 import javafx.beans.property.BooleanProperty;
@@ -11,9 +12,8 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 public class MainPage extends Page {
 
@@ -21,25 +21,18 @@ public class MainPage extends Page {
     @Inject private ChartDataUpdater chartDataUpdater;
     @Inject private Alerts alerts;
     @Inject private Session session;
-    private Aquarium aquarium = null;
-    private final String defaultFilePath = System.getProperty("user.home") + "/.javaquariumdefault.txt";
+    @Inject private AquariumFile aquariumFile;
+    private Aquarium aquarium;
 
-    public void setAquarium(Aquarium aquarium) {
-        this.aquarium = aquarium;
-        session.stop();
+    @PostConstruct void postConstruct() {
+        session.addResetProperty(hardReset);
     }
 
     @Override
     public Parent getView() {
         if (hardReset.get()) {
-            try {
-                aquarium = Aquarium.fromString(new String(Files.readAllBytes(Paths.get(defaultFilePath))));
-            } catch (Exception e) { System.out.println("No valid default file " + defaultFilePath); }
-            if (aquarium == null) aquarium = new Aquarium();
-            Injector.injectMembers(Aquarium.class, aquarium);
-            aquarium.postConstruct();
-            Injector.setModelOrService(Aquarium.class, aquarium);
-            session.addResetProperty(hardReset);
+            aquarium = aquariumFile.load();
+
             aquarium.restartClock();
             chartDataUpdater.init(aquarium);
             hardReset.set(false);

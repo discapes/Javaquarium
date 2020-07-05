@@ -132,15 +132,17 @@ public class ToolbarPresenter {
 
         keyField.setOnKeyReleased(e -> {
             if (e.getCode() == KeyCode.ENTER) {
-                Aquarium aquarium = aquariumFile.load(keyField.getText(), file);
-                mainPage.setAquarium(aquarium);
+                aquariumFile.setKey(keyField.getText());
+                aquariumFile.setFile(file);
+                session.stop();
                 stageUtilities.setPage(mainPage);
                 stage.close();
             }
         });
         button.setOnAction(evt -> {
-            Aquarium aquarium = aquariumFile.load(keyField.getText(), file);
-            mainPage.setAquarium(aquarium);
+            aquariumFile.setKey(keyField.getText());
+            aquariumFile.setFile(file);
+            session.stop();
             stageUtilities.setPage(mainPage);
             stage.close();
         });

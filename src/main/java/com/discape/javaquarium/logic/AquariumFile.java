@@ -14,10 +14,29 @@ import java.security.InvalidKeyException;
 
 public class AquariumFile {
 
+    private String key = "";
+    private File file = new File(getDefaultFilePath());
+
+    public void setFile(File file) {
+        this.file = file;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
     @Inject private Alerts alerts;
     @Inject private Cryptographer cryptographer;
-    @Inject private Aquarium aquarium;
+    private Aquarium aquarium = new Aquarium();
     @Inject private StageUtilities stageUtilities;
+
+    public String getDefaultFilePath() {
+        return System.getProperty("user.home") + "/.javaquariumdefault.txt";
+    }
+
+    public Aquarium load() {
+        return load(key, file);
+    }
 
     public void save(String key, File file) {
         String str;
@@ -64,11 +83,12 @@ public class AquariumFile {
                 return aquarium;
             }
         }
-        Aquarium aquarium;
+
         try {
             aquarium = Aquarium.fromString(aquariumStr);
-            Injector.setModelOrService(Aquarium.class, aquarium);
             Injector.injectMembers(Aquarium.class, aquarium);
+            Injector.setModelOrService(Aquarium.class, aquarium);
+            aquarium.postConstruct();
         } catch (Exception e) {
             alerts.errorAlert("Invalid data: " + e.getMessage());
             return this.aquarium;

@@ -83,7 +83,11 @@ public class ChartDataUpdater {
                         pointToBeMoved = series.getData().get(i + 1);
                     } catch (IndexOutOfBoundsException e) { return; }
                     XYChart.Data<String, Number> newPoint = new XYChart.Data<>(toString, pointToBeMoved.getYValue());
-                    series.getData().set(i, newPoint);
+                    try {
+                        series.getData().set(i, newPoint);
+                    } catch (RuntimeException e) {
+                        System.out.println("Caught");
+                    }
                 }
             }
 
