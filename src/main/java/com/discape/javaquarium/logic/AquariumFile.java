@@ -27,7 +27,7 @@ public class AquariumFile {
 
     @Inject private Alerts alerts;
     @Inject private Cryptographer cryptographer;
-    private Aquarium aquarium = new Aquarium();
+    private Aquarium aquarium = null;
     @Inject private StageUtilities stageUtilities;
 
     public String getDefaultFilePath() {
@@ -61,6 +61,11 @@ public class AquariumFile {
     }
 
     public Aquarium load(String key, File file) {
+        boolean showAlert = true;
+        if (aquarium == null) {
+            aquarium = new Aquarium();
+            showAlert = false;
+        }
         String rawStr;
         try {
             rawStr = new String(Files.readAllBytes(file.toPath()));
@@ -93,7 +98,8 @@ public class AquariumFile {
             alerts.errorAlert("Invalid data: " + e.getMessage());
             return this.aquarium;
         }
-        alerts.inform("Loaded aquarium from " + file.getPath() + (key.length() > 0 ? " encrypted with " + key : ""));
+        if (showAlert)
+            alerts.inform("Loaded aquarium from " + file.getPath() + (key.length() > 0 ? " encrypted with " + key : ""));
         return aquarium;
     }
 }

@@ -86,7 +86,7 @@ public class ChartDataUpdater {
                     try {
                         series.getData().set(i, newPoint);
                     } catch (RuntimeException e) {
-                        System.out.println("Caught");
+                        System.out.println("Caught " + e.getMessage());
                     }
                 }
             }

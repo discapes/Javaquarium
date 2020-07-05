@@ -28,11 +28,6 @@
             <version>master-v1.7.0-ga24f8cb-1</version>
         </dependency>
         <dependency>
-            <groupId>com.aquafx-project</groupId>
-            <artifactId>aquafx</artifactId>
-            <version>0.2</version>
-        </dependency>
-        <dependency>
             <groupId>org.jfxtras</groupId>
             <artifactId>jmetro</artifactId>
             <version>11.6.12</version>
@@ -95,6 +90,7 @@
                     <include>**/*.fxml</include>
                     <include>**/*.css</include>
                     <include>**/*.properties</include>
+                    <include>**/*.png</include>
                 </includes>
             </resource>
             <resource>
@@ -103,6 +99,7 @@
                     <include>**/*.fxml</include>
                     <include>**/*.css</include>
                     <include>**/*.properties</include>
+                    <include>**/*.png</include>
                 </includes>
             </resource>
             <resource>
@@ -110,6 +107,7 @@
                 <includes>
                     <include>**/*.xml</include>
                     <include>**/*.css</include>
+                    <include>**/*.png</include>
                 </includes>
             </resource>
         </resources>
