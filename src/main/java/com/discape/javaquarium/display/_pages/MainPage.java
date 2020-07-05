@@ -38,8 +38,7 @@ public class MainPage extends Page {
 
     public void setAquarium(Aquarium aquarium) {
         this.aquarium = aquarium;
-        aquarium.restartClock();
-        chartDataUpdater.init(aquarium);
+        session.stop();
     }
 
     @Override

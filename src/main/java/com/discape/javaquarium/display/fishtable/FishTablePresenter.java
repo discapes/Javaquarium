@@ -3,30 +3,26 @@ package com.discape.javaquarium.display.fishtable;
 import com.discape.javaquarium.Utils;
 import com.discape.javaquarium.display.Alerts;
 import com.discape.javaquarium.display.StageUtilities;
+import com.discape.javaquarium.display.ThemeManager;
 import com.discape.javaquarium.logic.Aquarium;
 import com.discape.javaquarium.logic.CustomIntegerStringConverter;
 import com.discape.javaquarium.logic.Fish;
 import com.discape.javaquarium.logic.FishSpecies;
-import javafx.beans.property.ObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.ChoiceBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import javax.inject.Inject;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class FishTablePresenter implements Initializable {
 
@@ -36,9 +32,10 @@ public class FishTablePresenter implements Initializable {
     @FXML private TableColumn<Fish, String> nameCol;
     @FXML private TableColumn<Fish, FishSpecies> speciesCol;
     @FXML private TableColumn<Fish, Integer> speedCol;
-    @FXML private TableColumn<Fish, Void> colorCol;
+    @FXML private TableColumn<Fish, Color> colorCol;
     @FXML private TableColumn<Fish, Integer> saturationCol;
 
+    @Inject private ThemeManager themeManager;
     @Inject private Alerts alerts;
     @Inject private StageUtilities stageUtilities;
 
@@ -56,40 +53,36 @@ public class FishTablePresenter implements Initializable {
         saturationCol.setCellValueFactory(new PropertyValueFactory<>("saturation"));
         saturationCol.setCellFactory(TextFieldTableCell.forTableColumn(new CustomIntegerStringConverter()));
 
-        AtomicBoolean pickerOpen = new AtomicBoolean(false);
+        colorCol.setCellValueFactory(new PropertyValueFactory<>("color"));
         colorCol.setCellFactory(param -> new TableCell<>() {
             @Override
-            protected void updateItem(Void item, boolean empty) {
-                if (empty) {
-                    setBackground(Background.EMPTY);
-                    return;
+            protected void updateItem(Color color, boolean empty) {
+                updateColor(color);
+            }
+
+            private void updateColor(Color color) {
+                if (color != null) {
+                    this.setText(Utils.colorToString(color));
+                    setStyle("-fx-text-fill: " + Utils.colorToString(Color.color(
+                            1-color.getRed(), 1-color.getGreen(), 1-color.getBlue())) + ";" + "-fx-background-color: " + Utils.colorToString(color));
+                } else  {
+                    setStyle("-fx-background-color: transparent");
+                    setText(null);
                 }
-
-                Fish fish = param.getTableView().getItems().get(indexProperty().getValue());
-
-                ObjectProperty<Color> color = fish.colorProperty();
-                color.addListener((observable, oldVal, newVal) -> setBackground(new Background(new BackgroundFill(newVal, CornerRadii.EMPTY, Insets.EMPTY))));
-                fish.triggerFlipFlop.addListener((observable, oldVal, newVal) ->
-                        setStyle("-fx-background-color: " + Utils.colorToString(color.get())));
-
-                setBackground(new Background(new BackgroundFill(color.get(), CornerRadii.EMPTY, Insets.EMPTY)));
             }
         });
         colorCol.setOnEditStart(e -> {
             Fish fish = e.getRowValue();
-            if (!pickerOpen.get() && fish != null) {
+            if (fish != null) {
                 ColorPicker colorPicker = new ColorPicker();
                 colorPicker.valueProperty().bindBidirectional(fish.colorProperty());
-
                 Button closeBtn = new Button("Close");
                 HBox hBox = new HBox(colorPicker, closeBtn);
 
-                pickerOpen.set(true);
                 Stage stage = stageUtilities.quickStage(hBox, "Change color");
+                stage.initModality(Modality.APPLICATION_MODAL);
                 closeBtn.setOnAction(saveEvt -> stage.close());
                 stage.showAndWait();
-                pickerOpen.set(false);
-                fish.triggerFlipFlop.set(!fish.triggerFlipFlop.get());
             }
         });
 
@@ -102,10 +95,5 @@ public class FishTablePresenter implements Initializable {
             }
         });
         tableView.setItems(aquarium.getFishList());
-
-        /* We have to reapply the color bc on metro themes selecting sets it to grey */
-        tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal != null) newVal.triggerFlipFlop.set(!newVal.triggerFlipFlop.get());
-        });
     }
 }
