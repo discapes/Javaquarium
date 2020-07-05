@@ -73,17 +73,17 @@
     -oxygen: #f0e68c;
 }
 
-.default-color0.chart-series-line { -fx-stroke: -oxygen;  }
-.default-color1.chart-series-line { -fx-stroke: -food; }
+.default-color2.chart-series-line { -fx-stroke: -oxygen;  }
+.default-color3.chart-series-line { -fx-stroke: -food; }
 
-.default-color0.chart-line-symbol { /* solid diamond */
+.default-color2.chart-line-symbol { /* solid diamond */
     -fx-background-color: -oxygen;
     -fx-background-radius: 0;
     -fx-padding: 7px 5px 7px 5px;
     -fx-shape: "M5,0 L10,9 L5,18 L0,9 Z";
 }
 
-.default-color1.chart-line-symbol { /* solid square */
+.default-color3.chart-line-symbol { /* solid square */
     -fx-background-color: -food;
     -fx-background-radius: 0;
 }

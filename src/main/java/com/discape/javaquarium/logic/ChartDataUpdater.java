@@ -24,9 +24,13 @@ public class ChartDataUpdater {
     private IntegerProperty chartHistory;
     private Aquarium aquarium;
 
-    private XYChart.Series<String, Number> foodSeries;
-    private XYChart.Series<String, Number> oxygenSeries;
-    private ObservableList<String> categories;
+    private XYChart.Series<String, Number> paddingSeries1 = new XYChart.Series<>();
+    private XYChart.Series<String, Number> paddingSeries2 = new XYChart.Series<>();
+    private XYChart.Series<String, Number> foodSeries = new XYChart.Series<>();
+    private XYChart.Series<String, Number> oxygenSeries = new XYChart.Series<>();
+    private XYChart.Series<String, Number> topSeries = new XYChart.Series<>();
+    private XYChart.Series<String, Number> bottomSeries = new XYChart.Series<>();
+    private ObservableList<String> categories = observableArrayList();
 
     // so we can haz lambdas
     private static TimerTask wrap(Runnable r) {
@@ -38,12 +42,8 @@ public class ChartDataUpdater {
         };
     }
 
-    public XYChart.Series<String, Number> getFoodSeries() {
-        return foodSeries;
-    }
-
-    public XYChart.Series<String, Number> getOxygenSeries() {
-        return oxygenSeries;
+    public List<XYChart.Series<String, Number>> getSeries() {
+        return List.of(paddingSeries1, paddingSeries2, oxygenSeries, foodSeries, topSeries, bottomSeries);
     }
 
     public ObservableList<String> getCategories() {
@@ -55,6 +55,8 @@ public class ChartDataUpdater {
         categories.clear();
         foodSeries.getData().clear();
         oxygenSeries.getData().clear();
+        topSeries.getData().clear();
+        bottomSeries.getData().clear();
         ReadOnlyFloatProperty amountFood = aquarium.getAmountFood();
         ReadOnlyFloatProperty amountOxygen = aquarium.getAmountOxygen();
 
@@ -65,10 +67,11 @@ public class ChartDataUpdater {
             categories.add(toString);
             foodSeries.getData().add(new XYChart.Data<>(toString, amountFood.get()));
             oxygenSeries.getData().add(new XYChart.Data<>(toString, amountOxygen.get()));
+            topSeries.getData().add(new XYChart.Data<>(toString, 150));
+            bottomSeries.getData().add(new XYChart.Data<>(toString, 50));
         }
         // to keep range at least 200
-        foodSeries.getData().add(new XYChart.Data<>("nonExisting", 200));
-        oxygenSeries.getData().add(new XYChart.Data<>("nonExisting", 200));
+        paddingSeries1.getData().add(new XYChart.Data<>("nonExisting", 200));
 
         if (currentTask != null) currentTask.cancel();
 
@@ -107,9 +110,6 @@ public class ChartDataUpdater {
 
     public void init(Aquarium aquarium) {
         this.aquarium = aquarium;
-        categories = observableArrayList();
-        foodSeries = new XYChart.Series<>();
-        oxygenSeries = new XYChart.Series<>();
         foodSeries.setName("Food");
         oxygenSeries.setName("Oxygen");
 

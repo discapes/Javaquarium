@@ -20,6 +20,9 @@ public class Aquarium {
     private final ReadOnlyFloatWrapper amountOxygen = new ReadOnlyFloatWrapper(100);
     private final ReadOnlyFloatWrapper amountFood = new ReadOnlyFloatWrapper(100);
     private final ObservableList<Fish> fishList;
+    private final ObservableList<Fish> over0HPFish = observableArrayList();
+    private final ObservableList<Fish> under100HPFish = observableArrayList();
+
     private final Timer timer = new Timer(true);
     private TimerTask updateTask = null;
     private int ticks = 0;
@@ -34,6 +37,7 @@ public class Aquarium {
 
     public Aquarium(ObservableList<Fish> fishList) {
         this.fishList = fishList;
+        for (Fish fish : fishList) over0HPFish.add(fish);
     }
 
     private static void add(float val, ReadOnlyFloatWrapper wrapper) {
@@ -74,15 +78,25 @@ public class Aquarium {
         if (amountOxygen.get() < 0) { amountOxygen.set(0); }
         if (amountFood.get() < 0) { amountFood.set(0); }
 
+
         if (ticks % 100 == 0 && fishList.size() > 0) {
             for (Float amount : List.of(amountFood.get(), amountOxygen.get())) {
-                Fish fish = fishList.get(ThreadLocalRandom.current().nextInt(0, fishList.size()));
-                if (amount < 50 || amount > 150) {
+                if ((amount < 50 || amount > 150) && over0HPFish.size() > 0) {
+                    Fish fish = over0HPFish.get(ThreadLocalRandom.current().nextInt(0, over0HPFish.size()));
+                    if (fish.getHealth() == 100) under100HPFish.add(fish);
                     fish.setHealth(fish.getHealth() - (int) (Math.abs(100 - amount) * 0.2));
-                    if (fish.getHealth() < 0) fish.setHealth(0);
-                } else {
-                    fish.setHealth(fish.getHealth()+5);
-                    if (fish.getHealth() > 100) fish.setHealth(100);
+                    if (fish.getHealth() < 0) {
+                        fish.setHealth(0);
+                        over0HPFish.remove(fish);
+                    }
+                } else if (under100HPFish.size() > 0)  {
+                    Fish fish = under100HPFish.get(ThreadLocalRandom.current().nextInt(0, under100HPFish.size()));
+                    if (fish.getHealth() == 0) over0HPFish.add(fish);
+                    fish.setHealth(fish.getHealth() + 5);
+                    if (fish.getHealth() > 100) {
+                        fish.setHealth(100);
+                        under100HPFish.remove(fish);
+                    }
                 }
             }
         }
@@ -96,6 +110,7 @@ public class Aquarium {
 
     public void decreaseFood() {
         add(-10, amountFood);
+        if (amountFood.get() < 0) { amountFood.set(0); }
     }
 
     public void increaseOxygen() {
@@ -104,6 +119,7 @@ public class Aquarium {
 
     public void decreaseOxygen() {
         add(-10, amountOxygen);
+        if (amountOxygen.get() < 0) { amountOxygen.set(0); }
     }
 
     public ObservableList<Fish> getFishList() { return fishList; }

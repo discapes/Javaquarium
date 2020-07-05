@@ -1,5 +1,6 @@
 package com.discape.javaquarium.display.chart;
 
+import com.discape.javaquarium.display.ThemeManager;
 import com.discape.javaquarium.logic.Aquarium;
 import com.discape.javaquarium.logic.ChartDataUpdater;
 import javafx.fxml.FXML;
@@ -11,6 +12,7 @@ import javafx.scene.control.Button;
 
 import javax.inject.Inject;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ChartPresenter implements Initializable {
@@ -23,6 +25,7 @@ public class ChartPresenter implements Initializable {
     @FXML private Button plusFoodBtn;
     @FXML private Button minusFoodBtn;
 
+    @Inject private ThemeManager themeManager;
     @Inject private ChartDataUpdater chartDataUpdater;
     @Inject private Aquarium aquarium;
 
@@ -30,13 +33,12 @@ public class ChartPresenter implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         categoryAxis.setCategories(chartDataUpdater.getCategories());
 
-        // for some reason if I set the series straight it produces a visual glitch. mb the lineChart modifies the series somehow?
-        XYChart.Series<String, Number> oxygen = new XYChart.Series<>(chartDataUpdater.getOxygenSeries().getData());
-        XYChart.Series<String, Number> food = new XYChart.Series<>(chartDataUpdater.getFoodSeries().getData());
-        oxygen.setName("Oxygen");
-        food.setName("Food");
-        lineChart.getData().add(oxygen);
-        lineChart.getData().add(food);
+        for (XYChart.Series<String, Number> series : chartDataUpdater.getSeries()) {
+            lineChart.getData().add(new XYChart.Series<>(series.getData()));
+        }
+
+        lineChart.getData().get(2).setName("Oxygen");
+        lineChart.getData().get(3).setName("Food");
 
         aquarium.getAmountFood().addListener((observableValue, number, t1) ->
             valueChange((float)t1, plusFoodBtn, minusFoodBtn));
@@ -46,9 +48,9 @@ public class ChartPresenter implements Initializable {
 
     private void valueChange(float val, Button plusBtn, Button minusBtn) {
         if (val > 150)
-            minusBtn.setStyle("-fx-background-color: -fx-accent");
+            minusBtn.setStyle("-fx-background-color: " + (themeManager.getCurrentTheme().contains("Dark") ? "darkred" : "palevioletred"));
         else if (val < 50)
-            plusBtn.setStyle("-fx-background-color: -fx-accent");
+            plusBtn.setStyle("-fx-background-color: " + (themeManager.getCurrentTheme().contains("Dark") ? "darkred" : "palevioletred"));
         else {
             plusBtn.setStyle("");
             minusBtn.setStyle("");
