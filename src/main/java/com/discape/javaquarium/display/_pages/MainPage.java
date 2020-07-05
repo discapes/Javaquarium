@@ -11,7 +11,6 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -23,6 +22,7 @@ public class MainPage extends Page {
     @Inject private Alerts alerts;
     @Inject private Session session;
     private Aquarium aquarium = null;
+    private final String defaultFilePath = System.getProperty("user.home") + "/.javaquariumdefault.txt";
 
     public void setAquarium(Aquarium aquarium) {
         this.aquarium = aquarium;
@@ -33,8 +33,8 @@ public class MainPage extends Page {
     public Parent getView() {
         if (hardReset.get()) {
             try {
-                aquarium = Aquarium.fromString(new String(Files.readAllBytes(Paths.get("javaquarium/fish.txt"))));
-            } catch (Exception e) { System.out.println("No valid default file fish.txt"); }
+                aquarium = Aquarium.fromString(new String(Files.readAllBytes(Paths.get(defaultFilePath))));
+            } catch (Exception e) { System.out.println("No valid default file " + defaultFilePath); }
             if (aquarium == null) aquarium = new Aquarium();
             Injector.injectMembers(Aquarium.class, aquarium);
             aquarium.postConstruct();

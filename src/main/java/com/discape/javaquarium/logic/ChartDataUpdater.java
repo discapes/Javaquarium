@@ -33,10 +33,7 @@ public class ChartDataUpdater {
         return new TimerTask() {
             @Override
             public void run() {
-                try {
                 Platform.runLater(r);
-                } catch (Exception e) {
-                }
             }
         };
     }
@@ -53,7 +50,7 @@ public class ChartDataUpdater {
         return categories;
     }
 
-    private void initialize(int numCategories, int secondsHistory) throws ArithmeticException {
+    private void initialize(int numCategories, int secondsHistory) {
         int categoriesPerSecond = (numCategories - 1) / secondsHistory;
         categories.clear();
         foodSeries.getData().clear();
@@ -69,7 +66,7 @@ public class ChartDataUpdater {
             foodSeries.getData().add(new XYChart.Data<>(toString, amountFood.get()));
             oxygenSeries.getData().add(new XYChart.Data<>(toString, amountOxygen.get()));
         }
-        // to keep range atleast 200
+        // to keep range at least 200
         foodSeries.getData().add(new XYChart.Data<>("nonExisting", 200));
         oxygenSeries.getData().add(new XYChart.Data<>("nonExisting", 200));
 
@@ -84,17 +81,12 @@ public class ChartDataUpdater {
                     XYChart.Data<String, Number> pointToBeMoved;
                     try {
                         pointToBeMoved = series.getData().get(i + 1);
-                    } catch (IndexOutOfBoundsException e) {
-                        // current task is still running while series are cleared and made shorter
-                        // I COULD check if numCategories > series.getData().size().
-                        // checking for an exception is a hack, but it is probably faster so I'll use it.
-                        return;
-                    }
+                    } catch (IndexOutOfBoundsException e) { return; }
                     XYChart.Data<String, Number> newPoint = new XYChart.Data<>(toString, pointToBeMoved.getYValue());
                     series.getData().set(i, newPoint);
                 }
             }
-            //System.out.println(amountFood.get() + "  ---  " + amountOxygen.get());
+
             foodSeries.getData().set(numCategories - 1, new XYChart.Data<>("0.0", amountFood.get()));
             oxygenSeries.getData().set(numCategories - 1, new XYChart.Data<>("0.0", amountOxygen.get()));
         });
@@ -106,9 +98,7 @@ public class ChartDataUpdater {
     }
 
     public void reload() {
-        try {
-            initialize(chartNumData.get() + 1, chartHistory.get());
-        } catch (ArithmeticException ignored) {}
+        initialize(chartNumData.get() + 1, chartHistory.get());
     }
 
     public void init(Aquarium aquarium) {

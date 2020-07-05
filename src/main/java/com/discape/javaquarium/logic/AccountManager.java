@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class AccountManager {
 
-    private final String accountsPath = System.getProperty("user.home") + "/.javaquariumusers";
+    private final String accountsPath = System.getProperty("user.home") + "/.javaquariumusers.txt";
     @Inject private Cryptographer cryptographer;
     private String currentAccount;
 
