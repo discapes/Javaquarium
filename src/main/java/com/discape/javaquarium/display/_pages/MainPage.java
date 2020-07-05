@@ -24,18 +24,6 @@ public class MainPage extends Page {
     @Inject private Session session;
     private Aquarium aquarium = null;
 
-    @PostConstruct
-    private void createAquarium() {
-        try {
-            aquarium = Aquarium.fromString(new String(Files.readAllBytes(Paths.get("javaquarium/fish.txt"))));
-        } catch (Exception e) { System.out.println("No valid default file fish.txt"); }
-        if (aquarium == null) aquarium = new Aquarium();
-        Injector.injectMembers(Aquarium.class, aquarium);
-        aquarium.postConstruct();
-        Injector.setModelOrService(Aquarium.class, aquarium);
-        session.addResetProperty(hardReset);
-    }
-
     public void setAquarium(Aquarium aquarium) {
         this.aquarium = aquarium;
         session.stop();
@@ -44,6 +32,14 @@ public class MainPage extends Page {
     @Override
     public Parent getView() {
         if (hardReset.get()) {
+            try {
+                aquarium = Aquarium.fromString(new String(Files.readAllBytes(Paths.get("javaquarium/fish.txt"))));
+            } catch (Exception e) { System.out.println("No valid default file fish.txt"); }
+            if (aquarium == null) aquarium = new Aquarium();
+            Injector.injectMembers(Aquarium.class, aquarium);
+            aquarium.postConstruct();
+            Injector.setModelOrService(Aquarium.class, aquarium);
+            session.addResetProperty(hardReset);
             aquarium.restartClock();
             chartDataUpdater.init(aquarium);
             hardReset.set(false);

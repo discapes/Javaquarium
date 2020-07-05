@@ -15,10 +15,10 @@ public class Fish {
     private final SimpleIntegerProperty speed = new SimpleIntegerProperty();
     private final SimpleObjectProperty<Color> color = new SimpleObjectProperty<>();
     private final SimpleObjectProperty<FishSpecies> species = new SimpleObjectProperty<>();
-    private final SimpleIntegerProperty saturation = new SimpleIntegerProperty(100);
+    private final SimpleIntegerProperty health = new SimpleIntegerProperty(100);
 
-    public Fish(String name, FishSpecies species, int speed, Color color, int saturation) {
-        this.saturation.set(saturation);
+    public Fish(String name, FishSpecies species, int speed, Color color, int health) {
+        this.health.set(health);
         this.name.set(name);
         this.speed.set(speed);
         this.color.set(color);
@@ -41,7 +41,7 @@ public class Fish {
 
     @Override
     public String toString() {
-        return name.get() + " " + species.get().name() + " " + speed.get() + " " + Utils.colorToString(color.get()) + " " + saturation.get();
+        return name.get() + " " + species.get().name() + " " + speed.get() + " " + Utils.colorToString(color.get()) + " " + health.get();
     }
 
     public SimpleStringProperty nameProperty() { return name; }
@@ -52,11 +52,11 @@ public class Fish {
 
     public SimpleObjectProperty<FishSpecies> speciesProperty() { return species; }
 
-    public SimpleIntegerProperty saturationProperty() { return saturation; }
+    public SimpleIntegerProperty healthProperty() { return health; }
 
-    public Integer getSaturation() { return saturation.get(); }
+    public Integer getHealth() { return health.get(); }
 
-    public void setSaturation(int saturation) { this.saturation.set(saturation); }
+    public void setHealth(int health) { this.health.set(health); }
 
     public String getName() { return name.get(); }
 

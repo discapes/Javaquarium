@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
 
 import javax.inject.Inject;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -16,8 +17,8 @@ import static javafx.collections.FXCollections.observableArrayList;
 
 public class Aquarium {
 
-    private final ReadOnlyFloatWrapper amountOxygen = new ReadOnlyFloatWrapper();
-    private final ReadOnlyFloatWrapper amountFood = new ReadOnlyFloatWrapper();
+    private final ReadOnlyFloatWrapper amountOxygen = new ReadOnlyFloatWrapper(100);
+    private final ReadOnlyFloatWrapper amountFood = new ReadOnlyFloatWrapper(100);
     private final ObservableList<Fish> fishList;
     private final Timer timer = new Timer(true);
     private TimerTask updateTask = null;
@@ -72,6 +73,19 @@ public class Aquarium {
 
         if (amountOxygen.get() < 0) { amountOxygen.set(0); }
         if (amountFood.get() < 0) { amountFood.set(0); }
+
+        if (ticks % 100 == 0 && fishList.size() > 0) {
+            for (Float amount : List.of(amountFood.get(), amountOxygen.get())) {
+                Fish fish = fishList.get(ThreadLocalRandom.current().nextInt(0, fishList.size()));
+                if (amount < 50 || amount > 150) {
+                    fish.setHealth(fish.getHealth() - (int) (Math.abs(100 - amount) * 0.2));
+                    if (fish.getHealth() < 0) fish.setHealth(0);
+                } else {
+                    fish.setHealth(fish.getHealth()+5);
+                    if (fish.getHealth() > 100) fish.setHealth(100);
+                }
+            }
+        }
 
         ticks++;
     }

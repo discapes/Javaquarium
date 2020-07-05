@@ -33,7 +33,10 @@ public class ChartDataUpdater {
         return new TimerTask() {
             @Override
             public void run() {
+                try {
                 Platform.runLater(r);
+                } catch (Exception e) {
+                }
             }
         };
     }
@@ -66,6 +69,9 @@ public class ChartDataUpdater {
             foodSeries.getData().add(new XYChart.Data<>(toString, amountFood.get()));
             oxygenSeries.getData().add(new XYChart.Data<>(toString, amountOxygen.get()));
         }
+        // to keep range atleast 200
+        foodSeries.getData().add(new XYChart.Data<>("nonExisting", 200));
+        oxygenSeries.getData().add(new XYChart.Data<>("nonExisting", 200));
 
         if (currentTask != null) currentTask.cancel();
 
@@ -85,11 +91,7 @@ public class ChartDataUpdater {
                         return;
                     }
                     XYChart.Data<String, Number> newPoint = new XYChart.Data<>(toString, pointToBeMoved.getYValue());
-                    try {
-                        series.getData().set(i, newPoint);
-                    } catch (IllegalArgumentException e) {
-                        e.printStackTrace(); // TODO
-                    }
+                    series.getData().set(i, newPoint);
                 }
             }
             //System.out.println(amountFood.get() + "  ---  " + amountOxygen.get());
@@ -106,11 +108,7 @@ public class ChartDataUpdater {
     public void reload() {
         try {
             initialize(chartNumData.get() + 1, chartHistory.get());
-        } catch (ArithmeticException e) {
-            /* I have spent so much time making this chart, and refactoring and fixing everything.
-            I'm not gonna spend another 10 hours figuring out why I got one single ArithmeticException that one time.
-             */
-        }
+        } catch (ArithmeticException ignored) {}
     }
 
     public void init(Aquarium aquarium) {

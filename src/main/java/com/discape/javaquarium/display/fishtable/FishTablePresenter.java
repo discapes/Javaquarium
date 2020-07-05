@@ -33,7 +33,7 @@ public class FishTablePresenter implements Initializable {
     @FXML private TableColumn<Fish, FishSpecies> speciesCol;
     @FXML private TableColumn<Fish, Integer> speedCol;
     @FXML private TableColumn<Fish, Color> colorCol;
-    @FXML private TableColumn<Fish, Integer> saturationCol;
+    @FXML private TableColumn<Fish, Integer> healthCol;
 
     @Inject private ThemeManager themeManager;
     @Inject private Alerts alerts;
@@ -50,8 +50,8 @@ public class FishTablePresenter implements Initializable {
         speedCol.setCellValueFactory(new PropertyValueFactory<>("speed"));
         speedCol.setCellFactory(TextFieldTableCell.forTableColumn(new CustomIntegerStringConverter()));
 
-        saturationCol.setCellValueFactory(new PropertyValueFactory<>("saturation"));
-        saturationCol.setCellFactory(TextFieldTableCell.forTableColumn(new CustomIntegerStringConverter()));
+        healthCol.setCellValueFactory(new PropertyValueFactory<>("health"));
+        healthCol.setCellFactory(TextFieldTableCell.forTableColumn(new CustomIntegerStringConverter()));
 
         colorCol.setCellValueFactory(new PropertyValueFactory<>("color"));
         colorCol.setCellFactory(param -> new TableCell<>() {

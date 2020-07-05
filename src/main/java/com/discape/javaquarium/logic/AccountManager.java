@@ -66,7 +66,7 @@ public class AccountManager {
                 return false;
             }
         }
-        pw.println(username + " " + cryptographer.saltHashPassword(password) + "\n");
+        pw.println(username + " " + cryptographer.saltHashPassword(password));
         pw.close();
         return true;
     }
