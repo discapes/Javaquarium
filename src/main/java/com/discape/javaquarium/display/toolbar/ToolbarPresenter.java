@@ -49,7 +49,7 @@ public class ToolbarPresenter {
     @Inject private Alerts alerts;
     @FXML private void about() {
         alerts.inform("Javaquarium\n" +
-                "Written by Discape\n" +
+                "\n" +
                 "Manage a virtual aquarium,\n" +
                 "and make sure the fish have appropriate amounts\n" +
                 "of food and oxygen.\n" +

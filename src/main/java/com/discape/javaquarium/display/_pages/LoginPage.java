@@ -1,8 +1,10 @@
 package com.discape.javaquarium.display._pages;
 
 import com.discape.javaquarium.Utils;
+import com.discape.javaquarium.display.Alerts;
 import com.discape.javaquarium.display.StageUtilities;
 import com.discape.javaquarium.logic.AccountManager;
+import com.discape.javaquarium.logic.InvalidUsersFileException;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -14,19 +16,22 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import javax.inject.Inject;
+import java.io.FileNotFoundException;
 
 public class LoginPage extends Page {
 
     @Inject private AccountManager accountManager;
 
+    @Inject private Alerts alerts;
+    @Inject private Book book;
     @Inject private MainPage mainPage;
-    //    @Inject private LoginRegisterPage loginRegisterPage;
     @Inject private StageUtilities stageUtilities;
 
     @Override
     public Parent getView() {
+        LoginRegisterPage loginRegisterPage = book.getPage(LoginRegisterPage.class);
         Button backBtn = new Button("Back");
-        //  backBtn.setOnAction(e -> stageUtilities.setPage(loginRegisterPage));
+        backBtn.setOnAction(e -> stageUtilities.setPage(loginRegisterPage));
         VBox.setMargin(backBtn, new Insets(0, 0, 20, 0));
 
         Label usernameLabel = new Label("Username:");
@@ -42,19 +47,16 @@ public class LoginPage extends Page {
         VBox.setMargin(passwordField, new Insets(0, 0, 10, 0));
 
         Button loginBtn = new Button("Login");
-        loginBtn.setOnAction(e -> {
-            if (accountManager.login(usernameField.getText(), passwordField.getText()))
-                stageUtilities.setPage(mainPage);
-        });
+        loginBtn.setOnAction(e -> tryLogin(usernameField.getText(), passwordField.getText()));
 
         usernameField.setOnKeyReleased(e -> {
             if (e.getCode() == KeyCode.ENTER)
                 passwordField.requestFocus();
         });
         passwordField.setOnKeyReleased(e -> {
-            if (e.getCode() == KeyCode.ENTER)
-                if (accountManager.login(usernameField.getText(), passwordField.getText()))
-                    stageUtilities.setPage(mainPage);
+            if (e.getCode() == KeyCode.ENTER) {
+               tryLogin(usernameField.getText(), passwordField.getText());
+            }
         });
 
         VBox vBox = new VBox(backBtn, usernameLabel, usernameField, passwordLabel, passwordField, loginBtn);
@@ -65,5 +67,19 @@ public class LoginPage extends Page {
     @Override
     public void modifyStage(Stage stage) {
         stage.setTitle("Login");
+    }
+
+    private void tryLogin(String username, String pwd) {
+        try {
+            if (accountManager.login(username, pwd))
+                stageUtilities.setPage(mainPage);
+            else {
+                alerts.errorAlert("Incorrect username or password!");
+            }
+        } catch (FileNotFoundException e) {
+            alerts.errorAlert("Users file not found: " + e.getMessage());
+        } catch (InvalidUsersFileException e) {
+            alerts.errorAlert(e.getMessage());
+        }
     }
 }

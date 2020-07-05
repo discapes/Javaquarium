@@ -46,6 +46,7 @@ public class MainPage extends Page {
         if (hardReset.get()) {
             aquarium.restartClock();
             chartDataUpdater.init(aquarium);
+            hardReset.set(false);
         }
         return new AppView().getView();
     }

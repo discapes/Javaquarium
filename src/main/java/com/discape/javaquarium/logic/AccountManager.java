@@ -1,9 +1,7 @@
 package com.discape.javaquarium.logic;
 
 import javax.inject.Inject;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
 public class AccountManager {
@@ -29,26 +27,48 @@ public class AccountManager {
         currentAccount = "not_logged_in N/A N/A";
     }
 
-    public boolean login(String username, String password) {
-        Scanner scanner;
-        try {
-            scanner = new Scanner(new File(accountsPath));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            System.err.println("This file should have already been created?");
-            return false;
-        }
+    public boolean login(String username, String password) throws FileNotFoundException, InvalidUsersFileException {
+        Scanner scanner = new Scanner(new File(accountsPath));
         while (scanner.hasNext()) {
             String line = scanner.nextLine();
-            String lineUsername = line.substring(0, line.indexOf(" "));
-            String hash = line.substring(line.indexOf(" ") + 1);
-            if (username.equals(lineUsername))
+            String lineUsername;
+            String hash;
+            try {
+                lineUsername = line.substring(0, line.indexOf(" "));
+                hash = line.substring(line.indexOf(" ") + 1);
+            } catch (StringIndexOutOfBoundsException e) {
+                throw new InvalidUsersFileException(line, e);
+            }
+            if (username.equalsIgnoreCase(lineUsername)) {
                 if (cryptographer.testPassword(hash, password)) {
                     currentAccount = line;
                     return true;
                 }
+            }
         }
         return false;
+    }
+
+    public boolean register(String username, String password) throws IOException, InvalidUsersFileException {
+        File file = new File(accountsPath);
+        PrintWriter pw = new PrintWriter(new FileWriter(file, true));
+        Scanner scanner = new Scanner(file);
+        while (scanner.hasNext()) {
+            String line = scanner.nextLine();
+            System.out.println(line);
+            String lineUsername;
+            try {
+                lineUsername = line.substring(0, line.indexOf(" "));
+            } catch (StringIndexOutOfBoundsException e) {
+                throw new InvalidUsersFileException(line, e);
+            }
+            if (lineUsername.equalsIgnoreCase(username)) {
+                return false;
+            }
+        }
+        pw.println(username + " " + cryptographer.saltHashPassword(password) + "\n");
+        pw.close();
+        return true;
     }
 
     public String getUsername() {

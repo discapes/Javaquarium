@@ -85,7 +85,11 @@ public class ChartDataUpdater {
                         return;
                     }
                     XYChart.Data<String, Number> newPoint = new XYChart.Data<>(toString, pointToBeMoved.getYValue());
-                    series.getData().set(i, newPoint);
+                    try {
+                        series.getData().set(i, newPoint);
+                    } catch (IllegalArgumentException e) {
+                        e.printStackTrace(); // TODO
+                    }
                 }
             }
             //System.out.println(amountFood.get() + "  ---  " + amountOxygen.get());

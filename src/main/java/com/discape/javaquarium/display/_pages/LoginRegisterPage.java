@@ -14,6 +14,7 @@ import javax.inject.Inject;
 
 public class LoginRegisterPage extends Page {
 
+    @Inject private Book book;
     @Inject private LoginPage loginPage;
     @Inject private RegisterPage registerPage;
     @Inject private MainPage mainPage;
@@ -23,6 +24,7 @@ public class LoginRegisterPage extends Page {
 
     @Override
     public Parent getView() {
+        book.addPage(this);
         Button loginBtn = new Button("Login");
         loginBtn.setOnAction(e -> stageUtilities.setPage(loginPage));
 
@@ -46,5 +48,6 @@ public class LoginRegisterPage extends Page {
     @Override
     public void modifyStage(Stage stage) {
         stage.setTitle("Javaquarium");
+        stage.centerOnScreen();
     }
 }

@@ -23,6 +23,16 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.github.AdamBien</groupId>
+            <artifactId>afterburner.fx</artifactId>
+            <version>master-v1.7.0-ga24f8cb-1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.aquafx-project</groupId>
+            <artifactId>aquafx</artifactId>
+            <version>0.2</version>
+        </dependency>
+        <dependency>
             <groupId>org.jfxtras</groupId>
             <artifactId>jmetro</artifactId>
             <version>11.6.12</version>
@@ -42,11 +52,6 @@
             <groupId>javax.inject</groupId>
             <artifactId>javax.inject</artifactId>
             <version>1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.airhacks</groupId>
-            <artifactId>afterburner.fx</artifactId>
-            <version>1.6.0</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -164,9 +169,15 @@
 
     <repositories>
         <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+        <repository>
             <id>java-net-repo</id>
             <url>https://repo1.maven.org/maven2/</url>
         </repository>
     </repositories>
+
+
 
 </project>
