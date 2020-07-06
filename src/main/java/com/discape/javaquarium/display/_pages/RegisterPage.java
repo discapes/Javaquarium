@@ -68,6 +68,10 @@ public class RegisterPage extends Page {
     }
 
     private void tryRegister(String username, String pwd) {
+        if (username.length() == 0) {
+            alerts.errorAlert("Can't have empty username");
+            return;
+        }
         try {
             if (accountManager.register(username, pwd)) {
                 alerts.inform("Created user " + username + " with password " + pwd + ".", "Account created");
@@ -75,13 +79,16 @@ public class RegisterPage extends Page {
                     stageUtilities.setPage(mainPage);
                 } else {
                     alerts.errorAlert("Created user but could not log in...");
+                    return;
                 }
             } else {
                 alerts.errorAlert(username + " already exists!");
+                return;
             }
         } catch (IOException e) {
             alerts.errorAlert(e.getMessage());
             System.out.println("Could not write to users files.");
+            return;
         } catch (InvalidUsersFileException e) {
             alerts.errorAlert(e.getMessage());
         }
