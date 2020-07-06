@@ -18,10 +18,8 @@ public class ChartDataUpdater {
     private final Timer timer = new Timer(true);
     @Inject Session session;
     private TimerTask currentTask = null;
-    @Inject
-    private IntegerProperty chartNumData;
-    @Inject
-    private IntegerProperty chartHistory;
+    @Inject private IntegerProperty chartNumData;
+    @Inject private IntegerProperty chartHistory;
     private Aquarium aquarium;
 
     private final XYChart.Series<String, Number> paddingSeries1 = new XYChart.Series<>();
@@ -34,19 +32,22 @@ public class ChartDataUpdater {
 
     // so we can haz lambdas
     private static TimerTask wrap(Runnable r) {
-        return new TimerTaskCatcher(new TimerTask() {
-            @Override
-            public void run() {
-                Platform.runLater(r);
+        return new TimerTask() {
+                @Override public void run() { Platform.runLater(r); }
+        };
+        /*return new TimerTaskCatcher(
+            new TimerTask() {
+                @Override public void run() { Platform.runLater(r); }
+            },
+            (t, e) -> {
+                System.err.println(t);
+                e.printStackTrace();
             }
-        }, (t, e) -> {
-            System.err.println(t);
-            e.printStackTrace();
-            /* This would catch any uncaught exceptions in the TimerTask thread,
+        );*/
+        /*   This would catch any uncaught exceptions in the TimerTask thread,
             but I forgot that I used Platform.runLater(), which does it in the JavaFX thread.
             This was a good experience though.
-             */
-        });
+            PS: Also for some reason TimerTaskCatchers can't be cancelled, weird. */
     }
 
     public List<XYChart.Series<String, Number>> getSeries() {

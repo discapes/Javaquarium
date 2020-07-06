@@ -14,8 +14,11 @@ public class Session {
     private final ArrayList<BooleanProperty> resets = new ArrayList<>();
 
     public void stop() {
-        for (TimerTask task : tasks)
+        for (TimerTask task : tasks) {
             task.cancel();
+            tasks.remove(task);
+        }
+
         for (BooleanProperty property : resets)
             property.set(true);
         aquariumFile.nullAquarium();

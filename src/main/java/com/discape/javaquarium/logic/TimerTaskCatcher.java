@@ -6,6 +6,7 @@ public final class TimerTaskCatcher extends TimerTask {
     private final TimerTask orig;
     private final Thread.UncaughtExceptionHandler handler;
 
+    @SuppressWarnings("unused")
     public TimerTaskCatcher(TimerTask orig, Thread.UncaughtExceptionHandler handler) {
         if (orig == null || handler == null) {
             throw new NullPointerException();
