@@ -36,7 +36,7 @@ public class JavaquariumApplication extends Application {
         Injector.setConfigurationSource(customProperties::get);
 
         Injector.injectMembers(this.getClass(), this);
-
+        Thread.setDefaultUncaughtExceptionHandler((t, e) -> {});
         stageUtilities.setPage(loginRegisterPage);
         stage.show();
     }

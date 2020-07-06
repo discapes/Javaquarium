@@ -37,7 +37,7 @@ public class Aquarium {
 
     public Aquarium(ObservableList<Fish> fishList) {
         this.fishList = fishList;
-        for (Fish fish : fishList) over0HPFish.add(fish);
+        over0HPFish.addAll(fishList);
     }
 
     private static void add(float val, ReadOnlyFloatWrapper wrapper) {

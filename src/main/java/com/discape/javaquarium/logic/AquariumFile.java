@@ -28,6 +28,11 @@ public class AquariumFile {
     @Inject private Alerts alerts;
     @Inject private Cryptographer cryptographer;
     private Aquarium aquarium = null;
+
+    public void nullAquarium() {
+        aquarium = null;
+    }
+
     @Inject private StageUtilities stageUtilities;
 
     public String getDefaultFilePath() {

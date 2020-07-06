@@ -24,22 +24,29 @@ public class ChartDataUpdater {
     private IntegerProperty chartHistory;
     private Aquarium aquarium;
 
-    private XYChart.Series<String, Number> paddingSeries1 = new XYChart.Series<>();
-    private XYChart.Series<String, Number> paddingSeries2 = new XYChart.Series<>();
-    private XYChart.Series<String, Number> foodSeries = new XYChart.Series<>();
-    private XYChart.Series<String, Number> oxygenSeries = new XYChart.Series<>();
-    private XYChart.Series<String, Number> topSeries = new XYChart.Series<>();
-    private XYChart.Series<String, Number> bottomSeries = new XYChart.Series<>();
-    private ObservableList<String> categories = observableArrayList();
+    private final XYChart.Series<String, Number> paddingSeries1 = new XYChart.Series<>();
+    private final XYChart.Series<String, Number> paddingSeries2 = new XYChart.Series<>();
+    private final XYChart.Series<String, Number> foodSeries = new XYChart.Series<>();
+    private final XYChart.Series<String, Number> oxygenSeries = new XYChart.Series<>();
+    private final XYChart.Series<String, Number> topSeries = new XYChart.Series<>();
+    private final XYChart.Series<String, Number> bottomSeries = new XYChart.Series<>();
+    private final ObservableList<String> categories = observableArrayList();
 
     // so we can haz lambdas
     private static TimerTask wrap(Runnable r) {
-        return new TimerTask() {
+        return new TimerTaskCatcher(new TimerTask() {
             @Override
             public void run() {
                 Platform.runLater(r);
             }
-        };
+        }, (t, e) -> {
+            System.err.println(t);
+            e.printStackTrace();
+            /* This would catch any uncaught exceptions in the TimerTask thread,
+            but I forgot that I used Platform.runLater(), which does it in the JavaFX thread.
+            This was a good experience though.
+             */
+        });
     }
 
     public List<XYChart.Series<String, Number>> getSeries() {
@@ -86,11 +93,7 @@ public class ChartDataUpdater {
                         pointToBeMoved = series.getData().get(i + 1);
                     } catch (IndexOutOfBoundsException e) { return; }
                     XYChart.Data<String, Number> newPoint = new XYChart.Data<>(toString, pointToBeMoved.getYValue());
-                    try {
-                        series.getData().set(i, newPoint);
-                    } catch (RuntimeException e) {
-                        System.out.println("Caught " + e.getMessage());
-                    }
+                    series.getData().set(i, newPoint);
                 }
             }
 

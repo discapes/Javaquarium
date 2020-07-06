@@ -6,7 +6,6 @@ import com.discape.javaquarium.display.search.SearchView;
 import com.discape.javaquarium.display.toolbar.ToolbarView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.SplitPane;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;

@@ -1,6 +1,5 @@
 package com.discape.javaquarium.display._pages;
 
-import com.airhacks.afterburner.injection.Injector;
 import com.discape.javaquarium.display.Alerts;
 import com.discape.javaquarium.display.app.AppView;
 import com.discape.javaquarium.logic.Aquarium;
@@ -22,7 +21,6 @@ public class MainPage extends Page {
     @Inject private Alerts alerts;
     @Inject private Session session;
     @Inject private AquariumFile aquariumFile;
-    private Aquarium aquarium;
 
     @PostConstruct void postConstruct() {
         session.addResetProperty(hardReset);
@@ -31,7 +29,7 @@ public class MainPage extends Page {
     @Override
     public Parent getView() {
         if (hardReset.get()) {
-            aquarium = aquariumFile.load();
+            Aquarium aquarium = aquariumFile.load();
 
             aquarium.restartClock();
             chartDataUpdater.init(aquarium);

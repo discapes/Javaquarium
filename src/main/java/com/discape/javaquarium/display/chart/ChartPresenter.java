@@ -12,7 +12,6 @@ import javafx.scene.control.Button;
 
 import javax.inject.Inject;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class ChartPresenter implements Initializable {
