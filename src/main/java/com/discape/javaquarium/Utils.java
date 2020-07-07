@@ -5,7 +5,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 
 @SuppressWarnings("unused")
-public class Utils {
+
+/** Some utility functions, strictly static. */
+public abstract class Utils {
 
     public static String colorToString(Color color) {
         return "#" + color.toString().substring(2, 8);
