@@ -5,6 +5,7 @@ import com.discape.javaquarium.backend.Alerts;
 import com.discape.javaquarium.backend.SessionManager;
 import com.discape.javaquarium.frontend.persistent.IMainView;
 import javafx.scene.Parent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import javax.inject.Inject;
@@ -19,13 +20,6 @@ public class AppView extends FXMLView implements IMainView {
 
     public AppView() {
         root = super.getView();
-    }
-
-    @Override public Parent getRoot() {
-        return root;
-    }
-
-    @Override public void modifyStage(Stage stage) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double scrWidth = screenSize.getWidth();
         double scrHeight = screenSize.getHeight();
@@ -37,14 +31,21 @@ public class AppView extends FXMLView implements IMainView {
         if (1000 > scrWidth) {
             width = (int)scrWidth - 100;
         }
+        ((AnchorPane) root).setPrefHeight(height);
+        ((AnchorPane) root).setPrefWidth(width);
+    }
+
+    @Override public Parent getRoot() {
+        return root;
+    }
+
+    @Override public void modifyStage(Stage stage) {
         stage.setTitle("Javaquarium");
         stage.centerOnScreen();
         stage.setOnCloseRequest(e -> {
             if (!alerts.confirm("Close?")) e.consume();
             sessionManager.quit();
         });
-        stage.setHeight(height);
-        stage.setWidth(width);
     }
 
 }

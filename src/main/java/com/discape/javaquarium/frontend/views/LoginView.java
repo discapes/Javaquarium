@@ -1,12 +1,12 @@
 package com.discape.javaquarium.frontend.views;
 
 import com.discape.javaquarium.Utils;
-import com.discape.javaquarium.frontend.views.app.AppView;
 import com.discape.javaquarium.backend.AccountManager;
 import com.discape.javaquarium.backend.Alerts;
 import com.discape.javaquarium.backend.InvalidUsersFileException;
 import com.discape.javaquarium.frontend.persistent.IMainView;
 import com.discape.javaquarium.frontend.persistent.IViewSetter;
+import com.discape.javaquarium.frontend.views.app.AppView;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;

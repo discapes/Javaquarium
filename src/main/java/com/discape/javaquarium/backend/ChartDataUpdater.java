@@ -6,6 +6,7 @@ import javafx.beans.property.ReadOnlyFloatProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Timer;
@@ -58,8 +59,8 @@ public class ChartDataUpdater {
         return categories;
     }
 
-
-    public ChartDataUpdater() {
+    @PostConstruct
+    private void init() {
         foodSeries.setName("Food");
         oxygenSeries.setName("Oxygen");
         chartNumData.addListener((observable, oldValue, newValue) -> tryReset());

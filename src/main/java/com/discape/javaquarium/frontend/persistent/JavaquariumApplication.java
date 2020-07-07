@@ -6,14 +6,10 @@ import javafx.application.Application;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.stage.Stage;
 
-import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 
 public class JavaquariumApplication extends Application {
-
-    @Inject private IViewSetter viewSetter;
-    @Inject private StartView loginRegisterView;
 
     public static void main(String[] args) {
         launch(args);
@@ -29,14 +25,16 @@ public class JavaquariumApplication extends Application {
 
     @Override
     public void start(Stage stage) {
+      //  Thread.setDefaultUncaughtExceptionHandler((t, e) -> {});
         Injector.setModelOrService(Stage.class, stage);
 
         Map<String, Object> customProperties = new HashMap<>(getDefaults());
-        //noinspection SuspiciousMethodCalls
         Injector.setConfigurationSource(customProperties::get);
 
-        Injector.injectMembers(this.getClass(), this);
-        Thread.setDefaultUncaughtExceptionHandler((t, e) -> {});
+        IViewSetter viewSetter = new LazyViewSetter();
+        Injector.injectMembers(viewSetter.getClass(), viewSetter);
+        Injector.setModelOrService(IViewSetter.class, viewSetter);
+
         viewSetter.applyView(StartView.class);
         stage.show();
     }

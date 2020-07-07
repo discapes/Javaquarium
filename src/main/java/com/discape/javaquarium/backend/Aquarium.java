@@ -6,6 +6,7 @@ import javafx.beans.property.ReadOnlyFloatWrapper;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Scanner;
@@ -60,6 +61,10 @@ public class Aquarium {
     public Aquarium(ObservableList<Fish> fish) {
         this.fish = fish;
         over0HPFish.addAll(fish);
+    }
+
+    @PostConstruct
+    private void init() {
         tickRate.addListener((observable, oldValue, newValue) -> startClock()); /* Clock should be restarted if tick rate changes */
     }
 
@@ -81,7 +86,6 @@ public class Aquarium {
                     Integer.parseInt(parts[4])));
         }
         over0HPFish.addAll(fish);
-        tickRate.addListener((observable, oldValue, newValue) -> startClock()); /* Clock should be restarted if tick rate changes */
     }
 
     /* So we only decrease HP from fish that are over 0 HP */

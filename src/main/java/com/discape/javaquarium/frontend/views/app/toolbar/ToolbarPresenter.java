@@ -1,9 +1,9 @@
 package com.discape.javaquarium.frontend.views.app.toolbar;
 
-import com.discape.javaquarium.frontend.views.StartView;
-import com.discape.javaquarium.frontend.views.settings.SettingsView;
 import com.discape.javaquarium.backend.*;
 import com.discape.javaquarium.frontend.persistent.IViewSetter;
+import com.discape.javaquarium.frontend.views.StartView;
+import com.discape.javaquarium.frontend.views.settings.SettingsView;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;

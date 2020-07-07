@@ -68,6 +68,7 @@ public class AquariumFile {
             aquarium = new Aquarium(aquariumStr);
         } catch (Exception e) {
             alerts.errorAlert("Invalid data: " + e);
+            e.printStackTrace();
             return null;
         }
         alerts.inform("Loaded aquarium from " + file.getPath() + (key.length() > 0 ? " encrypted with " + key : ""));

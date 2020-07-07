@@ -1,10 +1,10 @@
 package com.discape.javaquarium.frontend.views;
 
 import com.discape.javaquarium.Utils;
-import com.discape.javaquarium.frontend.views.app.AppView;
 import com.discape.javaquarium.backend.AccountManager;
 import com.discape.javaquarium.frontend.persistent.IMainView;
 import com.discape.javaquarium.frontend.persistent.IViewSetter;
+import com.discape.javaquarium.frontend.views.app.AppView;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -48,5 +48,6 @@ public class StartView implements IMainView {
     @Override public void modifyStage(Stage stage) {
         stage.setTitle("Javaquarium");
         stage.centerOnScreen();
+        stage.setOnCloseRequest(e -> {});
     }
 }

@@ -28,6 +28,7 @@ public class AccountManager {
     /** Logs in as an arbitrary guest user, doesn't read any files. */
     public void loginAsGuest() {
         currentAccount = "Guest N/A N/A";
+        sessionManager.start();
     }
 
     /** Logs out and stops the sessionManager. */
