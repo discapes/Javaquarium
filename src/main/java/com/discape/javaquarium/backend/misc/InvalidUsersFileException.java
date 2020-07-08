@@ -1,4 +1,4 @@
-package com.discape.javaquarium.backend;
+package com.discape.javaquarium.backend.misc;
 
 /** An exception thrown when .javaquariumusers.txt is invalid */
 public class InvalidUsersFileException extends Exception {

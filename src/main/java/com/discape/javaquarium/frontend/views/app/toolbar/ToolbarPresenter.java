@@ -1,6 +1,11 @@
 package com.discape.javaquarium.frontend.views.app.toolbar;
 
-import com.discape.javaquarium.backend.*;
+import com.discape.javaquarium.backend.AccountManager;
+import com.discape.javaquarium.backend.Alerts;
+import com.discape.javaquarium.backend.listeners.ChartDataUpdater;
+import com.discape.javaquarium.backend.Fish;
+import com.discape.javaquarium.backend.aquarium.Aquarium;
+import com.discape.javaquarium.backend.listeners.AquariumLoader;
 import com.discape.javaquarium.frontend.persistent.IViewSetter;
 import com.discape.javaquarium.frontend.views.StartView;
 import com.discape.javaquarium.frontend.views.settings.SettingsView;
@@ -11,22 +16,20 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
 import javax.inject.Inject;
 import java.io.File;
+import java.io.IOException;
 import java.util.Optional;
 
 public class ToolbarPresenter {
 
-    @Inject private AquariumFile aquariumFile;
+    @Inject private AquariumLoader aquariumLoader;
     @Inject private AccountManager accountManager;
-    @Inject private SessionManager sessionManager;
     @Inject private Aquarium aquarium;
     @Inject private IViewSetter viewSetter;
     @Inject private ChartDataUpdater chartDataUpdater;
-
-    @FXML private void resetChart() {
-        chartDataUpdater.tryReset();
-    }
 
     @FXML private void nuke() {
         if (alerts.confirm("Delete all fish?"))
@@ -88,18 +91,23 @@ public class ToolbarPresenter {
         VBox vBox = new VBox(new Label("Key: "), keyField, button);
         Stage stage = viewSetter.quickStage(vBox, "Key?");
 
-        button.setOnAction(evt -> {
-                    aquariumFile.save(keyField.getText(), file, aquarium);
-                    stage.close();
-                }
+        button.setOnAction(evt -> trySave(file, keyField.getText(), stage)
         );
         keyField.setOnKeyReleased(e -> {
-            if (e.getCode() == KeyCode.ENTER) {
-                aquariumFile.save(keyField.getText(), file, aquarium);
-                stage.close();
-            }
+            if (e.getCode() == KeyCode.ENTER) trySave(file, keyField.getText(), stage);
         });
         stage.showAndWait();
+    }
+
+    private void trySave(File file, String key, Stage stage) {
+        try {
+            aquariumLoader.save(file, key);
+            alerts.inform("Saved aquarium to " + file.getPath() + (key.length()>0 ? " encrypted with key " + key : ""));
+        } catch (IOException e) {
+            alerts.errorAlert("Could not write to file: " + e);
+            e.printStackTrace();
+        }
+        stage.close();
     }
 
     @FXML private void loadFromFile() {
@@ -118,16 +126,24 @@ public class ToolbarPresenter {
         VBox vBox = new VBox(new Label("Key: "), keyField, button);
         Stage stage = viewSetter.quickStage(vBox, "Key?");
 
-        keyField.setOnKeyReleased(e -> {
-            if (e.getCode() == KeyCode.ENTER) {
-                sessionManager.restart(aquariumFile.read(keyField.getText(), file));
-                stage.close();
-            }
+        keyField.setOnKeyReleased(evt -> {
+            if (evt.getCode() == KeyCode.ENTER) tryLoad(file, keyField.getText(), stage);
         });
-        button.setOnAction(evt -> {
-            sessionManager.restart(aquariumFile.read(keyField.getText(), file));
-            stage.close();
-        });
+        button.setOnAction(evt -> tryLoad(file, keyField.getText(), stage));
         stage.showAndWait();
+    }
+
+    private void tryLoad(File file, String key, Stage stage) {
+        try {
+            aquariumLoader.load(file, key);
+            alerts.inform("Loaded aquarium from " + file.getPath() + (key.length()>0 ? " encrypted with key " + key : ""));
+        } catch (IOException e) {
+            alerts.errorAlert("Could not read from file: " + e);
+            e.printStackTrace();
+        } catch (BadPaddingException | IllegalBlockSizeException e) {
+            alerts.errorAlert("Wrong key or invalid data!");
+            e.printStackTrace();
+        }
+        stage.close();
     }
 }

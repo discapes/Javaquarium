@@ -1,12 +1,13 @@
-package com.discape.javaquarium.backend;
+package com.discape.javaquarium.backend.listeners;
 
+import com.discape.javaquarium.backend.aquarium.Aquarium;
+import com.discape.javaquarium.backend.events.Events;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ReadOnlyFloatProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
 
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Timer;
@@ -59,38 +60,27 @@ public class ChartDataUpdater {
         return categories;
     }
 
-    @PostConstruct
-    private void init() {
+    public ChartDataUpdater() {
         foodSeries.setName("Food");
         oxygenSeries.setName("Oxygen");
-        chartNumData.addListener((observable, oldValue, newValue) -> tryReset());
-        chartHistory.addListener((observable, oldValue, newValue) -> tryReset());
-    }
-
-    /** Stops and starts the chart if it already has a source of data. */
-    public void tryReset() {
-        if (aquarium != null) {
-            stop();
+        Events.CHARTSETTINGCHANGE.e().addListener(v -> {
+            stopAndClear();
             initializeAndStartUpdater(chartNumData.get() + 1, chartHistory.get());
-        }
+        });
+        Events.NEWAQUARIUM.e().addListener(a -> {
+            getSeries().forEach(s -> s.getData().clear());
+            this.aquarium = (Aquarium) a;
+            this.oxygen = aquarium.getOxygen();
+            this.food = aquarium.getFood();
+        });
     }
 
-    /**
-     * Initializes the chart and starts the updater.
-     * @param aquarium source of data.
-     */
-    public void start(Aquarium aquarium) {
-        this.aquarium = aquarium;
-        this.oxygen = aquarium.getOxygen();
-        this.food = aquarium.getFood();
-        initializeAndStartUpdater(chartNumData.get() + 1, chartHistory.get());
-    }
 
     /** Stops the updater and clears the data and categories. */
-    public void stop() {
+    private void stopAndClear() {
         if (currentTask != null) currentTask.cancel();
-        getSeries().forEach(s -> s.getData().clear());
         categories.clear();
+        getSeries().forEach(s -> s.getData().clear());
     }
 
     private void initializeAndStartUpdater(int numCategories, int secondsHistory) {

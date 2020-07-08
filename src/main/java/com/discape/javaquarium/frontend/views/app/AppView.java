@@ -1,8 +1,8 @@
 package com.discape.javaquarium.frontend.views.app;
 
 import com.airhacks.afterburner.views.FXMLView;
+import com.discape.javaquarium.backend.AccountManager;
 import com.discape.javaquarium.backend.Alerts;
-import com.discape.javaquarium.backend.SessionManager;
 import com.discape.javaquarium.frontend.persistent.IMainView;
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
@@ -13,8 +13,8 @@ import java.awt.*;
 
 public class AppView extends FXMLView implements IMainView {
 
+    @Inject private AccountManager accountManager;
     @Inject private Alerts alerts;
-    @Inject private SessionManager sessionManager;
 
     private final Parent root;
 
@@ -44,7 +44,7 @@ public class AppView extends FXMLView implements IMainView {
         stage.centerOnScreen();
         stage.setOnCloseRequest(e -> {
             if (!alerts.confirm("Close?")) e.consume();
-            sessionManager.quit();
+            else accountManager.logout();
         });
     }
 

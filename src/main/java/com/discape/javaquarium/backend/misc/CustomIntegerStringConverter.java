@@ -1,4 +1,4 @@
-package com.discape.javaquarium.backend;
+package com.discape.javaquarium.backend.misc;
 
 import javafx.util.converter.IntegerStringConverter;
 

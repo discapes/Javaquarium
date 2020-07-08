@@ -1,7 +1,7 @@
 package com.discape.javaquarium.frontend.views.app.chart;
 
-import com.discape.javaquarium.backend.Aquarium;
-import com.discape.javaquarium.backend.ChartDataUpdater;
+import com.discape.javaquarium.backend.listeners.ChartDataUpdater;
+import com.discape.javaquarium.backend.aquarium.Aquarium;
 import com.discape.javaquarium.frontend.persistent.ThemeManager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

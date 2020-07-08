@@ -31,6 +31,7 @@ public class StartView implements IMainView {
         Button guestBtn = new Button("Guest");
         guestBtn.setOnAction(e -> {
             accountManager.loginAsGuest();
+            System.out.println("logged");
             viewSetter.applyView(AppView.class);
         });
 

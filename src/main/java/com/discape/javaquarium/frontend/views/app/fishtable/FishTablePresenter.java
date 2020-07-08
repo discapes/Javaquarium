@@ -1,7 +1,11 @@
 package com.discape.javaquarium.frontend.views.app.fishtable;
 
 import com.discape.javaquarium.Utils;
-import com.discape.javaquarium.backend.*;
+import com.discape.javaquarium.backend.Alerts;
+import com.discape.javaquarium.backend.Fish;
+import com.discape.javaquarium.backend.FishSpecies;
+import com.discape.javaquarium.backend.aquarium.Aquarium;
+import com.discape.javaquarium.backend.misc.CustomIntegerStringConverter;
 import com.discape.javaquarium.frontend.persistent.IViewSetter;
 import com.discape.javaquarium.frontend.persistent.ThemeManager;
 import javafx.fxml.FXML;

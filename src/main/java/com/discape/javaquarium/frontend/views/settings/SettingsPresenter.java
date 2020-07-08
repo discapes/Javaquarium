@@ -1,8 +1,8 @@
 package com.discape.javaquarium.frontend.views.settings;
 
 import com.discape.javaquarium.backend.Alerts;
+import com.discape.javaquarium.frontend.JavaquariumApplication;
 import com.discape.javaquarium.frontend.persistent.IViewSetter;
-import com.discape.javaquarium.frontend.persistent.JavaquariumApplication;
 import com.discape.javaquarium.frontend.persistent.ThemeManager;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;

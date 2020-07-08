@@ -1,5 +1,8 @@
 package com.discape.javaquarium.backend;
 
+import com.discape.javaquarium.backend.events.Events;
+import com.discape.javaquarium.backend.misc.InvalidUsersFileException;
+
 import javax.inject.Inject;
 import java.io.*;
 import java.util.Scanner;
@@ -10,7 +13,6 @@ import java.util.Scanner;
 public class AccountManager {
 
     @Inject private Cryptographer cryptographer;
-    @Inject private SessionManager sessionManager;
     private final String accountsPath = System.getProperty("user.home") + "/.javaquariumusers.txt";
     private String currentAccount;
     /* "username base64salt base64hash" */
@@ -28,13 +30,13 @@ public class AccountManager {
     /** Logs in as an arbitrary guest user, doesn't read any files. */
     public void loginAsGuest() {
         currentAccount = "Guest N/A N/A";
-        sessionManager.start();
+        Events.LOGIN.e().fire(currentAccount);
     }
 
     /** Logs out and stops the sessionManager. */
     public void logout() {
+        Events.LOGOUT.e().fire(currentAccount);
         currentAccount = "not_logged_in N/A N/A";
-        sessionManager.quit();
     }
 
     /**
@@ -60,7 +62,7 @@ public class AccountManager {
             if (username.equalsIgnoreCase(lineUsername)) {
                 if (cryptographer.testPassword(hash, password)) {
                     currentAccount = line;
-                    sessionManager.start();
+                    Events.LOGIN.e().fire(currentAccount);
                     return true;
                 }
             }

@@ -20,16 +20,17 @@ public class AppPresenter implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-//        chartPane.getChildren().add(new ChartView().getView());
-//        searchPane.getChildren().add(new SearchView().getView());
-//        toolbarPane.getChildren().add(new ToolbarView().getView());
-//        tablePane.getChildren().add(new FishTableView().getView());
+        chartPane.getChildren().add(new ChartView().getView());
+        searchPane.getChildren().add(new SearchView().getView());
+        toolbarPane.getChildren().add(new ToolbarView().getView());
+        tablePane.getChildren().add(new FishTableView().getView());
 
         // supa fast
+        /*
         new ChartView().getViewAsync(chartPane.getChildren()::add);
         new SearchView().getViewAsync(searchPane.getChildren()::add);
         new ToolbarView().getViewAsync(toolbarPane.getChildren()::add);
-        new FishTableView().getViewAsync(tablePane.getChildren()::add);
+        new FishTableView().getViewAsync(tablePane.getChildren()::add);*/
     }
 
 }

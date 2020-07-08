@@ -1,12 +1,15 @@
-package com.discape.javaquarium.backend;
+package com.discape.javaquarium.backend.aquarium;
 
+import com.discape.javaquarium.backend.Fish;
+import com.discape.javaquarium.backend.FishSpecies;
+import com.discape.javaquarium.backend.Logger;
+import com.discape.javaquarium.backend.events.Events;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ReadOnlyFloatProperty;
 import javafx.beans.property.ReadOnlyFloatWrapper;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
 
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Scanner;
@@ -55,24 +58,18 @@ public class Aquarium {
 
     /** Aquarium with no fish. */
     public Aquarium() {
-        this(observableArrayList());
+        Logger.log("Aquarium", "Aquarium()");
+        this.fish = observableArrayList();
+        addListeners();
     }
 
-    public Aquarium(ObservableList<Fish> fish) {
-        this.fish = fish;
-        over0HPFish.addAll(fish);
-    }
-
-    @PostConstruct
-    private void init() {
-        tickRate.addListener((observable, oldValue, newValue) -> startClock()); /* Clock should be restarted if tick rate changes */
-    }
 
     /**
      * Aquarium from a string that contains all of the fish.
      * @throws IndexOutOfBoundsException string is invalid.
      * */
     public Aquarium(String string) throws IndexOutOfBoundsException {
+        Logger.log("Aquarium", "Aquarium(String)");
         fish = observableArrayList();
         Scanner scanner = new Scanner(string);
         while (scanner.hasNext()) {
@@ -86,6 +83,18 @@ public class Aquarium {
                     Integer.parseInt(parts[4])));
         }
         over0HPFish.addAll(fish);
+        addListeners();
+    }
+
+    private void addListeners() {
+        Events.TICKRATECHANGE.e().addListener(v -> restartClock());
+        Events.NEWAQUARIUM.e().addListener(aquarium -> {
+            if (aquarium == this) restartClock();
+            else {
+                clockTask.cancel();
+                Logger.log(this, "clockTask.cancel()");
+            }
+        });
     }
 
     /* So we only decrease HP from fish that are over 0 HP */
@@ -145,13 +154,13 @@ public class Aquarium {
     private final Timer timer = new Timer(true);
     private TimerTask clockTask = null;
     /** Threads are added to sessionManager, as running tasks logically are part of a sessionManager. */
-    @Inject private SessionManager sessionManager;
     /** Tick rate in milliseconds, changed by settings. */
     @Inject private IntegerProperty tickRate;
     /** Starts/Restarts the clock, running once per tickRate ms.
      * @return The scheduled TimerTask.
      * */
-    public TimerTask startClock() {
+    public void restartClock() {
+        Logger.log(this, "restartClock()");
         if (clockTask != null) clockTask.cancel();
         clockTask = new TimerTask() {
             @Override
@@ -160,7 +169,6 @@ public class Aquarium {
             }
         };
         if (tickRate.get() > 0) timer.scheduleAtFixedRate(clockTask, tickRate.get(), tickRate.get());
-        return clockTask;
     }
 
     @Override public String toString() {
