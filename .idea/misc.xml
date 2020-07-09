@@ -1,5 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="EntryPointsManager">
+    <list size="3">
+      <item index="0" class="java.lang.String" itemvalue="com.management.AfterInjection" />
+      <item index="1" class="java.lang.String" itemvalue="com.management.Dependency" />
+      <item index="2" class="java.lang.String" itemvalue="com.management.OnEvent" />
+    </list>
+    <pattern value="com.javaquarium.backend.services.AlertService" />
+    <pattern value="com.javaquarium.views.app.AppView" />
+    <pattern value="com.javaquarium.backend.services.AquariumLoaderService" />
+    <pattern value="com.javaquarium.backend.services.AquariumService" />
+    <pattern value="com.javaquarium.backend.services.ChartDataService" />
+    <pattern value="com.javaquarium.backend.services.CryptographyService" method="CryptographyService" />
+    <pattern value="com.javaquarium.backend.Fish" method="healthProperty" />
+    <pattern value="com.javaquarium.backend.Fish" method="nameProperty" />
+    <pattern value="com.javaquarium.backend.Fish" method="speciesProperty" />
+    <pattern value="com.javaquarium.backend.Fish" method="speedProperty" />
+    <pattern value="com.javaquarium.backend.services.ThemeService" method="ThemeService" />
+    <pattern value="com.management.FXMLView" hierarchically="true" />
+    <pattern value="com.javaquarium.views.app.AppView" method="getView" />
+    <pattern value="com.javaquarium.views.LoginView" method="getView" />
+    <pattern value="com.javaquarium.views.RegisterView" method="getView" />
+    <pattern value="com.javaquarium.views.StartView" method="getView" />
+  </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="MavenProjectsManager">
     <option name="originalFiles">

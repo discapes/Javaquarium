@@ -1,11 +1,13 @@
-package com.javaquarium.backend.aquarium;
+package com.javaquarium.backend;
 
 import javafx.scene.paint.Color;
 
 import static javafx.scene.paint.Color.BLUE;
 import static javafx.scene.paint.Color.PALEGOLDENROD;
 
-/** An enumerator with all the possible species of fish, their base speeds and base colors */
+/**
+ * An enumerator with all the possible species of fish, their base speeds and base colors
+ */
 public enum FishSpecies {
     BLUETANG(100, BLUE, "Blue tang"),
     COD(120, PALEGOLDENROD, "Cod");

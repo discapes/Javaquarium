@@ -3,7 +3,6 @@ package com.javaquarium.backend.services;
 import com.javaquarium.Event;
 import com.javaquarium.backend.Settings;
 import com.management.Dependency;
-import com.management.LawnMower;
 import com.management.OnEvent;
 import com.management.Service;
 
@@ -31,6 +30,7 @@ public class AquariumLoaderService {
         } catch (IOException e) {
             alertService.errorAlert("Could not write to " + file.getPath() + " : " + e);
         }
+        alertService.inform("Saved aquarium to " + file.getPath() + (key.length() > 0 ? " encrypted with key " + key : ""));
     }
 
     public void load(File file, String key) {
@@ -50,9 +50,10 @@ public class AquariumLoaderService {
             }
         }
         if (!aquariumService.loadFromString(str)) {
-            alertService.errorAlert("Invalid aquarium file " + Settings.defaultAquarium);
+            alertService.errorAlert("Invalid aquarium file " + file);
             return;
         }
+        alertService.inform("Loaded aquarium from " + file.getPath() + (key.length() > 0 ? " encrypted with key " + key : ""));
     }
 
     @OnEvent(Event.LOGIN)

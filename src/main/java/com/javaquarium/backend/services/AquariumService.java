@@ -1,9 +1,9 @@
 package com.javaquarium.backend.services;
 
 import com.javaquarium.Event;
+import com.javaquarium.backend.Fish;
+import com.javaquarium.backend.FishSpecies;
 import com.javaquarium.backend.Settings;
-import com.javaquarium.backend.aquarium.Fish;
-import com.javaquarium.backend.aquarium.FishSpecies;
 import com.management.OnEvent;
 import com.management.Service;
 import javafx.beans.property.ReadOnlyDoubleProperty;
@@ -22,16 +22,22 @@ import static javafx.collections.FXCollections.observableArrayList;
 @Service
 public class AquariumService {
 
+    private final ReadOnlyDoubleWrapper oxygen = new ReadOnlyDoubleWrapper(100);
+    private final ReadOnlyDoubleWrapper food = new ReadOnlyDoubleWrapper(100);
+    private final ObservableList<Fish> over0HPFish = observableArrayList();
+    private final ObservableList<Fish> under100HPFish = observableArrayList();
+    private final Timer timer = new Timer(true);
+    private final ObservableList<Fish> fish = observableArrayList();
+    private int ticks = 0;
+    private double foodAddAmount = 0;
+    private double oxygenAddAmount = 0;
+    private TimerTask timerTask;
+
     public ObservableList<Fish> getFish() {
         return fish;
     }
 
-    private ObservableList<Fish> fish = observableArrayList();
-    private final ReadOnlyDoubleWrapper oxygen = new ReadOnlyDoubleWrapper(100);
-    private final ReadOnlyDoubleWrapper food = new ReadOnlyDoubleWrapper(100);
-
-    private final ObservableList<Fish> over0HPFish = observableArrayList();
-    private final ObservableList<Fish> under100HPFish = observableArrayList();
+    @SuppressWarnings("ConstantConditions")
     private void updateFishHealth() {
         if (fish.size() > 0)
             for (double amount : List.of(food.get(), oxygen.get())) {
@@ -64,9 +70,6 @@ public class AquariumService {
         return list.get(ThreadLocalRandom.current().nextInt(0, list.size()));
     }
 
-    private int ticks = 0;
-    private double foodAddAmount = 0;
-    private double oxygenAddAmount = 0;
     private void tick() {
         if (ticks % 10 == 5) oxygenAddAmount = ThreadLocalRandom.current().nextDouble(-1, 1);
         if (ticks % 10 == 0) foodAddAmount = ThreadLocalRandom.current().nextDouble(-1, 1);
@@ -82,21 +85,28 @@ public class AquariumService {
         ticks++;
     }
 
-    private final Timer timer = new Timer(true);
-    private TimerTask timerTask;
-
     @OnEvent(Event.LOGIN)
-    public void startTimer() {
+    private void startTimer() {
         assert timerTask == null;
         timerTask = newTimerTask();
         if (Settings.tickRate > 0) timer.scheduleAtFixedRate(timerTask, Settings.tickRate, Settings.tickRate);
     }
 
-    @OnEvent(Event.LOGOUT)
-    private void close() {
-        assert(timerTask != null);
+    @OnEvent(Event.TICKRATECHANGE)
+    private void restartTimer() {
+        stopTimer();
+        startTimer();
+    }
+
+    private void stopTimer() {
+        assert (timerTask != null);
         timerTask.cancel();
         timerTask = null;
+    }
+
+    @OnEvent(Event.LOGOUT)
+    private void close() {
+        stopTimer();
 
         oxygen.set(100);
         food.set(100);
@@ -115,44 +125,49 @@ public class AquariumService {
     public ReadOnlyDoubleProperty getOxygen() {
         return oxygen.getReadOnlyProperty();
     }
+
     public ReadOnlyDoubleProperty getFood() {
         return food.getReadOnlyProperty();
     }
+
     public void addOxygen(double amount) {
         oxygen.set(oxygen.get() + amount);
     }
+
     public void addFood(double amount) {
         food.set(food.get() + amount);
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
         StringBuilder string = new StringBuilder();
-        string.append(oxygen.get() + " " + food.get() + "\n");
+        string.append(oxygen.get()).append(" ").append(food.get()).append("\n");
         for (Fish fish : fish) {
             string.append(fish.toString()).append("\n");
         }
         return string.toString();
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean loadFromString(String string) {
-            ObservableList<Fish> loadedFish = observableArrayList();
-            Scanner s = new Scanner(string);
-            try {
-                oxygen.set(Double.parseDouble(s.next()));
-                food.set(Double.parseDouble(s.next()));
-                while (s.hasNext()) {
-                    loadedFish.add(new Fish(s.next(),
-                            FishSpecies.valueOf(s.next()),
-                            Integer.parseInt(s.next()),
-                            Color.web(s.next()),
-                            Integer.parseInt(s.next())));
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                return false;
+        ObservableList<Fish> loadedFish = observableArrayList();
+        Scanner s = new Scanner(string);
+        try {
+            oxygen.set(Double.parseDouble(s.next()));
+            food.set(Double.parseDouble(s.next()));
+            while (s.hasNext()) {
+                loadedFish.add(new Fish(s.next(),
+                        FishSpecies.valueOf(s.next()),
+                        Integer.parseInt(s.next()),
+                        Color.web(s.next()),
+                        Integer.parseInt(s.next())));
             }
-            fish.setAll(loadedFish);
-            over0HPFish.setAll(loadedFish);
-            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        fish.setAll(loadedFish);
+        over0HPFish.setAll(loadedFish);
+        return true;
     }
 }

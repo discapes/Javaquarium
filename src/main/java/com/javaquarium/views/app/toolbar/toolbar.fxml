@@ -6,18 +6,14 @@
             AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
             AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
             fx:controller="com.javaquarium.views.app.toolbar.ToolbarPresenter">
-    <children>
-        <ToolBar nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0"
-                 AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <items>
-                <Button mnemonicParsing="false" onAction="#loadFromFile" text="Load from file"/>
-                <Button mnemonicParsing="false" onAction="#saveToFile" text="Save to file"/>
-                <Button mnemonicParsing="false" onAction="#addFish" text="Add fish"/>
-                <Button mnemonicParsing="false" onAction="#nuke" text="Nuke fish"/>
-                <Button mnemonicParsing="false" onAction="#openSettings" text="Settings"/>
-                <Button alignment="CENTER" mnemonicParsing="false" onAction="#about" text="About"/>
-                <Button mnemonicParsing="false" onAction="#account" text="Account"/>
-            </items>
-        </ToolBar>
-    </children>
+    <ToolBar nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0"
+             AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <Button mnemonicParsing="false" onAction="#loadFromFile" text="Load from file"/>
+        <Button mnemonicParsing="false" onAction="#saveToFile" text="Save to file"/>
+        <Button mnemonicParsing="false" onAction="#addFish" text="Add fish"/>
+        <Button mnemonicParsing="false" onAction="#nuke" text="Nuke fish"/>
+        <Button mnemonicParsing="false" onAction="#openSettings" text="Settings"/>
+        <Button alignment="CENTER" mnemonicParsing="false" onAction="#about" text="About"/>
+        <Button mnemonicParsing="false" onAction="#account" text="Account"/>
+    </ToolBar>
 </AnchorPane>

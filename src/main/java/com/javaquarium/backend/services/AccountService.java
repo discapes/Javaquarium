@@ -4,7 +4,6 @@ import com.javaquarium.Event;
 import com.javaquarium.backend.InvalidUsersFileException;
 import com.management.Dependency;
 import com.management.LawnMower;
-import com.management.OnEvent;
 import com.management.Service;
 
 import java.io.*;
@@ -13,11 +12,12 @@ import java.util.Scanner;
 /**
  * Is responsible for logging the user in an out.
  */
+@SuppressWarnings("unused")
 @Service
 public class AccountService {
 
-    @Dependency private CryptographyService cryptographyService;
     private final String accountsPath = System.getProperty("user.home") + "/.javaquariumusers.txt";
+    @Dependency private CryptographyService cryptographyService;
     private String currentAccount;
     /* "username base64salt base64hash" */
 
@@ -30,13 +30,17 @@ public class AccountService {
         }
     }
 
-    /** Logs in as an arbitrary guest user, doesn't read any files. */
+    /**
+     * Logs in as an arbitrary guest user, doesn't read any files.
+     */
     public void loginAsGuest() {
         currentAccount = "Guest N/A N/A";
         LawnMower.queueAutomaticEvent(Event.LOGIN);
     }
 
-    /** Logs out and stops the sessionManager. */
+    /**
+     * Logs out and stops the sessionManager.
+     */
     public void logout() {
         currentAccount = "not_logged_in N/A N/A";
         LawnMower.queueAutomaticEvent(Event.LOGOUT);
@@ -44,12 +48,14 @@ public class AccountService {
 
     /**
      * Attempts to login.
+     *
      * @param username username.
      * @param password password.
      * @return A boolean indicating if the login was successful
-     * @throws FileNotFoundException if .javaquariumusers.txt doesn't exist.
+     * @throws FileNotFoundException     if .javaquariumusers.txt doesn't exist.
      * @throws InvalidUsersFileException if .javaquariumusers.txt is invalid.
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean login(String username, String password) throws FileNotFoundException, InvalidUsersFileException {
         Scanner scanner = new Scanner(new File(accountsPath));
         while (scanner.hasNext()) {
@@ -75,10 +81,11 @@ public class AccountService {
 
     /**
      * Attempts to register a new account.
+     *
      * @param username username to be registered.
      * @param password password to be registered with the username.
      * @return A boolean indicating if the registration was successful or not.
-     * @throws IOException if the .javaquariumusers.txt can't be written to.
+     * @throws IOException               if the .javaquariumusers.txt can't be written to.
      * @throws InvalidUsersFileException if .javaquariumusers.txt is invalid.
      */
     public boolean register(String username, String password) throws IOException, InvalidUsersFileException {
@@ -102,15 +109,23 @@ public class AccountService {
         return true;
     }
 
-    /** Returns the username of the currently logged in account. */
+    /**
+     * Returns the username of the currently logged in account.
+     */
     public String getUsername() {
         return currentAccount.substring(0, currentAccount.indexOf(" "));
     }
-    /** Returns the salt of the currently logged in account. */
+
+    /**
+     * Returns the salt of the currently logged in account.
+     */
     public String getSalt() {
         return currentAccount.substring(currentAccount.indexOf(' ') + 1, currentAccount.lastIndexOf(' '));
     }
-    /** Returns the salted hash of the currently logged in account. */
+
+    /**
+     * Returns the salted hash of the currently logged in account.
+     */
     public String getHash() {
         return currentAccount.substring(currentAccount.lastIndexOf(' ') + 1);
     }

@@ -9,9 +9,9 @@ package com.management;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,19 +19,6 @@ package com.management;
  * limitations under the License.
  * #L%
  */
-import java.io.IOException;
-import java.net.URL;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
-import static java.util.ResourceBundle.getBundle;
-import java.util.concurrent.CompletableFuture;
-import static java.util.concurrent.CompletableFuture.supplyAsync;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Supplier;
 
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
@@ -44,21 +31,36 @@ import javafx.scene.Parent;
 import javafx.scene.layout.StackPane;
 import javafx.util.Callback;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
+
+import static java.util.ResourceBundle.getBundle;
+import static java.util.concurrent.CompletableFuture.supplyAsync;
+
 /**
  * @author adam-bien.com
  */
+@SuppressWarnings("unused")
 public abstract class FXMLView extends StackPane {
 
     public final static String DEFAULT_ENDING = "View";
+    protected final static ExecutorService PARENT_CREATION_POOL = getExecutorService();
+    protected static Executor FX_PLATFORM_EXECUTOR = Platform::runLater;
+    protected final Function<String, Object> injectionContext;
     protected ObjectProperty<Object> presenterProperty;
     protected FXMLLoader fxmlLoader;
     protected String bundleName;
     protected ResourceBundle bundle;
-    protected final Function<String, Object> injectionContext;
     protected URL resource;
-    protected static Executor FX_PLATFORM_EXECUTOR = Platform::runLater;
-
-    protected final static ExecutorService PARENT_CREATION_POOL = getExecutorService();
 
     /**
      * Constructs the view lazily (fxml is not loaded) with empty injection
@@ -69,17 +71,42 @@ public abstract class FXMLView extends StackPane {
     }
 
     /**
-     *
      * @param injectionContext the function is used as a injection source.
-     * Values matching for the keys are going to be used for injection into the
-     * corresponding presenter.
+     *                         Values matching for the keys are going to be used for injection into the
+     *                         corresponding presenter.
      */
     public FXMLView(Function<String, Object> injectionContext) {
         this.injectionContext = injectionContext;
         this.init(getFXMLName());
     }
 
-    private void init(final String conventionalName) {
+    static String stripEnding(String clazz) {
+        if (!clazz.endsWith(DEFAULT_ENDING)) {
+            return clazz;
+        }
+        int viewIndex = clazz.lastIndexOf(DEFAULT_ENDING);
+        return clazz.substring(0, viewIndex);
+    }
+
+    public static ResourceBundle getResourceBundle(String name) {
+        try {
+            return getBundle(name);
+        } catch (MissingResourceException ex) {
+            return null;
+        }
+    }
+
+    static ExecutorService getExecutorService() {
+        return Executors.newCachedThreadPool((r) -> {
+            Thread thread = Executors.defaultThreadFactory().newThread(r);
+            String name = thread.getName();
+            thread.setName("afterburner.fx-" + name);
+            thread.setDaemon(true);
+            return thread;
+        });
+    }
+
+    protected void init(final String conventionalName) {
         this.presenterProperty = new SimpleObjectProperty<>();
         this.resource = getClass().getResource(conventionalName);
         this.bundleName = getBundleName();
@@ -89,7 +116,7 @@ public abstract class FXMLView extends StackPane {
     FXMLLoader loadSynchronously(final URL resource, ResourceBundle bundle, final String conventionalName) throws IllegalStateException {
         final FXMLLoader loader = new FXMLLoader(resource, bundle);
         PresenterFactory factory = discover();
-        Callback<Class<?>, Object> controllerFactory = (Class<?> p) -> factory.getPresenter(p, this.injectionContext);
+        Callback<Class<?>, Object> controllerFactory = factory::getPresenter;
         loader.setControllerFactory(controllerFactory);
         try {
             loader.load();
@@ -140,7 +167,6 @@ public abstract class FXMLView extends StackPane {
      * Creates the view asynchronously using an internal thread pool and passes
      * the parent node within the UI Thread.
      *
-     *
      * @param consumer - an object interested in received the Parent as callback
      */
     public void getViewAsync(Consumer<Parent> consumer) {
@@ -176,19 +202,18 @@ public abstract class FXMLView extends StackPane {
     }
 
     String getStyleSheetName() {
-        return getResourceCamelOrLowerCase(false, ".css");
+        return getResourceCamelOrLowerCase(".css");
     }
 
     /**
-     *
      * @return the name of the fxml file derived from the FXML view. e.g. The
      * name for the AirhacksView is going to be airhacks.fxml.
      */
     final String getFXMLName() {
-        return getResourceCamelOrLowerCase(true, ".fxml");
+        return getResourceCamelOrLowerCase(".fxml");
     }
 
-    String getResourceCamelOrLowerCase(boolean mandatory, String ending) {
+    String getResourceCamelOrLowerCase(String ending) {
         String name = getConventionalName(true, ending);
         URL found = getClass().getResource(name);
         if (found != null) {
@@ -196,13 +221,6 @@ public abstract class FXMLView extends StackPane {
         }
         System.err.println("File: " + name + " not found, attempting with camel case");
         name = getConventionalName(false, ending);
-        found = getClass().getResource(name);
-        if (mandatory && found == null) {
-            final String message = "Cannot load file " + name;
-            System.err.println(message);
-            System.err.println("Stopping initialization phase...");
-            throw new IllegalStateException(message);
-        }
         return name;
     }
 
@@ -228,16 +246,13 @@ public abstract class FXMLView extends StackPane {
      * @param presenterConsumer listener for the presenter construction
      */
     public void getPresenter(Consumer<Object> presenterConsumer) {
-        this.presenterProperty.addListener((ObservableValue<? extends Object> o, Object oldValue, Object newValue) -> {
-            presenterConsumer.accept(newValue);
-        });
+        this.presenterProperty.addListener((ObservableValue<?> o, Object oldValue, Object newValue) -> presenterConsumer.accept(newValue));
     }
 
     /**
-     *
      * @param lowercase indicates whether the simple class name should be
-     * converted to lowercase of left unchanged
-     * @param ending the suffix to append
+     *                  converted to lowercase of left unchanged
+     * @param ending    the suffix to append
      * @return the conventional name with stripped ending
      */
     protected String getConventionalName(boolean lowercase, String ending) {
@@ -245,7 +260,6 @@ public abstract class FXMLView extends StackPane {
     }
 
     /**
-     *
      * @param lowercase indicates whether the simple class name should be
      * @return the name of the view without the "View" prefix.
      */
@@ -263,47 +277,20 @@ public abstract class FXMLView extends StackPane {
         return this.getClass().getPackage().getName() + "." + conventionalName;
     }
 
-    static String stripEnding(String clazz) {
-        if (!clazz.endsWith(DEFAULT_ENDING)) {
-            return clazz;
-        }
-        int viewIndex = clazz.lastIndexOf(DEFAULT_ENDING);
-        return clazz.substring(0, viewIndex);
-    }
-
-    public static ResourceBundle getResourceBundle(String name) {
-        try {
-            return getBundle(name);
-        } catch (MissingResourceException ex) {
-            return null;
-        }
-    }
-
     /**
-     *
      * @return an existing resource bundle, or null
      */
     public ResourceBundle getResourceBundle() {
         return this.bundle;
     }
 
-    static ExecutorService getExecutorService() {
-        return Executors.newCachedThreadPool((r) -> {
-            Thread thread = Executors.defaultThreadFactory().newThread(r);
-            String name = thread.getName();
-            thread.setName("afterburner.fx-" + name);
-            thread.setDaemon(true);
-            return thread;
-        });
-    }
-
     /**
-     *
      * @param t exception to report
      * @return nothing
      */
+    @SuppressWarnings("SameReturnValue")
     public Void exceptionReporter(Throwable t) {
-        System.err.println(t);
+        t.printStackTrace();
         return null;
     }
 

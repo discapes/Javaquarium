@@ -14,20 +14,16 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.Stack;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 public class LawnMower implements PresenterFactory {
 
-    private static Consumer<String> LOG = s -> {};
-
     private final static HashMap<Enum<?>, Stack<Method>> serviceListeners = new HashMap<>();
-    private final static HashMap<Enum<?>, Stack<Method>> presenterListeners = new HashMap<>();
-    private final static ArrayList<Pair<Enum<?>,Object[]>> eventBus = new ArrayList<>();
-
+    //private final static HashMap<Enum<?>, Stack<Method>> presenterListeners = new HashMap<>();
+    private final static ArrayList<Pair<Enum<?>, Object[]>> eventBus = new ArrayList<>();
     private static final HashMap<Class<?>, Object> services = new HashMap<>();
     private static final HashMap<Class<?>, Object> presenters = new HashMap<>();
-
     private static final HashMap<Class<? extends FXMLView>, Scene> scenes = new HashMap<>();
+    private static Consumer<String> LOG = s -> {};
 
     public static void setLOG(Consumer<String> LOG) {
         LawnMower.LOG = LOG;
@@ -52,22 +48,22 @@ public class LawnMower implements PresenterFactory {
 
     public static Scene getScene(Class<? extends FXMLView> clazz) {
         LOG.accept("Reqested scene                " + clazz.getSimpleName());
-        return scenes.computeIfAbsent(clazz, p -> new Scene(instantiateClass(clazz).getView()));
-    }
-
-    @Override public <T> T getPresenter(Class<T> clazz, Function<String, Object> injectionContext) {
-        return (T) presenters.get(clazz);
+        return scenes.computeIfAbsent(clazz, p -> {
+            if (presenters.containsKey(clazz)) return new Scene(((FXMLView) presenters.get(clazz)).getView());
+            return new Scene(instantiateClass(clazz).getView());
+        });
     }
 
     private static <T> void buildPresenter(Class<T> clazz) {
         LOG.accept("Building presenter            " + clazz.getSimpleName());
-     //   addListeners(clazz, presenterListeners);
+        //   addListeners(clazz, presenterListeners);
         T presenter = instantiateClass(clazz);
         injectDependencies(presenter);
         presenters.put(clazz, presenter);
     }
 
     private static <T> T buildService(Class<T> serviceClass) {
+        @SuppressWarnings("unchecked")
         T service = (T) services.get(serviceClass);
         if (service == null) {
             LOG.accept("Building service              " + serviceClass.getSimpleName());
@@ -75,11 +71,10 @@ public class LawnMower implements PresenterFactory {
             service = instantiateClass(serviceClass);
             services.put(serviceClass, service);
             injectDependencies(service);
-            return service;
         } else {
             LOG.accept("Service already exists        " + serviceClass.getSimpleName());
-            return service;
         }
+        return service;
     }
 
     static <T> void addListeners(Class<T> clazz, HashMap<Enum<?>, Stack<Method>> listenerMap) {
@@ -119,7 +114,6 @@ public class LawnMower implements PresenterFactory {
         afterInjection(instance);
     }
 
-
     private static <T> void afterInjection(T instance) {
         Method[] methods = instance.getClass().getDeclaredMethods();
         for (Method method : methods) {
@@ -144,6 +138,7 @@ public class LawnMower implements PresenterFactory {
     }
 
     public static <T> T getService(Class<T> clazz) {
+        //noinspection unchecked
         return (T) services.get(clazz);
     }
 
@@ -154,7 +149,7 @@ public class LawnMower implements PresenterFactory {
             Object[] params = latestEvent.getValue();
             LOG.accept("Firing event                  " + event + " ( " + params.length + " ) ");
             callMethods(event, serviceListeners, services, params);
-            callMethods(event, presenterListeners, presenters, params);
+            //        callMethods(event, presenterListeners, presenters, params);
             LOG.accept("Finished firing event         " + event + " ( " + params.length + " ) ");
             eventBus.remove(0);
         }
@@ -184,5 +179,11 @@ public class LawnMower implements PresenterFactory {
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
             throw new IllegalStateException("Could not instantiate a new " + clazz.getSimpleName(), e);
         }
+    }
+
+    @Override
+    public <T> T getPresenter(Class<T> clazz) {
+        //noinspection unchecked
+        return (T) presenters.get(clazz);
     }
 }

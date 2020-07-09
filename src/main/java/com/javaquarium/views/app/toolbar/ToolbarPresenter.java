@@ -1,13 +1,15 @@
 package com.javaquarium.views.app.toolbar;
 
-import com.javaquarium.Event;
-import com.javaquarium.backend.aquarium.Fish;
+import com.javaquarium.backend.Fish;
 import com.javaquarium.backend.services.*;
+import com.javaquarium.views.settings.SettingsView;
 import com.management.Dependency;
-import com.management.OnEvent;
 import com.management.Presenter;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -22,20 +24,27 @@ public class ToolbarPresenter {
     @Dependency private AlertService alertService;
     @Dependency private AquariumService aquariumService;
 
-    @FXML private void nuke() {
+    @FXML
+    private void nuke() {
         if (alertService.confirm("Delete all fish?"))
             aquariumService.getFish().clear();
     }
 
-    @FXML private void addFish() {
+    @FXML
+    private void addFish() {
         aquariumService.getFish().add(new Fish("New fish"));
     }
 
-    @FXML private void openSettings() {
-    //    stageService.getStage().setScene(LawnMower.getScene(SettingsView.class));
+    @FXML
+    private void openSettings() {
+        Stage stage = new Stage();
+        stage.setTitle("Settings");
+        stageService.setView(SettingsView.class, stage);
+        stage.show();
     }
 
-    @FXML private void about() {
+    @FXML
+    private void about() {
         alertService.inform("Javaquarium\n" +
                 "\n" +
                 "Manage a virtual aquarium,\n" +
@@ -47,7 +56,8 @@ public class ToolbarPresenter {
                 "You can delete fish by pressing DELETE", "About");
     }
 
-    @FXML private void account() {
+    @FXML
+    private void account() {
         ButtonType logoutBtn = new ButtonType("Logout", ButtonBar.ButtonData.CANCEL_CLOSE);
         Optional<ButtonType> buttonPressed = alertService.inform(
                 "Username: " + accountService.getUsername() + "\n" +
@@ -57,18 +67,18 @@ public class ToolbarPresenter {
         if (buttonPressed.isPresent()) {
             if (buttonPressed.get() == logoutBtn) {
                 accountService.logout();
-              //  viewSetter.applyView(StartView.class);
             }
         }
     }
 
 
-
-    @FXML private void saveToFile() {/*
+    @FXML
+    private void saveToFile() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt"));
-        File file = fileChooser.showSaveDialog(new Stage());
-        if (file == null) return;
+        File rawFile = fileChooser.showSaveDialog(new Stage());
+        if (rawFile == null) return;
+        File file = new File(rawFile.getAbsolutePath() + ".txt");
 
         TextField keyField = new TextField();
         keyField.setPromptText("Key");
@@ -79,29 +89,24 @@ public class ToolbarPresenter {
         });
 
         VBox vBox = new VBox(new Label("Key: "), keyField, button);
-        Stage stage = viewSetter.quickStage(vBox, "Key?");
+        Stage stage = stageService.quickStage(vBox, "Key?");
 
-        button.setOnAction(evt -> trySave(file, keyField.getText(), stage)
-        );
+        button.setOnAction(evt -> trySave(file, keyField.getText(), stage));
         keyField.setOnKeyReleased(e -> {
             if (e.getCode() == KeyCode.ENTER) trySave(file, keyField.getText(), stage);
         });
-        stage.showAndWait();*/
+        stage.showAndWait();
     }
 
-   /* private void trySave(File file, String key, Stage stage) {
-        try {
-            aquariumLoaderService.save(file, key);
-            alertService.inform("Saved aquarium to " + file.getPath() + (key.length()>0 ? " encrypted with key " + key : ""));
-        } catch (IOException e) {
-            alertService.errorAlert("Could not write to file: " + e);
-            e.printStackTrace();
-        }
+    private void trySave(File file, String key, Stage stage) {
+        aquariumLoaderService.save(file, key);
         stage.close();
-    }*/
+    }
 
-    @FXML private void loadFromFile() {/*
+    @FXML
+    private void loadFromFile() {
         FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt"));
         File file = fileChooser.showOpenDialog(new Stage());
         if (file == null) return;
 
@@ -114,26 +119,17 @@ public class ToolbarPresenter {
         });
 
         VBox vBox = new VBox(new Label("Key: "), keyField, button);
-        Stage stage = viewSetter.quickStage(vBox, "Key?");
+        Stage stage = stageService.quickStage(vBox, "Key?");
 
         keyField.setOnKeyReleased(evt -> {
             if (evt.getCode() == KeyCode.ENTER) tryLoad(file, keyField.getText(), stage);
         });
         button.setOnAction(evt -> tryLoad(file, keyField.getText(), stage));
-        stage.showAndWait();*/
+        stage.showAndWait();
     }
 
-    private void tryLoad(File file, String key, Stage stage) {/*
-        try {
-            aquariumLoaderService.load(file, key);
-            alertService.inform("Loaded aquarium from " + file.getPath() + (key.length()>0 ? " encrypted with key " + key : ""));
-        } catch (IOException e) {
-            alertService.errorAlert("Could not read from file: " + e);
-            e.printStackTrace();
-        } catch (BadPaddingException | IllegalBlockSizeException e) {
-            alertService.errorAlert("Wrong key or invalid data!");
-            e.printStackTrace();
-        }
-        stage.close();*/
+    private void tryLoad(File file, String key, Stage stage) {
+        aquariumLoaderService.load(file, key);
+        stage.close();
     }
 }

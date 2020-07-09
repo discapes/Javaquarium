@@ -4,9 +4,11 @@ import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 
-@SuppressWarnings("unused")
 
-/** Some utility functions, strictly static. */
+/**
+ * Some utility functions, strictly static.
+ */
+@SuppressWarnings("unused")
 public abstract class Utils {
 
     public static String colorToString(Color color) {

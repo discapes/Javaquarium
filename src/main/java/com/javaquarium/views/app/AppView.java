@@ -1,16 +1,9 @@
 package com.javaquarium.views.app;
 
 import com.management.FXMLView;
-import javafx.scene.Parent;
-import javafx.scene.layout.AnchorPane;
-import java.awt.*;
 
 public class AppView extends FXMLView {
-
-    @Override
-    public Parent getView() {
-        AnchorPane root = (AnchorPane) super.getView();
-        /*
+        /* TODO
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double scrWidth = screenSize.getWidth();
         double scrHeight = screenSize.getHeight();
@@ -24,6 +17,4 @@ public class AppView extends FXMLView {
         }
         ((AnchorPane) root).setPrefHeight(height);
         ((AnchorPane) root).setPrefWidth(width);*/
-        return root;
-    }
 }

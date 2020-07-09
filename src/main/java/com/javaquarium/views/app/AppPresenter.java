@@ -31,9 +31,9 @@ public class AppPresenter implements Initializable {
         // supa fast
         /*
         new ChartView().getViewAsync(chartPane.getChildren()::add);*/
-    //    new SearchView().getViewAsync(searchPane.getChildren()::add);
-    //    new ToolbarView().getViewAsync(toolbarPane.getChildren()::add);
-   //     new FishTableView().getViewAsync(tablePane.getChildren()::add);
+        //    new SearchView().getViewAsync(searchPane.getChildren()::add);
+        //    new ToolbarView().getViewAsync(toolbarPane.getChildren()::add);
+        //     new FishTableView().getViewAsync(tablePane.getChildren()::add);
     }
 
 }

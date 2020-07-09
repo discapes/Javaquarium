@@ -26,15 +26,6 @@ public class ChartDataService {
 
 
     private final Timer timer = new Timer(true);
-    private TimerTask timerTask = null;
-
-    private int points;
-    private double pointsPerSecond;
-
-    private ReadOnlyDoubleProperty oxygen;
-    private ReadOnlyDoubleProperty food;
-    @Dependency private AquariumService aquariumService;
-
     private final ObservableList<XYChart.Data<String, Number>> paddingData1 = observableArrayList();
     private final ObservableList<XYChart.Data<String, Number>> paddingData2 = observableArrayList();
     private final ObservableList<XYChart.Data<String, Number>> oxygenData = observableArrayList();
@@ -42,18 +33,31 @@ public class ChartDataService {
     private final ObservableList<XYChart.Data<String, Number>> topData = observableArrayList();
     private final ObservableList<XYChart.Data<String, Number>> bottomData = observableArrayList();
     private final ObservableList<String> categories = observableArrayList();
+    private TimerTask timerTask = null;
+    private int points;
+    private double pointsPerSecond;
+    private ReadOnlyDoubleProperty oxygen;
+    private ReadOnlyDoubleProperty food;
+    @Dependency private AquariumService aquariumService;
 
     @OnEvent(Event.LOGOUT)
     private void close() {
         timerTask.cancel();
+        timerTask = null;
         categories.clear();
-        getData().forEach(data -> data.clear());
+        getData().forEach(List::clear);
+    }
+
+    @OnEvent(Event.CHARTSETTINGCHANGE)
+    private void reset() {
+        close();
+        fillChartAndStartUpdater();
     }
 
     @OnEvent(Event.LOGIN)
     private void fillChartAndStartUpdater() {
         points = Settings.prettyChartPoints + 1;
-        pointsPerSecond = (points - 1) / (double)Settings.chartHistory;
+        pointsPerSecond = (points - 1) / (double) Settings.chartHistory;
 
         for (int i = 0; i < points; i++) {
             int indexFromRight = points - i - 1;
@@ -68,14 +72,15 @@ public class ChartDataService {
 
         assert timerTask == null;
         timerTask = newTimerTask();
-        int updateRateMs = (int)(1000 / pointsPerSecond);
+        int updateRateMs = (int) (1000 / pointsPerSecond);
         if (Settings.prettyChartPoints > 0)
             timer.scheduleAtFixedRate(timerTask, updateRateMs, updateRateMs);
     }
 
     private TimerTask newTimerTask() {
         return new TimerTask() {
-            @Override public void run() {
+            @Override
+            public void run() {
                 Platform.runLater(() -> {
                     for (int i = 0; i < points - 1; i++) {
                         int reverseIndex = points - i - 1;
