@@ -5,6 +5,7 @@ import javafx.util.Pair;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -26,7 +27,6 @@ public class LawnMower implements PresenterFactory {
     private static final HashMap<Class<?>, Object> services = new HashMap<>();
     private static final HashMap<Class<?>, Object> presenters = new HashMap<>();
 
-    private static Set<Class<? extends FXMLView>> viewClasses = null;
     private static final HashMap<Class<? extends FXMLView>, Scene> scenes = new HashMap<>();
 
     public static void setLOG(Consumer<String> LOG) {
@@ -43,9 +43,11 @@ public class LawnMower implements PresenterFactory {
             buildService(clazz);
         }
 
-        viewClasses = reflections.getSubTypesOf(FXMLView.class);
-        for (Class<?> clazz : viewClasses)
-            LOG.accept("Found FXMLView                " + clazz.getSimpleName());
+        LOG.accept("Constructing presenters");
+        Set<Class<?>> presenterClasses = reflections.getTypesAnnotatedWith(Presenter.class);
+        for (Class<?> clazz : presenterClasses) {
+            buildPresenter(clazz);
+        }
     }
 
     public static Scene getScene(Class<? extends FXMLView> clazz) {
@@ -53,20 +55,17 @@ public class LawnMower implements PresenterFactory {
         return scenes.computeIfAbsent(clazz, p -> new Scene(instantiateClass(clazz).getView()));
     }
 
-    @Override public <T> T instantiatePresenter(Class<T> clazz, Function<String, Object> injectionContext) {
-        LOG.accept("Building presenter            " + clazz.getSimpleName());
-        T presenter = (T) presenters.get(clazz);
-        if (presenter == null) {
-            addListeners(clazz, presenterListeners);
-            presenter = instantiateClass(clazz);
-            injectDependencies(presenter);
-            presenters.put(clazz, presenter);
-        } else {
-            System.out.println("Presenter requested twice?    " + clazz.getSimpleName());
-        }
-        return presenter;
+    @Override public <T> T getPresenter(Class<T> clazz, Function<String, Object> injectionContext) {
+        return (T) presenters.get(clazz);
     }
 
+    private static <T> void buildPresenter(Class<T> clazz) {
+        LOG.accept("Building presenter            " + clazz.getSimpleName());
+     //   addListeners(clazz, presenterListeners);
+        T presenter = instantiateClass(clazz);
+        injectDependencies(presenter);
+        presenters.put(clazz, presenter);
+    }
 
     private static <T> T buildService(Class<T> serviceClass) {
         T service = (T) services.get(serviceClass);
@@ -112,19 +111,40 @@ public class LawnMower implements PresenterFactory {
                     try {
                         field.set(instance, dependency);
                     } catch (IllegalAccessException e) {
-                        throw new IllegalStateException("Could not inject field        " + field.getName() + "   of   " + clazz);
+                        throw new IllegalStateException("Could not inject field " + field.getName() + "   of   " + clazz);
                     }
+                }
+            }
+        }
+        afterInjection(instance);
+    }
+
+
+    private static <T> void afterInjection(T instance) {
+        Method[] methods = instance.getClass().getDeclaredMethods();
+        for (Method method : methods) {
+            if (method.isAnnotationPresent(AfterInjection.class)) {
+                try {
+                    method.setAccessible(true);
+                    LOG.accept("Calling AfterInjection method " + method.getName() + "@" + instance.getClass().getSimpleName());
+                    method.invoke(instance);
+                } catch (IllegalAccessException | InvocationTargetException e) {
+                    LOG.accept("Failed to call method:        " + e);
                 }
             }
         }
     }
 
     public static void queueAutomaticEvent(Enum<?> event, Object... params) {
-        LOG.accept("Queuing event                 " + event + " ( " + params + " ) ");
+        LOG.accept("Queuing event                 " + event + " ( " + params.length + " ) ");
         eventBus.add(new Pair<>(event, params));
         if (eventBus.size() == 1) {
             runEventExecutor();
         }
+    }
+
+    public static <T> T getService(Class<T> clazz) {
+        return (T) services.get(clazz);
     }
 
     private static void runEventExecutor() {
@@ -151,7 +171,7 @@ public class LawnMower implements PresenterFactory {
             try {
                 method.invoke(service, params);
             } catch (IllegalAccessException | InvocationTargetException e) {
-                throw new IllegalStateException("Could not call method         " + method.getName() + " @" + clazz.getSimpleName(), e);
+                throw new IllegalStateException("Could not call method " + method.getName() + " @" + clazz.getSimpleName(), e);
             }
         }
     }
@@ -162,7 +182,7 @@ public class LawnMower implements PresenterFactory {
             LOG.accept("Instantiated new object       " + clazz.getSimpleName() + "@" + System.identityHashCode(o));
             return o;
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            throw new IllegalStateException("Could not instantiate a new   " + clazz.getSimpleName(), e);
+            throw new IllegalStateException("Could not instantiate a new " + clazz.getSimpleName(), e);
         }
     }
 }

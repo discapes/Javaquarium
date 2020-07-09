@@ -65,5 +65,5 @@ public interface PresenterFactory {
      * instances.
      * @return a fully initialized presenter with injected dependencies.
      */
-    <T> T instantiatePresenter(Class<T> clazz, Function<String, Object> injectionContext);
+    <T> T getPresenter(Class<T> clazz, Function<String, Object> injectionContext);
 }

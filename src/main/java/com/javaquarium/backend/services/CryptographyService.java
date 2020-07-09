@@ -25,8 +25,7 @@ public class CryptographyService {
     private Cipher cipher;
     private MessageDigest digest;
 
-    @OnEvent(Event.INIT)
-    private void init() {
+    public CryptographyService() {
         try {
             cipher = Cipher.getInstance("AES");
             digest = MessageDigest.getInstance("SHA-256");

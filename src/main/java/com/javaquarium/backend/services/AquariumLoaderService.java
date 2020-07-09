@@ -2,8 +2,6 @@ package com.javaquarium.backend.services;
 
 import com.javaquarium.Event;
 import com.javaquarium.backend.Settings;
-import com.javaquarium.backend.aquarium.Aquarium;
-import com.javaquarium.backend.aquarium.InvalidAquariumFileException;
 import com.management.Dependency;
 import com.management.LawnMower;
 import com.management.OnEvent;
@@ -21,10 +19,10 @@ public class AquariumLoaderService {
 
     @Dependency private AlertService alertService;
     @Dependency private CryptographyService cryptographyService;
-    private Aquarium aquarium;
+    @Dependency private AquariumService aquariumService;
 
     public void save(File file, String key) {
-        String str = aquarium.toString();
+        String str = aquariumService.toString();
         if (key.length() > 0) {
             str = cryptographyService.encrypt(str, key);
         }
@@ -36,7 +34,7 @@ public class AquariumLoaderService {
     }
 
     public void load(File file, String key) {
-        String str = null;
+        String str;
         try {
             str = new String(Files.readAllBytes(file.toPath()));
         } catch (IOException e) {
@@ -51,28 +49,23 @@ public class AquariumLoaderService {
                 return;
             }
         }
-        Aquarium aquarium;
-        try {
-            aquarium = new Aquarium(str);
-        } catch (InvalidAquariumFileException e) {
-            alertService.errorAlert("Invalid aquarium file " + Settings.defaultAquarium + " : " + e);
+        if (!aquariumService.loadFromString(str)) {
+            alertService.errorAlert("Invalid aquarium file " + Settings.defaultAquarium);
             return;
         }
-        LawnMower.queueAutomaticEvent(Event.NEWAQUARIUM, aquarium);
     }
 
     @OnEvent(Event.LOGIN)
     public void loadDefault() {
-        Aquarium aquarium = null;
+        String str;
         try {
-            String str = new String(Files.readAllBytes(Paths.get(Settings.defaultAquarium)));
-            aquarium = new Aquarium(str);
+            str = new String(Files.readAllBytes(Paths.get(Settings.defaultAquarium)));
         } catch (IOException e) {
             alertService.errorAlert("Could not read from " + Settings.defaultAquarium + " : " + e);
-        } catch (InvalidAquariumFileException e) {
-            alertService.errorAlert("Invalid aquarium file " + Settings.defaultAquarium + " : " + e);
+            return;
         }
-        if (aquarium == null) aquarium = new Aquarium();
-        LawnMower.queueAutomaticEvent(Event.NEWAQUARIUM, aquarium);
+        if (!aquariumService.loadFromString(str)) {
+            alertService.errorAlert("Invalid aquarium file " + Settings.defaultAquarium);
+        }
     }
 }

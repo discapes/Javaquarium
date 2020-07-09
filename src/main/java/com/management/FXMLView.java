@@ -21,7 +21,6 @@ package com.management;
  */
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import static java.util.ResourceBundle.getBundle;
@@ -33,8 +32,6 @@ import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
@@ -92,7 +89,7 @@ public abstract class FXMLView extends StackPane {
     FXMLLoader loadSynchronously(final URL resource, ResourceBundle bundle, final String conventionalName) throws IllegalStateException {
         final FXMLLoader loader = new FXMLLoader(resource, bundle);
         PresenterFactory factory = discover();
-        Callback<Class<?>, Object> controllerFactory = (Class<?> p) -> factory.instantiatePresenter(p, this.injectionContext);
+        Callback<Class<?>, Object> controllerFactory = (Class<?> p) -> factory.getPresenter(p, this.injectionContext);
         loader.setControllerFactory(controllerFactory);
         try {
             loader.load();

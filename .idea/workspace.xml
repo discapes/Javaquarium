@@ -13,8 +13,8 @@
         <option value="FxmlFile" />
         <option value="CSS File" />
         <option value="Interface" />
-        <option value="AnnotationType" />
         <option value="Enum" />
+        <option value="AnnotationType" />
         <option value="Class" />
       </list>
     </option>
@@ -28,7 +28,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="extract.method.default.visibility" value="private" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../javaquarium" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/com/javaquarium/views" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
@@ -42,10 +42,11 @@
       <recent name="com.javaquarium" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/com/javaquarium/views/" />
       <recent name="$PROJECT_DIR$/src/main/java/com/javaquarium" />
     </key>
   </component>
-  <component name="RunManager" selected="Maven.run">
+  <component name="RunManager" selected="Maven.Run">
     <configuration name="Clean" type="MavenRunConfiguration" factoryName="Maven">
       <MavenSettings>
         <option name="myGeneralSettings" />
@@ -71,7 +72,7 @@
       </MavenSettings>
       <method v="2" />
     </configuration>
-    <configuration name="run" type="MavenRunConfiguration" factoryName="Maven">
+    <configuration name="Debug" type="MavenRunConfiguration" factoryName="Maven">
       <MavenSettings>
         <option name="myGeneralSettings" />
         <option name="myRunnerSettings" />
@@ -83,7 +84,8 @@
             <option name="goals">
               <list>
                 <option value="compile" />
-                <option value="exec:java" />
+                <option value="exec:exec" />
+                <option value="-Dexec.args=-classpath %classpath -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005 com.javaquarium.Javaquarium" />
               </list>
             </option>
             <option name="pomFileName" />
@@ -97,9 +99,51 @@
       </MavenSettings>
       <method v="2" />
     </configuration>
+    <configuration name="Run" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="compile" />
+                <option value="exec:exec" />
+              </list>
+            </option>
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <configuration name="Connect" type="Remote">
+      <module name="Javaquarium" />
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+      <option name="AUTO_RESTART" value="false" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="5005" />
+        <option name="LOCAL" value="false" />
+      </RunnerSettings>
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Maven.Clean" />
-      <item itemvalue="Maven.run" />
+      <item itemvalue="Maven.Run" />
+      <item itemvalue="Maven.Debug" />
+      <item itemvalue="Remote.Connect" />
     </list>
   </component>
   <component name="WindowStateProjectService">
@@ -111,61 +155,85 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="475" y="154" key="#Project_Structure/0.0.1920.1080@0.0.1920.1080" timestamp="1594244608290" />
-    <state x="421" y="224" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1594277941109">
+    <state x="421" y="224" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1594316053864">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="421" y="224" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1594277941109" />
-    <state x="770" y="276" key="#com.intellij.ide.util.MemberChooser" timestamp="1594277648564">
+    <state x="421" y="224" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1594316053864" />
+    <state x="770" y="276" key="#com.intellij.ide.util.MemberChooser" timestamp="1594309259664">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="770" y="276" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1594277648564" />
+    <state x="770" y="276" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1594309259664" />
     <state x="693" y="504" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1594284538510">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="693" y="504" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1594284538510" />
-    <state x="746" y="438" width="670" height="234" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1594284556089">
+    <state x="746" y="438" width="670" height="234" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1594313098741">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="746" y="438" width="670" height="234" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1920.1080@0.0.1920.1080" timestamp="1594284556089" />
+    <state x="746" y="438" width="670" height="234" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1920.1080@0.0.1920.1080" timestamp="1594313098741" />
     <state x="494" y="228" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1594288140500">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="494" y="228" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1594288140500" />
-    <state x="695" y="316" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1594288151142">
+    <state x="695" y="316" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1594311202521">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="695" y="316" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1594288151142" />
+    <state x="695" y="316" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1594311202521" />
     <state x="775" y="334" width="424" height="454" key="FileChooserDialogImpl" timestamp="1594287842183">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="775" y="334" width="424" height="454" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1594287842183" />
-    <state width="1816" height="273" key="GridCell.Tab.0.bottom" timestamp="1594289207650">
+    <state width="1816" height="350" key="GridCell.Tab.0.bottom" timestamp="1594317590039">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1816" height="273" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1594289207650" />
-    <state width="1816" height="273" key="GridCell.Tab.0.center" timestamp="1594289207650">
+    <state width="1816" height="350" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1594317590039" />
+    <state width="1816" height="350" key="GridCell.Tab.0.center" timestamp="1594317590038">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1816" height="273" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1594289207650" />
-    <state width="1816" height="273" key="GridCell.Tab.0.left" timestamp="1594289207649">
+    <state width="1816" height="350" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1594317590038" />
+    <state width="1816" height="350" key="GridCell.Tab.0.left" timestamp="1594317590038">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1816" height="273" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1594289207649" />
-    <state width="1816" height="273" key="GridCell.Tab.0.right" timestamp="1594289207650">
+    <state width="1816" height="350" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1594317590038" />
+    <state width="1816" height="350" key="GridCell.Tab.0.right" timestamp="1594317590039">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1816" height="273" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1594289207650" />
-    <state x="473" y="201" key="SettingsEditor" timestamp="1594286893502">
+    <state width="1816" height="350" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1594317590039" />
+    <state width="1816" height="350" key="GridCell.Tab.1.bottom" timestamp="1594317590040">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="473" y="201" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1594286893502" />
+    <state width="1816" height="350" key="GridCell.Tab.1.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1594317590040" />
+    <state width="1816" height="350" key="GridCell.Tab.1.center" timestamp="1594317590039">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1816" height="350" key="GridCell.Tab.1.center/0.0.1920.1080@0.0.1920.1080" timestamp="1594317590039" />
+    <state width="1816" height="350" key="GridCell.Tab.1.left" timestamp="1594317590039">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1816" height="350" key="GridCell.Tab.1.left/0.0.1920.1080@0.0.1920.1080" timestamp="1594317590039" />
+    <state width="1816" height="350" key="GridCell.Tab.1.right" timestamp="1594317590040">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1816" height="350" key="GridCell.Tab.1.right/0.0.1920.1080@0.0.1920.1080" timestamp="1594317590040" />
+    <state x="473" y="201" key="SettingsEditor" timestamp="1594289964425">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="473" y="201" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1594289964425" />
+    <state width="928" height="513" key="XDebugger.FullValuePopup" timestamp="1594315528961">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="928" height="513" key="XDebugger.FullValuePopup/0.0.1920.1080@0.0.1920.1080" timestamp="1594315528961" />
     <state x="1052" y="611" key="extract.method.dialog" timestamp="1594277403544">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="1052" y="611" key="extract.method.dialog/0.0.1920.1080@0.0.1920.1080" timestamp="1594277403544" />
-    <state x="662" y="307" width="589" height="488" key="find.popup" timestamp="1594287771126">
+    <state x="662" y="307" width="589" height="546" key="find.popup" timestamp="1594315929758">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="662" y="307" width="589" height="488" key="find.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1594287771126" />
+    <state x="662" y="307" width="589" height="546" key="find.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1594315929758" />
+    <state x="620" y="263" width="672" height="678" key="search.everywhere.popup" timestamp="1594313234668">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="620" y="263" width="672" height="678" key="search.everywhere.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1594313234668" />
   </component>
 </project>

@@ -21,8 +21,7 @@ public class AccountService {
     private String currentAccount;
     /* "username base64salt base64hash" */
 
-    @OnEvent(Event.INIT)
-    private void init() {
+    public AccountService() {
         try {
             //noinspection ResultOfMethodCallIgnored
             new File(accountsPath).createNewFile();
