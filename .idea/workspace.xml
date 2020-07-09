@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="e08a4091-00df-420d-8e8e-35413260da09" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="FxmlFile" />
+        <option value="CSS File" />
+        <option value="Interface" />
+        <option value="AnnotationType" />
+        <option value="Enum" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1eQ88ov44WfHEWI45BtTDydqMkw" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="extract.method.default.visibility" value="private" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../javaquarium" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.completion" />
+    <property name="settings.editor.splitter.proportion" value="0.2771458" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.javaquarium.backend" />
+      <recent name="com.javaquarium" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/com/javaquarium" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Maven.run">
+    <configuration name="Clean" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="clean" />
+              </list>
+            </option>
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <configuration name="run" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="compile" />
+                <option value="exec:java" />
+              </list>
+            </option>
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Maven.Clean" />
+      <item itemvalue="Maven.run" />
+    </list>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="726" y="259" width="452" height="555" key="#Auto_Import" timestamp="1594279900923">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="726" y="259" width="452" height="555" key="#Auto_Import/0.0.1920.1080@0.0.1920.1080" timestamp="1594279900923" />
+    <state x="475" y="154" key="#Project_Structure" timestamp="1594244608290">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="475" y="154" key="#Project_Structure/0.0.1920.1080@0.0.1920.1080" timestamp="1594244608290" />
+    <state x="421" y="224" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1594277941109">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="421" y="224" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1594277941109" />
+    <state x="770" y="276" key="#com.intellij.ide.util.MemberChooser" timestamp="1594277648564">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="770" y="276" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1594277648564" />
+    <state x="693" y="504" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1594284538510">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="693" y="504" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1594284538510" />
+    <state x="746" y="438" width="670" height="234" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1594284556089">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="746" y="438" width="670" height="234" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1920.1080@0.0.1920.1080" timestamp="1594284556089" />
+    <state x="494" y="228" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1594288140500">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="494" y="228" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1594288140500" />
+    <state x="695" y="316" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1594288151142">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="695" y="316" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1594288151142" />
+    <state x="775" y="334" width="424" height="454" key="FileChooserDialogImpl" timestamp="1594287842183">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="775" y="334" width="424" height="454" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1594287842183" />
+    <state width="1816" height="273" key="GridCell.Tab.0.bottom" timestamp="1594289207650">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1816" height="273" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1594289207650" />
+    <state width="1816" height="273" key="GridCell.Tab.0.center" timestamp="1594289207650">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1816" height="273" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1594289207650" />
+    <state width="1816" height="273" key="GridCell.Tab.0.left" timestamp="1594289207649">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1816" height="273" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1594289207649" />
+    <state width="1816" height="273" key="GridCell.Tab.0.right" timestamp="1594289207650">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1816" height="273" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1594289207650" />
+    <state x="473" y="201" key="SettingsEditor" timestamp="1594286893502">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="473" y="201" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1594286893502" />
+    <state x="1052" y="611" key="extract.method.dialog" timestamp="1594277403544">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="1052" y="611" key="extract.method.dialog/0.0.1920.1080@0.0.1920.1080" timestamp="1594277403544" />
+    <state x="662" y="307" width="589" height="488" key="find.popup" timestamp="1594287771126">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="662" y="307" width="589" height="488" key="find.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1594287771126" />
+  </component>
+</project>

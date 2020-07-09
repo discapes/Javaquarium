@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javaquarium.views.simple.SimplePresenter">
+   <children>
+      <Label fx:id="label" alignment="CENTER" text="Label" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <font>
+            <Font size="96.0" />
+         </font>
+      </Label>
+      <Button layoutX="272.0" layoutY="291.0" mnemonicParsing="false" onAction="#trigger1" text="Trigger 1" />
+      <Button layoutX="272.0" layoutY="87.0" mnemonicParsing="false" onAction="#trigger2" text="Trigger 2" />
+   </children>
+</AnchorPane>
