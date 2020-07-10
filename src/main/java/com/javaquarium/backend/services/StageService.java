@@ -69,7 +69,7 @@ public class StageService {
     @OnEvent(Events.EXIT)
     private void exit() {
         stage.close();
-        settingsStage.close();
+        if (settingsStage != null) settingsStage.close();
     }
 
     @OnEvent(Events.LOGOUT)

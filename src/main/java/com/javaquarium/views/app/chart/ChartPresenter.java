@@ -49,6 +49,7 @@ public class ChartPresenter implements Initializable {
     private ReadOnlyDoubleProperty oxygen;
     private ReadOnlyDoubleProperty food;
 
+    @Dependency private SettingService settingService;
     @Dependency private ThemeService themeService;
     @Dependency private AquariumDataService aquariumDataService;
 
@@ -72,9 +73,9 @@ public class ChartPresenter implements Initializable {
 
     private void valueChange(double val, Button plusBtn, Button minusBtn) {
         if (val > 150)
-            minusBtn.setStyle("-fx-background-color: " + (SettingService.theme.contains("Dark") ? "darkred" : "palevioletred"));
+            minusBtn.setStyle("-fx-background-color: " + (settingService.theme.contains("Dark") ? "darkred" : "palevioletred"));
         else if (val < 50)
-            plusBtn.setStyle("-fx-background-color: " + (SettingService.theme.contains("Dark") ? "darkred" : "palevioletred"));
+            plusBtn.setStyle("-fx-background-color: " + (settingService.theme.contains("Dark") ? "darkred" : "palevioletred"));
         else {
             plusBtn.setStyle("");
             minusBtn.setStyle("");
@@ -118,8 +119,8 @@ public class ChartPresenter implements Initializable {
 
     @OnEvent(Events.PRELOAD)
     private void fillChart() {
-        points = SettingService.prettyChartPoints + 1;
-        pointsPerSecond = (points - 1) / (double) SettingService.chartHistory;
+        points = settingService.prettyChartPoints + 1;
+        pointsPerSecond = (points - 1) / (double) settingService.chartHistory;
 
         for (int i = 0; i < points; i++) {
             int indexFromRight = points - i - 1;
@@ -138,7 +139,7 @@ public class ChartPresenter implements Initializable {
         assert timerTask == null;
         timerTask = newTimerTask();
         int updateRateMs = (int) (1000 / pointsPerSecond);
-        if (SettingService.prettyChartPoints > 0)
+        if (settingService.prettyChartPoints > 0)
             timer.scheduleAtFixedRate(timerTask, updateRateMs, updateRateMs);
     }
 

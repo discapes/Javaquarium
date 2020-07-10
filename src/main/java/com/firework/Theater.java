@@ -41,9 +41,12 @@ public abstract class Theater {
         return presenter;
     }
 
-    public static void initTheaterAndStartFireworkAndPreloadScenes(Stage primaryStage) {
+    private static String pkg;
+
+    public static void initTheaterAndStartFireworkAndPreloadScenes(Stage primaryStage, String pkg) {
+        Theater.pkg = pkg;
         Theater.primaryStage = primaryStage;
-        Firework.startServices();
+        Firework.startServices(pkg);
         /* load scenes in the background (OMG SO FAAST) */
         new Thread(Theater::buildScenes).start();
     }
@@ -68,7 +71,7 @@ public abstract class Theater {
 
     public static void buildScenes() {
         logger.log("Starting scenes...");
-        Reflections reflections = new Reflections("", new SubTypesScanner(false), new TypeAnnotationsScanner());
+        Reflections reflections = new Reflections(pkg, new SubTypesScanner(false), new TypeAnnotationsScanner());
         Set<Class<? extends View>> sceneViewClasses = reflections.getSubTypesOf(View.class);
         sceneViewClasses.removeIf(clazz -> clazz.getAnnotation(SceneView.class) == null);
 

@@ -1,5 +1,6 @@
 package com.javaquarium.backend.services;
 
+import com.firework.Dependency;
 import com.firework.Service;
 import com.sun.javafx.css.StyleManager;
 import javafx.application.Application;
@@ -11,6 +12,8 @@ import java.net.URL;
 
 @Service
 public class ThemeService {
+
+    @Dependency private SettingService settingService;
 
     private final JMetro jMetro;
     private final String[] themes = {
@@ -34,7 +37,7 @@ public class ThemeService {
         Application.setUserAgentStylesheet(Application.STYLESHEET_MODENA);
         jMetro.sceneProperty().set(null);
 
-        switch (SettingService.theme) {
+        switch (settingService.theme) {
             case "Light":
                 break;
             case "Old":
@@ -50,7 +53,7 @@ public class ThemeService {
                 jMetro.setScene(scene);
                 break;
             default:
-                URL styleSheet = getClass().getResource("/" + SettingService.theme + ".css");
+                URL styleSheet = getClass().getResource("/" + settingService.theme + ".css");
                 StyleManager.getInstance().addUserAgentStylesheet(styleSheet.toString());
         }
     }

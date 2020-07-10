@@ -81,8 +81,7 @@ public class SearchPresenter implements Initializable {
             this.propertyReference = propertyReference;
         }
 
-        @Override
-        public boolean test(Fish fish) {
+        @Override public boolean test(Fish fish) {
             String value = propertyReference.get(fish).toString();
             return value.matches(regex);
         }

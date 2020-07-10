@@ -57,27 +57,27 @@ public class SettingsPresenter implements Initializable {
     private void apply() {
         int nextChartHistory = (int) chartHistoryS.getValue();
         int nextPrettyChartPoints = (int) chartNumDataS.getValue();
-        if (nextChartHistory != SettingService.chartHistory || nextPrettyChartPoints != SettingService.prettyChartPoints) {
-            SettingService.chartHistory = nextChartHistory;
-            SettingService.prettyChartPoints = nextPrettyChartPoints;
+        if (nextChartHistory != settingService.chartHistory || nextPrettyChartPoints != settingService.prettyChartPoints) {
+            settingService.chartHistory = nextChartHistory;
+            settingService.prettyChartPoints = nextPrettyChartPoints;
             EventSystem.queueAutomaticEvent(Events.CHARTSETTINGCHANGE);
         }
 
         int nextTickRate = (int) tickRateS.getValue();
-        if (SettingService.tickRate != nextTickRate) {
-            SettingService.tickRate = nextTickRate;
+        if (settingService.tickRate != nextTickRate) {
+            settingService.tickRate = nextTickRate;
             EventSystem.queueAutomaticEvent(Events.TICKRATECHANGE);
         }
     }
 
     @FXML private void reset() {
-        chartHistoryS.setValue(SettingService.defaultChartHistory);
-        chartNumDataS.setValue(SettingService.defaultPrettyChartPoints);
-        tickRateS.setValue(SettingService.defaultTickRate);
+        chartHistoryS.setValue(settingService.defaultChartHistory);
+        chartNumDataS.setValue(settingService.defaultPrettyChartPoints);
+        tickRateS.setValue(settingService.defaultTickRate);
     }
 
     @FXML private void applyTheme() {
-        SettingService.theme = themePicker.getValue();
+        settingService.theme = themePicker.getValue();
         EventSystem.queueAutomaticEvent(Events.NEWTHEME);
     }
 
@@ -85,12 +85,12 @@ public class SettingsPresenter implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         themePicker.setItems(observableArrayList(themeService.getThemes()));
-        themePicker.setValue(SettingService.theme);
+        themePicker.setValue(settingService.theme);
 
         /* SPENT WAYYY TOO LONG ON ALL THESE SLIDERS */
-        chartHistoryS.setValue(SettingService.chartHistory);
-        chartNumDataS.setValue(SettingService.prettyChartPoints);
-        tickRateS.setValue(SettingService.tickRate);
+        chartHistoryS.setValue(settingService.chartHistory);
+        chartNumDataS.setValue(settingService.prettyChartPoints);
+        tickRateS.setValue(settingService.tickRate);
 
         chartNumDataS.valueProperty().addListener((observable, oldValue, newValue) -> {
             if ((double) newValue < chartHistoryS.getValue())

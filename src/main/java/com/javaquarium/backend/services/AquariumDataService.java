@@ -1,5 +1,6 @@
 package com.javaquarium.backend.services;
 
+import com.firework.Dependency;
 import com.firework.OnEvent;
 import com.firework.Service;
 import com.javaquarium.Events;
@@ -41,6 +42,8 @@ public class AquariumDataService {
     public FilteredList<Fish> getVisibleFish() {
         return visibleFish;
     }
+
+    @Dependency private SettingService settingService;
 
     @SuppressWarnings("ConstantConditions")
     private void updateFishHealth() {
@@ -94,8 +97,8 @@ public class AquariumDataService {
     private void startTimer() {
         assert timerTask == null;
         timerTask = newTimerTask();
-        if (SettingService.tickRate > 0)
-            timer.scheduleAtFixedRate(timerTask, SettingService.tickRate, SettingService.tickRate);
+        if (settingService.tickRate > 0)
+            timer.scheduleAtFixedRate(timerTask, settingService.tickRate, settingService.tickRate);
     }
 
     @OnEvent(Events.TICKRATECHANGE)

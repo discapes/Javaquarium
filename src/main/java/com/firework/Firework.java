@@ -10,9 +10,9 @@ public abstract class Firework {
 
     private static final Logger logger = new MyLogger();
 
-    public static void startServices() {
+    public static void startServices(String pkg) {
         logger.log("Starting services...");
-        Reflections reflections = new Reflections("", new SubTypesScanner(false), new TypeAnnotationsScanner());
+        Reflections reflections = new Reflections(pkg, new SubTypesScanner(false), new TypeAnnotationsScanner());
 
         Set<Class<?>> serviceClasses = reflections.getTypesAnnotatedWith(Service.class);
         for (Class<?> clazz : serviceClasses) {

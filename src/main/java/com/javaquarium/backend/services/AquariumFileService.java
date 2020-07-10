@@ -1,5 +1,6 @@
 package com.javaquarium.backend.services;
 
+import com.firework.AfterInjection;
 import com.firework.Dependency;
 import com.firework.OnEvent;
 import com.firework.Service;
@@ -15,9 +16,30 @@ import java.nio.file.Paths;
 @Service
 public class AquariumFileService {
 
+    @Dependency private SettingService settingService;
     @Dependency private AlertService alertService;
     @Dependency private CryptographyService cryptographyService;
     @Dependency private AquariumDataService aquariumDataService;
+
+    @AfterInjection
+    private void initDefaultFile() {
+        File defaultFile = new File(settingService.defaultAquarium);
+        try {
+            boolean isNew = defaultFile.createNewFile();
+            if (isNew) {
+                Files.writeString(defaultFile.toPath(),
+                        "100 100\n" +
+                        "Candice COD 164 #eedfaa 100\n" +
+                        "Bob COD 234 #eebbaa 100\n" +
+                        "Angelina BLUETANG 84 #00ff00 100\n" +
+                        "Dave COD 197 #ff9980 100\n" +
+                        "Jack BLUETANG 195 #800080 100\n" +
+                        "Joe COD 118 #00cdff 100\n");
+            }
+        } catch (IOException e) {
+            alertService.errorAlert("Could not create default aquarium file " + settingService.defaultAquarium + ": " + e);
+        }
+    }
 
     public void save(File file, String key) {
         String str = aquariumDataService.toString();
@@ -59,13 +81,13 @@ public class AquariumFileService {
     public void loadDefault() {
         String str;
         try {
-            str = new String(Files.readAllBytes(Paths.get(SettingService.defaultAquarium)));
+            str = new String(Files.readAllBytes(Paths.get(settingService.defaultAquarium)));
         } catch (IOException e) {
-            alertService.errorAlert("Could not read from " + SettingService.defaultAquarium + " : " + e);
+            alertService.errorAlert("Could not read from " + settingService.defaultAquarium + " : " + e);
             return;
         }
         if (!aquariumDataService.loadFromString(str)) {
-            alertService.errorAlert("Invalid aquarium file " + SettingService.defaultAquarium);
+            alertService.errorAlert("Invalid aquarium file " + settingService.defaultAquarium);
         }
     }
 }

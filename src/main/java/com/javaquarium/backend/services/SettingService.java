@@ -7,15 +7,15 @@ import com.javaquarium.Events;
 @Service
 public class SettingService {
 
-    public static final int defaultTickRate = 20;
-    public static final int defaultChartHistory = 10;
-    public static final int defaultPrettyChartPoints = 200;
-    public static final String defaultAquarium = System.getProperty("user.home") + "/.javaquariumdefault.txt";
-    public static final String defaultTheme = "Dark";
-    public static int tickRate = defaultTickRate;
-    public static int chartHistory = defaultChartHistory;
-    public static int prettyChartPoints = defaultPrettyChartPoints;
-    public static String theme = defaultTheme;
+    public final int defaultTickRate = 20;
+    public final int defaultChartHistory = 10;
+    public final int defaultPrettyChartPoints = 200;
+    public final String defaultAquarium = System.getProperty("user.home") + "/.javaquariumdefault.txt";
+    public final String defaultTheme = "Dark";
+    public int tickRate = defaultTickRate;
+    public int chartHistory = defaultChartHistory;
+    public int prettyChartPoints = defaultPrettyChartPoints;
+    public String theme = defaultTheme;
 
     @OnEvent(Events.LOGOUT)
     public void resetSettings() {
