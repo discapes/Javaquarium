@@ -18,20 +18,18 @@ public class AppPresenter implements Initializable {
     @FXML private AnchorPane tablePane;
     @FXML private AnchorPane toolbarPane;
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    @Override public void initialize(URL url, ResourceBundle resourceBundle) {
+/*
         tablePane.getChildren().add(new FishTableView().getRoot());
         searchPane.getChildren().add(new SearchView().getRoot());
         chartPane.getChildren().add(new ChartView().getRoot());
         toolbarPane.getChildren().add(new ToolbarView().getRoot());
-
-
-        // supa fast
-        /*
-        new ChartView().getViewAsync(chartPane.getChildren()::add);*/
-        //    new SearchView().getViewAsync(searchPane.getChildren()::add);
-        //    new ToolbarView().getViewAsync(toolbarPane.getChildren()::add);
-        //     new FishTableView().getViewAsync(tablePane.getChildren()::add);
+*/
+        /* (OMG SO FAAAST) */
+        new ChartView().getRootAsync(chartPane.getChildren()::add);
+        new SearchView().getRootAsync(searchPane.getChildren()::add);
+        new ToolbarView().getRootAsync(toolbarPane.getChildren()::add);
+        new FishTableView().getRootAsync(tablePane.getChildren()::add);
     }
 
 }
