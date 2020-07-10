@@ -8,7 +8,7 @@ import java.util.Set;
 
 public abstract class Firework {
 
-    private static Logger logger = new MyLogger();
+    private static final Logger logger = new MyLogger();
 
     public static void startServices() {
         logger.log("Starting services...");

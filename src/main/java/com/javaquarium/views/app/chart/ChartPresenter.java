@@ -5,7 +5,7 @@ import com.firework.Dependency;
 import com.firework.OnEvent;
 import com.firework.Service;
 import com.javaquarium.Events;
-import com.javaquarium.backend.services.AquariumService;
+import com.javaquarium.backend.services.AquariumDataService;
 import com.javaquarium.backend.services.SettingsService;
 import com.javaquarium.backend.services.ThemeService;
 import javafx.application.Platform;
@@ -29,14 +29,6 @@ import static javafx.collections.FXCollections.observableArrayList;
 @Service
 public class ChartPresenter implements Initializable {
 
-    @FXML private LineChart<String, Number> lineChart;
-    @FXML private CategoryAxis categoryAxis;
-
-    @FXML private Button plusOxygenBtn;
-    @FXML private Button minusOxygenBtn;
-    @FXML private Button plusFoodBtn;
-    @FXML private Button minusFoodBtn;
-
     private final Timer timer = new Timer(true);
     private final ObservableList<XYChart.Data<String, Number>> paddingData1 = observableArrayList();
     private final ObservableList<XYChart.Data<String, Number>> paddingData2 = observableArrayList();
@@ -45,6 +37,12 @@ public class ChartPresenter implements Initializable {
     private final ObservableList<XYChart.Data<String, Number>> topData = observableArrayList();
     private final ObservableList<XYChart.Data<String, Number>> bottomData = observableArrayList();
     private final ObservableList<String> categories = observableArrayList();
+    @FXML private LineChart<String, Number> lineChart;
+    @FXML private CategoryAxis categoryAxis;
+    @FXML private Button plusOxygenBtn;
+    @FXML private Button minusOxygenBtn;
+    @FXML private Button plusFoodBtn;
+    @FXML private Button minusFoodBtn;
     private TimerTask timerTask = null;
     private int points;
     private double pointsPerSecond;
@@ -52,21 +50,22 @@ public class ChartPresenter implements Initializable {
     private ReadOnlyDoubleProperty food;
 
     @Dependency private ThemeService themeService;
-    @Dependency private AquariumService aquariumService;
+    @Dependency private AquariumDataService aquariumDataService;
 
-    @Override public void initialize(URL url, ResourceBundle rb) {
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
         categoryAxis.setCategories(getCategories());
 
-        for (ObservableList<XYChart.Data<String, Number>> data :getData()) {
+        for (ObservableList<XYChart.Data<String, Number>> data : getData()) {
             lineChart.getData().add(new XYChart.Series<>(data));
         }
 
         lineChart.getData().get(2).setName("Oxygen");
         lineChart.getData().get(3).setName("Food");
 
-        aquariumService.getOxygen().addListener((observableValue, number, t1) ->
+        aquariumDataService.getOxygen().addListener((observableValue, number, t1) ->
                 valueChange((double) t1, plusOxygenBtn, minusOxygenBtn));
-        aquariumService.getFood().addListener((observableValue, number, t1) ->
+        aquariumDataService.getFood().addListener((observableValue, number, t1) ->
                 valueChange((double) t1, plusFoodBtn, minusFoodBtn));
 
         //Thread.setDefaultUncaughtExceptionHandler((t, e) -> {});
@@ -85,22 +84,22 @@ public class ChartPresenter implements Initializable {
 
     @FXML
     private void increaseOxygen() {
-        aquariumService.addOxygen(10);
+        aquariumDataService.addOxygen(10);
     }
 
     @FXML
     private void decreaseOxygen() {
-        aquariumService.addOxygen(-10);
+        aquariumDataService.addOxygen(-10);
     }
 
     @FXML
     private void increaseFood() {
-        aquariumService.addFood(10);
+        aquariumDataService.addFood(10);
     }
 
     @FXML
     private void decreaseFood() {
-        aquariumService.addFood(-10);
+        aquariumDataService.addFood(-10);
     }
 
     @OnEvent(Events.LOGOUT)
@@ -127,8 +126,8 @@ public class ChartPresenter implements Initializable {
             int indexFromRight = points - i - 1;
             String indexInSeconds = Double.toString((double) indexFromRight / pointsPerSecond);
             categories.add(indexInSeconds);
-            oxygenData.add(new XYChart.Data<>(indexInSeconds, aquariumService.getOxygen().get()));
-            foodData.add(new XYChart.Data<>(indexInSeconds, aquariumService.getFood().get()));
+            oxygenData.add(new XYChart.Data<>(indexInSeconds, aquariumDataService.getOxygen().get()));
+            foodData.add(new XYChart.Data<>(indexInSeconds, aquariumDataService.getFood().get()));
             topData.add(new XYChart.Data<>(indexInSeconds, 150));
             bottomData.add(new XYChart.Data<>(indexInSeconds, 50));
         }
@@ -179,7 +178,7 @@ public class ChartPresenter implements Initializable {
 
     @AfterInjection
     private void afterInjection() {
-        oxygen = aquariumService.getOxygen();
-        food = aquariumService.getFood();
+        oxygen = aquariumDataService.getOxygen();
+        food = aquariumDataService.getFood();
     }
 }

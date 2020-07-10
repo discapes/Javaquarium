@@ -14,7 +14,18 @@
     -fx-background-color: transparent;
 }
 
-.default-color0.chart-series-line { -fx-stroke: red; }
-.default-color1.chart-series-line { -fx-stroke: red; }
-.default-color4.chart-series-line { -fx-stroke: red; }
-.default-color5.chart-series-line { -fx-stroke: red; }
+.default-color0.chart-series-line {
+    -fx-stroke: red;
+}
+
+.default-color1.chart-series-line {
+    -fx-stroke: red;
+}
+
+.default-color4.chart-series-line {
+    -fx-stroke: red;
+}
+
+.default-color5.chart-series-line {
+    -fx-stroke: red;
+}

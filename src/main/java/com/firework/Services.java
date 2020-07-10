@@ -9,9 +9,11 @@ public abstract class Services {
     private static final Logger logger = new MyLogger();
 
     private static final HashMap<Class<?>, Object> services = new HashMap<>();
+
     private static <T> void addService(T service) {
         services.put(service.getClass(), service);
     }
+
     public static <T> T getService(Class<T> clazz) {
         return (T) services.get(clazz);
     }

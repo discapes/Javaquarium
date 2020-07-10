@@ -14,11 +14,10 @@ import javafx.stage.Stage;
 @Service
 public class StageService {
 
+    private final Stage stage = Theater.getPrimaryStage();
     @Dependency private AlertService alertService;
     @Dependency private AccountService accountService;
     @Dependency private ThemeService themeService;
-
-    private final Stage stage = Theater.getPrimaryStage();
 
     @OnEvent(Events.LOGIN)
     private void openApp() {

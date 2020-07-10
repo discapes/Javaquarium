@@ -5,7 +5,7 @@ import com.javaquarium.backend.Fish;
 import com.javaquarium.backend.FishSpecies;
 import com.javaquarium.backend.Utils;
 import com.javaquarium.backend.services.AlertService;
-import com.javaquarium.backend.services.AquariumService;
+import com.javaquarium.backend.services.AquariumDataService;
 import com.javaquarium.backend.services.StageService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -34,7 +34,7 @@ public class FishTablePresenter implements Initializable {
     @FXML private TableColumn<Fish, Color> colorCol;
     @FXML private TableColumn<Fish, Integer> healthCol;
 
-    @Dependency private AquariumService aquariumService;
+    @Dependency private AquariumDataService aquariumDataService;
     @Dependency private AlertService alertService;
     @Dependency private StageService stageService;
 
@@ -90,10 +90,10 @@ public class FishTablePresenter implements Initializable {
                 Fish fish = tableView.getSelectionModel().getSelectedItem();
                 if (fish == null) return;
                 if (alertService.confirm("Are you sure you want to delete " + fish.getName() + "?"))
-                    aquariumService.getFish().remove(fish);
+                    aquariumDataService.getFish().remove(fish);
             }
         });
-        tableView.setItems(aquariumService.getFish());
+        tableView.setItems(aquariumDataService.getVisibleFish());
     }
 
     private static class CustomStringConverter extends StringConverter<String> {

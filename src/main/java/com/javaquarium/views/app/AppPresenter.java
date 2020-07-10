@@ -18,7 +18,8 @@ public class AppPresenter implements Initializable {
     @FXML private AnchorPane tablePane;
     @FXML private AnchorPane toolbarPane;
 
-    @Override public void initialize(URL url, ResourceBundle resourceBundle) {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
 /*
         tablePane.getChildren().add(new FishTableView().getRoot());
         searchPane.getChildren().add(new SearchView().getRoot());

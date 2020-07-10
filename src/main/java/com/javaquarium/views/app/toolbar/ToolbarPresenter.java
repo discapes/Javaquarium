@@ -20,17 +20,17 @@ public class ToolbarPresenter {
     @Dependency private AccountService accountService;
     @Dependency private StageService stageService;
     @Dependency private AlertService alertService;
-    @Dependency private AquariumService aquariumService;
+    @Dependency private AquariumDataService aquariumDataService;
 
     @FXML
     private void nuke() {
         if (alertService.confirm("Delete all fish?"))
-            aquariumService.getFish().clear();
+            aquariumDataService.getFish().clear();
     }
 
     @FXML
     private void addFish() {
-        aquariumService.getFish().add(new Fish("New fish"));
+        aquariumDataService.getFish().add(new Fish("New fish"));
     }
 
     @FXML

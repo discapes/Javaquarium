@@ -17,10 +17,10 @@ public class AquariumFileService {
 
     @Dependency private AlertService alertService;
     @Dependency private CryptographyService cryptographyService;
-    @Dependency private AquariumService aquariumService;
+    @Dependency private AquariumDataService aquariumDataService;
 
     public void save(File file, String key) {
-        String str = aquariumService.toString();
+        String str = aquariumDataService.toString();
         if (key.length() > 0) {
             str = cryptographyService.encrypt(str, key);
         }
@@ -48,7 +48,7 @@ public class AquariumFileService {
                 return;
             }
         }
-        if (!aquariumService.loadFromString(str)) {
+        if (!aquariumDataService.loadFromString(str)) {
             alertService.errorAlert("Invalid aquarium file " + file);
             return;
         }
@@ -64,7 +64,7 @@ public class AquariumFileService {
             alertService.errorAlert("Could not read from " + SettingsService.defaultAquarium + " : " + e);
             return;
         }
-        if (!aquariumService.loadFromString(str)) {
+        if (!aquariumDataService.loadFromString(str)) {
             alertService.errorAlert("Invalid aquarium file " + SettingsService.defaultAquarium);
         }
     }

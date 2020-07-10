@@ -47,18 +47,18 @@ public class Fish {
     }
 
     public SimpleStringProperty nameProperty() { return name; }
-
     public SimpleIntegerProperty speedProperty() { return speed; }
-
     public SimpleObjectProperty<Color> colorProperty() { return color; }
-
     public SimpleObjectProperty<FishSpecies> speciesProperty() { return species; }
-
     public SimpleIntegerProperty healthProperty() { return health; }
-
+    public FishSpecies getSpecies() { return species.get(); }
+    public void setSpecies(FishSpecies species) { this.species.set(species); }
     public Integer getHealth() { return health.get(); }
-
     public void setHealth(int health) { this.health.set(health); }
-
+    public int getSpeed() { return speed.get(); }
+    public void setSpeed(int speed) { this.speed.set(speed); }
+    public Color getColor() { return color.get(); }
+    public void setColor(Color color) { this.color.set(color); }
     public String getName() { return name.get(); }
+    public void setName(String name) { this.name.set(name); }
 }

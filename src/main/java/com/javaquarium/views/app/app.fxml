@@ -4,26 +4,36 @@
 
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.*?>
-<AnchorPane prefHeight="1000.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javaquarium.views.app.AppPresenter">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="1000.0" prefWidth="1000.0"
+            xmlns="http://javafx.com/javafx/10.0.2-internal" fx:controller="com.javaquarium.views.app.AppPresenter">
     <children>
-        <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <AnchorPane fx:id="toolbarPane" prefHeight="20.0" prefWidth="10.0" />
+                <AnchorPane fx:id="toolbarPane" prefHeight="20.0" prefWidth="10.0"/>
                 <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                     <children>
-                        <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                        <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0"
+                                   AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0"
+                                   AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                             <items>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                     <children>
-                                        <SplitPane dividerPositions="0.2459016393442623" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                        <SplitPane dividerPositions="0.2459016393442623" prefHeight="160.0"
+                                                   prefWidth="200.0" AnchorPane.bottomAnchor="0.0"
+                                                   AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                                   AnchorPane.topAnchor="0.0">
                                             <items>
-                                                <AnchorPane fx:id="searchPane" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="210.0" />
-                                                <AnchorPane fx:id="tablePane" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="810.0" />
+                                                <AnchorPane fx:id="searchPane" minHeight="0.0" minWidth="0.0"
+                                                            prefHeight="160.0" prefWidth="210.0"/>
+                                                <AnchorPane fx:id="tablePane" minHeight="0.0" minWidth="0.0"
+                                                            prefHeight="160.0" prefWidth="810.0"/>
                                             </items>
                                         </SplitPane>
                                     </children>
                                 </AnchorPane>
-                                <AnchorPane fx:id="chartPane" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
+                                <AnchorPane fx:id="chartPane" minHeight="0.0" minWidth="0.0" prefHeight="100.0"
+                                            prefWidth="160.0"/>
                             </items>
                         </SplitPane>
                     </children>

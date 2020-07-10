@@ -8,6 +8,7 @@ import com.javaquarium.backend.FishSpecies;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.ReadOnlyDoubleWrapper;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.scene.paint.Color;
 
 import java.util.List;
@@ -19,7 +20,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import static javafx.collections.FXCollections.observableArrayList;
 
 @Service
-public class AquariumService {
+public class AquariumDataService {
 
     private final ReadOnlyDoubleWrapper oxygen = new ReadOnlyDoubleWrapper(100);
     private final ReadOnlyDoubleWrapper food = new ReadOnlyDoubleWrapper(100);
@@ -27,6 +28,7 @@ public class AquariumService {
     private final ObservableList<Fish> under100HPFish = observableArrayList();
     private final Timer timer = new Timer(true);
     private final ObservableList<Fish> fish = observableArrayList();
+    private final FilteredList<Fish> visibleFish = fish.filtered((f) -> true);
     private int ticks = 0;
     private double foodAddAmount = 0;
     private double oxygenAddAmount = 0;
@@ -34,6 +36,10 @@ public class AquariumService {
 
     public ObservableList<Fish> getFish() {
         return fish;
+    }
+
+    public FilteredList<Fish> getVisibleFish() {
+        return visibleFish;
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -88,7 +94,8 @@ public class AquariumService {
     private void startTimer() {
         assert timerTask == null;
         timerTask = newTimerTask();
-        if (SettingsService.tickRate > 0) timer.scheduleAtFixedRate(timerTask, SettingsService.tickRate, SettingsService.tickRate);
+        if (SettingsService.tickRate > 0)
+            timer.scheduleAtFixedRate(timerTask, SettingsService.tickRate, SettingsService.tickRate);
     }
 
     @OnEvent(Events.TICKRATECHANGE)
@@ -110,6 +117,7 @@ public class AquariumService {
         oxygen.set(100);
         food.set(100);
         fish.clear();
+        visibleFish.setPredicate((f) -> true);
     }
 
     private TimerTask newTimerTask() {

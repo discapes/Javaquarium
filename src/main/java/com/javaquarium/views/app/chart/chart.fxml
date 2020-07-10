@@ -9,54 +9,69 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<AnchorPane prefHeight="400.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javaquarium.views.app.chart.ChartPresenter">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0"
+            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"
+            xmlns="http://javafx.com/javafx/10.0.2-internal" fx:controller="com.javaquarium.views.app.chart.ChartPresenter">
     <children>
-        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0"
+              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                     <children>
-                        <Button fx:id="plusOxygenBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#increaseOxygen" text="Increase Oxygen" wrapText="true" VBox.vgrow="ALWAYS">
+                        <Button fx:id="plusOxygenBtn" maxHeight="1.7976931348623157E308"
+                                maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#increaseOxygen"
+                                text="Increase Oxygen" wrapText="true" VBox.vgrow="ALWAYS">
                             <font>
-                                <Font size="15.0" />
+                                <Font size="15.0"/>
                             </font>
                         </Button>
-                        <Button fx:id="minusOxygenBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#decreaseOxygen" text="Decrease Oxygen" wrapText="true" VBox.vgrow="ALWAYS">
+                        <Button fx:id="minusOxygenBtn" maxHeight="1.7976931348623157E308"
+                                maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#decreaseOxygen"
+                                text="Decrease Oxygen" wrapText="true" VBox.vgrow="ALWAYS">
                             <font>
-                                <Font size="15.0" />
+                                <Font size="15.0"/>
                             </font>
                         </Button>
                     </children>
                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
                     </padding>
                 </VBox>
-                <LineChart fx:id="lineChart" animated="false" createSymbols="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" title="Statistics" verticalGridLinesVisible="false" HBox.hgrow="ALWAYS">
+                <LineChart fx:id="lineChart" animated="false" createSymbols="false" maxHeight="1.7976931348623157E308"
+                           maxWidth="1.7976931348623157E308" title="Statistics" verticalGridLinesVisible="false"
+                           HBox.hgrow="ALWAYS">
                     <xAxis>
-                        <CategoryAxis fx:id="categoryAxis" animated="false" autoRanging="false" endMargin="0" label="Time since" side="BOTTOM" startMargin="0" tickLabelRotation="10.0" tickMarkVisible="false">
+                        <CategoryAxis fx:id="categoryAxis" animated="false" autoRanging="false" endMargin="0"
+                                      label="Time since" side="BOTTOM" startMargin="0" tickLabelRotation="10.0"
+                                      tickMarkVisible="false">
                             <tickLabelFont>
-                                <Font size="14.0" />
+                                <Font size="14.0"/>
                             </tickLabelFont>
                         </CategoryAxis>
                     </xAxis>
                     <yAxis>
-                        <NumberAxis label="Amount" side="RIGHT" />
+                        <NumberAxis label="Amount" side="RIGHT"/>
                     </yAxis>
                 </LineChart>
                 <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                     <children>
-                        <Button fx:id="plusFoodBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#increaseFood" text="Increase Food" wrapText="true" VBox.vgrow="ALWAYS">
+                        <Button fx:id="plusFoodBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                mnemonicParsing="false" onAction="#increaseFood" text="Increase Food" wrapText="true"
+                                VBox.vgrow="ALWAYS">
                             <font>
-                                <Font size="15.0" />
+                                <Font size="15.0"/>
                             </font>
                         </Button>
-                        <Button fx:id="minusFoodBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#decreaseFood" text="Decrease Food" wrapText="true" VBox.vgrow="ALWAYS">
+                        <Button fx:id="minusFoodBtn" maxHeight="1.7976931348623157E308"
+                                maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#decreaseFood"
+                                text="Decrease Food" wrapText="true" VBox.vgrow="ALWAYS">
                             <font>
-                                <Font size="15.0" />
+                                <Font size="15.0"/>
                             </font>
                         </Button>
                     </children>
                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
                     </padding>
                 </VBox>
             </children>

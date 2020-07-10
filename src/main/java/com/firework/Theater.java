@@ -1,6 +1,5 @@
 package com.firework;
 
-import com.javaquarium.views.app.AppView;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.reflections.Reflections;
@@ -9,7 +8,6 @@ import org.reflections.scanners.TypeAnnotationsScanner;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
