@@ -1,6 +1,5 @@
 package com.firework;
 
-import com.firework.javafx.Theater;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,7 +12,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
+import static com.firework.Services.getString;
+
 public abstract class View extends StackPane {
+
+    private final static Logger logger = new MyLogger();
+
     private final static ExecutorService EXECUTOR_SERVICE = Executors.newCachedThreadPool((r) -> {
         Thread thread = Executors.defaultThreadFactory().newThread(r);
         String name = thread.getName();
@@ -23,6 +27,7 @@ public abstract class View extends StackPane {
     });
 
     public Parent getRoot() {
+        logger.log("getRoot called in             " + getString(this));
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(getResourceName(".fxml")));
         fxmlLoader.setControllerFactory(Theater::buildPresenterIfAbsent);
         try {

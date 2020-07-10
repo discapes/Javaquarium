@@ -6,12 +6,12 @@ import java.util.HashMap;
 @SuppressWarnings("unchecked")
 public abstract class Services {
 
-    private static final HashMap<Class<?>, Object> services = new HashMap<>();
+    private static final Logger logger = new MyLogger();
 
+    private static final HashMap<Class<?>, Object> services = new HashMap<>();
     private static <T> void addService(T service) {
         services.put(service.getClass(), service);
     }
-
     public static <T> T getService(Class<T> clazz) {
         return (T) services.get(clazz);
     }
@@ -19,14 +19,14 @@ public abstract class Services {
     static <T> T buildServiceIfAbsent(Class<T> clazz) {
         T service = getService(clazz);
         if (service == null) {
-            Logger.log("Building service              " + clazz.getSimpleName());
+            logger.log("Building service              " + clazz.getSimpleName());
             EventSystem.registerService(clazz);
 
             service = instantiateClass(clazz);
             addService(service);
             Injector.injectDependencies(service);
         } else {
-            Logger.log("Using existing service        " + clazz.getSimpleName());
+            logger.log("Using existing service        " + clazz.getSimpleName());
         }
         return service;
     }
@@ -34,7 +34,7 @@ public abstract class Services {
     public static <T> T instantiateClass(Class<T> clazz) {
         try {
             T o = clazz.getConstructor().newInstance();
-            Logger.log("Instantiated new object       " + getString(o));
+            logger.log("Instantiated new object       " + getString(o));
             return o;
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
             throw new IllegalStateException("Could not instantiate a new " + clazz.getSimpleName(), e);

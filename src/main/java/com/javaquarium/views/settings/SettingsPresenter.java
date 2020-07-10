@@ -2,8 +2,8 @@ package com.javaquarium.views.settings;
 
 import com.firework.Dependency;
 import com.firework.EventSystem;
-import com.javaquarium.Event;
-import com.javaquarium.backend.Settings;
+import com.javaquarium.Events;
+import com.javaquarium.backend.services.SettingsService;
 import com.javaquarium.backend.services.AlertService;
 import com.javaquarium.backend.services.ThemeService;
 import javafx.beans.binding.Bindings;
@@ -57,25 +57,25 @@ public class SettingsPresenter implements Initializable {
         themeService.setCurrentTheme(themePicker.getValue());
         int nextChartHistory = (int) chartHistoryS.getValue();
         int nextPrettyChartPoints = (int) chartNumDataS.getValue();
-        if (nextChartHistory != Settings.chartHistory || nextPrettyChartPoints != Settings.prettyChartPoints) {
-            Settings.chartHistory = nextChartHistory;
-            Settings.prettyChartPoints = nextPrettyChartPoints;
-            EventSystem.queueAutomaticEvent(Event.CHARTSETTINGCHANGE);
+        if (nextChartHistory != SettingsService.chartHistory || nextPrettyChartPoints != SettingsService.prettyChartPoints) {
+            SettingsService.chartHistory = nextChartHistory;
+            SettingsService.prettyChartPoints = nextPrettyChartPoints;
+            EventSystem.queueAutomaticEvent(Events.CHARTSETTINGCHANGE);
         }
 
         int nextTickRate = (int) tickRateS.getValue();
-        if (Settings.tickRate != nextTickRate) {
-            Settings.tickRate = nextTickRate;
-            EventSystem.queueAutomaticEvent(Event.TICKRATECHANGE);
+        if (SettingsService.tickRate != nextTickRate) {
+            SettingsService.tickRate = nextTickRate;
+            EventSystem.queueAutomaticEvent(Events.TICKRATECHANGE);
         }
     }
 
     @FXML
     private void reset() {
-        chartHistoryS.setValue(Settings.defaultChartHistory);
-        chartNumDataS.setValue(Settings.defaultPrettyChartPoints);
-        tickRateS.setValue(Settings.defaultTickRate);
-        themePicker.setValue(Settings.defaultTheme);
+        chartHistoryS.setValue(SettingsService.defaultChartHistory);
+        chartNumDataS.setValue(SettingsService.defaultPrettyChartPoints);
+        tickRateS.setValue(SettingsService.defaultTickRate);
+        themePicker.setValue(SettingsService.defaultTheme);
     }
 
     @SuppressWarnings("SpellCheckingInspection")
@@ -85,9 +85,9 @@ public class SettingsPresenter implements Initializable {
         themePicker.setValue(themeService.getCurrentTheme());
 
         /* SPENT WAYYY TOO LONG ON ALL THESE SLIDERS */
-        chartHistoryS.setValue(Settings.chartHistory);
-        chartNumDataS.setValue(Settings.prettyChartPoints);
-        tickRateS.setValue(Settings.tickRate);
+        chartHistoryS.setValue(SettingsService.chartHistory);
+        chartNumDataS.setValue(SettingsService.prettyChartPoints);
+        tickRateS.setValue(SettingsService.tickRate);
 
         chartNumDataS.valueProperty().addListener((observable, oldValue, newValue) -> {
             if ((double) newValue < chartHistoryS.getValue())

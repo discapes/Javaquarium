@@ -4,8 +4,7 @@ import com.firework.AfterInjection;
 import com.firework.Dependency;
 import com.firework.OnEvent;
 import com.firework.Service;
-import com.javaquarium.Event;
-import com.javaquarium.backend.Settings;
+import com.javaquarium.Events;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.collections.ObservableList;
@@ -40,7 +39,7 @@ public class ChartDataService {
     private ReadOnlyDoubleProperty food;
     @Dependency private AquariumService aquariumService;
 
-    @OnEvent(Event.LOGOUT)
+    @OnEvent(Events.LOGOUT)
     private void close() {
         timerTask.cancel();
         timerTask = null;
@@ -48,16 +47,17 @@ public class ChartDataService {
         getData().forEach(List::clear);
     }
 
-    @OnEvent(Event.CHARTSETTINGCHANGE)
+    @OnEvent(Events.CHARTSETTINGCHANGE)
     private void reset() {
         close();
-        fillChartAndStartUpdater();
+        fillChart();
+        startUpdater();
     }
 
-    @OnEvent(Event.LOGIN)
-    private void fillChartAndStartUpdater() {
-        points = Settings.prettyChartPoints + 1;
-        pointsPerSecond = (points - 1) / (double) Settings.chartHistory;
+    @OnEvent(Events.PRELOAD)
+    private void fillChart() {
+        points = SettingsService.prettyChartPoints + 1;
+        pointsPerSecond = (points - 1) / (double) SettingsService.chartHistory;
 
         for (int i = 0; i < points; i++) {
             int indexFromRight = points - i - 1;
@@ -69,11 +69,14 @@ public class ChartDataService {
             bottomData.add(new XYChart.Data<>(indexInSeconds, 50));
         }
         paddingData1.add(new XYChart.Data<>("range", 200));
+    }
 
+    @OnEvent(Events.LOGIN)
+    private void startUpdater() {
         assert timerTask == null;
         timerTask = newTimerTask();
         int updateRateMs = (int) (1000 / pointsPerSecond);
-        if (Settings.prettyChartPoints > 0)
+        if (SettingsService.prettyChartPoints > 0)
             timer.scheduleAtFixedRate(timerTask, updateRateMs, updateRateMs);
     }
 

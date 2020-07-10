@@ -1,7 +1,9 @@
 package com.javaquarium.views.app;
 
+import com.firework.SceneView;
 import com.firework.View;
 
+@SceneView
 public class AppView extends View {
         /* TODO
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

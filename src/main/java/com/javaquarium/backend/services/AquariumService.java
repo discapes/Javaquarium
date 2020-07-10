@@ -2,10 +2,9 @@ package com.javaquarium.backend.services;
 
 import com.firework.OnEvent;
 import com.firework.Service;
-import com.javaquarium.Event;
+import com.javaquarium.Events;
 import com.javaquarium.backend.Fish;
 import com.javaquarium.backend.FishSpecies;
-import com.javaquarium.backend.Settings;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.ReadOnlyDoubleWrapper;
 import javafx.collections.ObservableList;
@@ -85,14 +84,14 @@ public class AquariumService {
         ticks++;
     }
 
-    @OnEvent(Event.LOGIN)
+    @OnEvent(Events.LOGIN)
     private void startTimer() {
         assert timerTask == null;
         timerTask = newTimerTask();
-        if (Settings.tickRate > 0) timer.scheduleAtFixedRate(timerTask, Settings.tickRate, Settings.tickRate);
+        if (SettingsService.tickRate > 0) timer.scheduleAtFixedRate(timerTask, SettingsService.tickRate, SettingsService.tickRate);
     }
 
-    @OnEvent(Event.TICKRATECHANGE)
+    @OnEvent(Events.TICKRATECHANGE)
     private void restartTimer() {
         stopTimer();
         startTimer();
@@ -104,7 +103,7 @@ public class AquariumService {
         timerTask = null;
     }
 
-    @OnEvent(Event.LOGOUT)
+    @OnEvent(Events.LOGOUT)
     private void close() {
         stopTimer();
 

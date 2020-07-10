@@ -1,8 +1,9 @@
 package com.javaquarium;
 
-import com.firework.Logger;
+import com.firework.EventSystem;
+import com.firework.Firework;
 import com.firework.Services;
-import com.firework.javafx.Theater;
+import com.firework.Theater;
 import com.javaquarium.backend.services.StageService;
 import com.javaquarium.views.StartView;
 import javafx.application.Application;
@@ -19,16 +20,10 @@ public class JavaquariumApplication extends Application {
     }
 
     @Override public void start(Stage stage) {
-        Theater.initTheaterAndStartFirework(stage);
-        Services.getService(StageService.class).setView(StartView.class);
+        Theater.initTheaterAndStartFireworkAndPreloadScenes(stage, 0);
+        EventSystem.queueAutomaticEvent(Events.STARTVIEW);
 
         stage.setTitle("Javaquarium");
         stage.show();
-
-        /* load scenes in the background (OMG SO FAAST) */
-        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-        Runnable task = () -> Theater.buildScenes();
-        executor.schedule(task, 500, TimeUnit.MILLISECONDS);
-        executor.shutdown();
     }
 }

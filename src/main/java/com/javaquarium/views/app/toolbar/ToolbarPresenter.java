@@ -16,7 +16,7 @@ import java.util.Optional;
 
 public class ToolbarPresenter {
 
-    @Dependency private AquariumLoaderService aquariumLoaderService;
+    @Dependency private AquariumFileService aquariumFileService;
     @Dependency private AccountService accountService;
     @Dependency private StageService stageService;
     @Dependency private AlertService alertService;
@@ -97,7 +97,7 @@ public class ToolbarPresenter {
     }
 
     private void trySave(File file, String key, Stage stage) {
-        aquariumLoaderService.save(file, key);
+        aquariumFileService.save(file, key);
         stage.close();
     }
 
@@ -127,7 +127,7 @@ public class ToolbarPresenter {
     }
 
     private void tryLoad(File file, String key, Stage stage) {
-        aquariumLoaderService.load(file, key);
+        aquariumFileService.load(file, key);
         stage.close();
     }
 }

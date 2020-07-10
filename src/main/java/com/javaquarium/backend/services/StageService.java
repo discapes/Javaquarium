@@ -1,11 +1,7 @@
 package com.javaquarium.backend.services;
 
-import com.firework.Dependency;
-import com.firework.OnEvent;
-import com.firework.Service;
-import com.firework.View;
-import com.firework.javafx.Theater;
-import com.javaquarium.Event;
+import com.firework.*;
+import com.javaquarium.Events;
 import com.javaquarium.backend.Utils;
 import com.javaquarium.views.StartView;
 import com.javaquarium.views.app.AppView;
@@ -24,13 +20,12 @@ public class StageService {
 
     private final Stage stage = Theater.getPrimaryStage();
 
-    @OnEvent(Event.LOGIN)
+    @OnEvent(Events.LOGIN)
     private void openApp() {
-        stage.setScene(Theater.getScene(AppView.class));
+        setView(AppView.class);
         stage.centerOnScreen();
         stage.setOnCloseRequest(e -> {
             if (!alertService.confirm("Close?")) e.consume();
-            else accountService.logout();
         });
     }
 
@@ -55,10 +50,16 @@ public class StageService {
         return stage;
     }
 
-    @OnEvent(Event.LOGOUT)
+    @OnEvent(Events.STARTVIEW)
     private void openStart() {
-        stage.setScene(Theater.getScene(StartView.class));
+        setView(StartView.class);
         stage.centerOnScreen();
         stage.setOnCloseRequest(e -> {});
+        new Thread(() -> EventSystem.queueAutomaticEvent(Events.PRELOAD)).start();
+    }
+
+    @OnEvent(Events.LOGOUT)
+    private void startView() {
+        EventSystem.queueAutomaticEvent(Events.STARTVIEW);
     }
 }

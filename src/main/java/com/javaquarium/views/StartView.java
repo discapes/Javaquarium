@@ -1,6 +1,7 @@
 package com.javaquarium.views;
 
 import com.firework.Dependency;
+import com.firework.SceneView;
 import com.firework.View;
 import com.javaquarium.backend.Utils;
 import com.javaquarium.backend.services.AccountService;
@@ -11,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
+@SceneView
 public class StartView extends View {
 
     @Dependency private StageService stageService;

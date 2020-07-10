@@ -3,8 +3,7 @@ package com.javaquarium.backend.services;
 import com.firework.Dependency;
 import com.firework.OnEvent;
 import com.firework.Service;
-import com.javaquarium.Event;
-import com.javaquarium.backend.Settings;
+import com.javaquarium.Events;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -14,7 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 @Service
-public class AquariumLoaderService {
+public class AquariumFileService {
 
     @Dependency private AlertService alertService;
     @Dependency private CryptographyService cryptographyService;
@@ -56,17 +55,17 @@ public class AquariumLoaderService {
         alertService.inform("Loaded aquarium from " + file.getPath() + (key.length() > 0 ? " encrypted with key " + key : ""));
     }
 
-    @OnEvent(Event.LOGIN)
+    @OnEvent(Events.PRELOAD)
     public void loadDefault() {
         String str;
         try {
-            str = new String(Files.readAllBytes(Paths.get(Settings.defaultAquarium)));
+            str = new String(Files.readAllBytes(Paths.get(SettingsService.defaultAquarium)));
         } catch (IOException e) {
-            alertService.errorAlert("Could not read from " + Settings.defaultAquarium + " : " + e);
+            alertService.errorAlert("Could not read from " + SettingsService.defaultAquarium + " : " + e);
             return;
         }
         if (!aquariumService.loadFromString(str)) {
-            alertService.errorAlert("Invalid aquarium file " + Settings.defaultAquarium);
+            alertService.errorAlert("Invalid aquarium file " + SettingsService.defaultAquarium);
         }
     }
 }

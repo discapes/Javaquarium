@@ -3,7 +3,7 @@ package com.javaquarium.backend.services;
 import com.firework.Dependency;
 import com.firework.EventSystem;
 import com.firework.Service;
-import com.javaquarium.Event;
+import com.javaquarium.Events;
 import com.javaquarium.backend.InvalidUsersFileException;
 
 import java.io.*;
@@ -35,7 +35,7 @@ public class AccountService {
      */
     public void loginAsGuest() {
         currentAccount = "Guest N/A N/A";
-        EventSystem.queueAutomaticEvent(Event.LOGIN);
+        EventSystem.queueAutomaticEvent(Events.LOGIN);
     }
 
     /**
@@ -43,7 +43,7 @@ public class AccountService {
      */
     public void logout() {
         currentAccount = "not_logged_in N/A N/A";
-        EventSystem.queueAutomaticEvent(Event.LOGOUT);
+        EventSystem.queueAutomaticEvent(Events.LOGOUT);
     }
 
     /**
@@ -71,7 +71,7 @@ public class AccountService {
             if (username.equalsIgnoreCase(lineUsername)) {
                 if (cryptographyService.testPassword(hash, password)) {
                     currentAccount = line;
-                    EventSystem.queueAutomaticEvent(Event.LOGIN);
+                    EventSystem.queueAutomaticEvent(Events.LOGIN);
                     return true;
                 }
             }

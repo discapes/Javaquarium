@@ -1,6 +1,7 @@
 package com.javaquarium.views;
 
 import com.firework.Dependency;
+import com.firework.SceneView;
 import com.firework.View;
 import com.javaquarium.backend.InvalidUsersFileException;
 import com.javaquarium.backend.Utils;
@@ -18,6 +19,7 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
+@SceneView
 public class RegisterView extends View {
 
     @Dependency private AlertService alertService;

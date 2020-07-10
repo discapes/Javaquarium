@@ -1,6 +1,7 @@
 package com.javaquarium.views.app.chart;
 
 import com.firework.Dependency;
+import com.firework.Service;
 import com.javaquarium.backend.services.AquariumService;
 import com.javaquarium.backend.services.ChartDataService;
 import com.javaquarium.backend.services.ThemeService;
@@ -15,6 +16,7 @@ import javafx.scene.control.Button;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+@Service
 public class ChartPresenter implements Initializable {
 
     @FXML private LineChart<String, Number> lineChart;
@@ -29,8 +31,7 @@ public class ChartPresenter implements Initializable {
     @Dependency private AquariumService aquariumService;
     @Dependency private ThemeService themeService;
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    @Override public void initialize(URL url, ResourceBundle rb) {
         categoryAxis.setCategories(chartDataService.getCategories());
 
         for (ObservableList<XYChart.Data<String, Number>> data : chartDataService.getData()) {
@@ -44,6 +45,10 @@ public class ChartPresenter implements Initializable {
                 valueChange((double) t1, plusOxygenBtn, minusOxygenBtn));
         aquariumService.getFood().addListener((observableValue, number, t1) ->
                 valueChange((double) t1, plusFoodBtn, minusFoodBtn));
+
+        Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
+            if (!(e instanceof IndexOutOfBoundsException)) e.printStackTrace();
+        });
     }
 
     private void valueChange(double val, Button plusBtn, Button minusBtn) {
