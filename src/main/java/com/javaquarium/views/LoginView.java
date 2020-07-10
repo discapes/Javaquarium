@@ -5,9 +5,8 @@ import com.javaquarium.backend.Utils;
 import com.javaquarium.backend.services.AccountService;
 import com.javaquarium.backend.services.AlertService;
 import com.javaquarium.backend.services.StageService;
-import com.management.Dependency;
-import com.management.FXMLView;
-import com.management.Presenter;
+import com.firework.Dependency;
+import com.firework.View;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -19,15 +18,14 @@ import javafx.scene.layout.VBox;
 
 import java.io.FileNotFoundException;
 
-@Presenter
-public class LoginView extends FXMLView {
+public class LoginView extends View {
 
     @Dependency private AlertService alertService;
     @Dependency private AccountService accountService;
     @Dependency private StageService stageService;
 
     @Override
-    public Parent getView() {
+    public Parent getRoot() {
         Button backBtn = new Button("Back");
         backBtn.setOnAction(e -> stageService.setView(StartView.class));
         VBox.setMargin(backBtn, new Insets(0, 0, 20, 0));

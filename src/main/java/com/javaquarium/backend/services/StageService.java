@@ -4,7 +4,7 @@ import com.javaquarium.Event;
 import com.javaquarium.backend.Utils;
 import com.javaquarium.views.StartView;
 import com.javaquarium.views.app.AppView;
-import com.management.*;
+import com.firework.*;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -27,7 +27,7 @@ public class StageService {
 
     @OnEvent(Event.LOGIN)
     private void openApp() {
-        stage.setScene(LawnMower.getScene(AppView.class));
+        stage.setScene(Theater.getScene(AppView.class));
         stage.centerOnScreen();
         stage.setOnCloseRequest(e -> {
             if (!alertService.confirm("Close?")) e.consume();
@@ -35,13 +35,13 @@ public class StageService {
         });
     }
 
-    public void setView(Class<? extends FXMLView> clazz, Stage stage) {
-        Scene scene = LawnMower.getScene(clazz);
+    public void setView(Class<? extends View> clazz, Stage stage) {
+        Scene scene = Theater.getScene(clazz);
         themeService.applyTheme(scene);
         stage.setScene(scene);
     }
 
-    public void setView(Class<? extends FXMLView> clazz) {
+    public void setView(Class<? extends View> clazz) {
         setView(clazz, stage);
     }
 
@@ -58,7 +58,7 @@ public class StageService {
 
     @OnEvent(Event.LOGOUT)
     private void openStart() {
-        stage.setScene(LawnMower.getScene(StartView.class));
+        stage.setScene(Theater.getScene(StartView.class));
         stage.centerOnScreen();
         stage.setOnCloseRequest(e -> {});
     }

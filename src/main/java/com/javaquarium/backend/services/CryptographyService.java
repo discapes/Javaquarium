@@ -1,6 +1,6 @@
 package com.javaquarium.backend.services;
 
-import com.management.Service;
+import com.firework.Service;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;

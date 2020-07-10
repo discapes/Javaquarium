@@ -4,9 +4,8 @@ import com.javaquarium.Event;
 import com.javaquarium.backend.Settings;
 import com.javaquarium.backend.services.AlertService;
 import com.javaquarium.backend.services.ThemeService;
-import com.management.Dependency;
-import com.management.LawnMower;
-import com.management.Presenter;
+import com.firework.Dependency;
+import com.firework.EventSystem;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -21,7 +20,6 @@ import java.util.ResourceBundle;
 
 import static javafx.collections.FXCollections.observableArrayList;
 
-@Presenter
 public class SettingsPresenter implements Initializable {
 
     @FXML private ChoiceBox<String> themePicker;
@@ -62,13 +60,13 @@ public class SettingsPresenter implements Initializable {
         if (nextChartHistory != Settings.chartHistory || nextPrettyChartPoints != Settings.prettyChartPoints) {
             Settings.chartHistory = nextChartHistory;
             Settings.prettyChartPoints = nextPrettyChartPoints;
-            LawnMower.queueAutomaticEvent(Event.CHARTSETTINGCHANGE);
+            EventSystem.queueAutomaticEvent(Event.CHARTSETTINGCHANGE);
         }
 
         int nextTickRate = (int) tickRateS.getValue();
         if (Settings.tickRate != nextTickRate) {
             Settings.tickRate = nextTickRate;
-            LawnMower.queueAutomaticEvent(Event.TICKRATECHANGE);
+            EventSystem.queueAutomaticEvent(Event.TICKRATECHANGE);
         }
     }
 

@@ -3,23 +3,21 @@ package com.javaquarium.views;
 import com.javaquarium.backend.Utils;
 import com.javaquarium.backend.services.AccountService;
 import com.javaquarium.backend.services.StageService;
-import com.management.Dependency;
-import com.management.FXMLView;
-import com.management.Presenter;
+import com.firework.Dependency;
+import com.firework.View;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
-@Presenter
-public class StartView extends FXMLView {
+public class StartView extends View {
 
     @Dependency private StageService stageService;
     @Dependency private AccountService accountService;
 
     @Override
-    public Parent getView() {
+    public Parent getRoot() {
         Button loginBtn = new Button("Login");
         loginBtn.setOnAction(e -> stageService.setView(LoginView.class));
 

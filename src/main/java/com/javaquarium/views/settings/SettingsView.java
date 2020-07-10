@@ -1,6 +1,6 @@
 package com.javaquarium.views.settings;
 
-import com.management.FXMLView;
+import com.firework.View;
 
-public class SettingsView extends FXMLView {
+public class SettingsView extends View {
 }

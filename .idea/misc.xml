@@ -22,6 +22,8 @@
     <pattern value="com.javaquarium.views.LoginView" method="getView" />
     <pattern value="com.javaquarium.views.RegisterView" method="getView" />
     <pattern value="com.javaquarium.views.StartView" method="getView" />
+    <pattern value="com.management.View" method="View" />
+    <pattern value="com.management.Theater" method="buildPresenterIfAbsent" />
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="MavenProjectsManager">

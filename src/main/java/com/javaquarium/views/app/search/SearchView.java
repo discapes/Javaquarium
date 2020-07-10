@@ -1,5 +1,5 @@
 package com.javaquarium.views.app.search;
 
-import com.management.FXMLView;
+import com.firework.View;
 
-public class SearchView extends FXMLView {}
+public class SearchView extends View {}

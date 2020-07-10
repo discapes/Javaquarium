@@ -4,7 +4,6 @@ import com.javaquarium.views.app.chart.ChartView;
 import com.javaquarium.views.app.fishtable.FishTableView;
 import com.javaquarium.views.app.search.SearchView;
 import com.javaquarium.views.app.toolbar.ToolbarView;
-import com.management.Presenter;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
@@ -12,7 +11,6 @@ import javafx.scene.layout.AnchorPane;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-@Presenter
 public class AppPresenter implements Initializable {
 
     @FXML private AnchorPane searchPane;
@@ -22,10 +20,10 @@ public class AppPresenter implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        tablePane.getChildren().add(new FishTableView().getView());
-        searchPane.getChildren().add(new SearchView().getView());
-        chartPane.getChildren().add(new ChartView().getView());
-        toolbarPane.getChildren().add(new ToolbarView().getView());
+        tablePane.getChildren().add(new FishTableView().getRoot());
+        searchPane.getChildren().add(new SearchView().getRoot());
+        chartPane.getChildren().add(new ChartView().getRoot());
+        toolbarPane.getChildren().add(new ToolbarView().getRoot());
 
 
         // supa fast

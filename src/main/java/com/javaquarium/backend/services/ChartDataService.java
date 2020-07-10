@@ -2,10 +2,10 @@ package com.javaquarium.backend.services;
 
 import com.javaquarium.Event;
 import com.javaquarium.backend.Settings;
-import com.management.AfterInjection;
-import com.management.Dependency;
-import com.management.OnEvent;
-import com.management.Service;
+import com.firework.AfterInjection;
+import com.firework.Dependency;
+import com.firework.OnEvent;
+import com.firework.Service;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.collections.ObservableList;

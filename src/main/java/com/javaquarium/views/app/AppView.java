@@ -1,8 +1,8 @@
 package com.javaquarium.views.app;
 
-import com.management.FXMLView;
+import com.firework.View;
 
-public class AppView extends FXMLView {
+public class AppView extends View {
         /* TODO
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double scrWidth = screenSize.getWidth();

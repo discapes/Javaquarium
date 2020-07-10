@@ -2,9 +2,9 @@ package com.javaquarium.backend.services;
 
 import com.javaquarium.Event;
 import com.javaquarium.backend.InvalidUsersFileException;
-import com.management.Dependency;
-import com.management.LawnMower;
-import com.management.Service;
+import com.firework.Dependency;
+import com.firework.EventSystem;
+import com.firework.Service;
 
 import java.io.*;
 import java.util.Scanner;
@@ -35,7 +35,7 @@ public class AccountService {
      */
     public void loginAsGuest() {
         currentAccount = "Guest N/A N/A";
-        LawnMower.queueAutomaticEvent(Event.LOGIN);
+        EventSystem.queueAutomaticEvent(Event.LOGIN);
     }
 
     /**
@@ -43,7 +43,7 @@ public class AccountService {
      */
     public void logout() {
         currentAccount = "not_logged_in N/A N/A";
-        LawnMower.queueAutomaticEvent(Event.LOGOUT);
+        EventSystem.queueAutomaticEvent(Event.LOGOUT);
     }
 
     /**
@@ -71,7 +71,7 @@ public class AccountService {
             if (username.equalsIgnoreCase(lineUsername)) {
                 if (cryptographyService.testPassword(hash, password)) {
                     currentAccount = line;
-                    LawnMower.queueAutomaticEvent(Event.LOGIN);
+                    EventSystem.queueAutomaticEvent(Event.LOGIN);
                     return true;
                 }
             }

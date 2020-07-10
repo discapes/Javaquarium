@@ -1,6 +1,6 @@
 package com.javaquarium.views.app.chart;
 
-import com.management.FXMLView;
+import com.firework.View;
 
-public class ChartView extends FXMLView {
+public class ChartView extends View {
 }

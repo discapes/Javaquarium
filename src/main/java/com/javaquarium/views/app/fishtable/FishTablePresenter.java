@@ -1,11 +1,12 @@
 package com.javaquarium.views.app.fishtable;
 
-import com.javaquarium.backend.*;
+import com.javaquarium.backend.Fish;
+import com.javaquarium.backend.FishSpecies;
+import com.javaquarium.backend.Utils;
 import com.javaquarium.backend.services.AlertService;
 import com.javaquarium.backend.services.AquariumService;
 import com.javaquarium.backend.services.StageService;
-import com.management.Dependency;
-import com.management.Presenter;
+import com.firework.Dependency;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -24,7 +25,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
-@Presenter
 public class FishTablePresenter implements Initializable {
 
     @FXML private TableView<Fish> tableView;
@@ -121,7 +121,8 @@ public class FishTablePresenter implements Initializable {
          * @param string to be converted.
          * @return An integer.
          */
-        @Override public Integer fromString(String string) {
+        @Override
+        public Integer fromString(String string) {
             try {
                 return converter.fromString(string);
             } catch (NumberFormatException ignored) {

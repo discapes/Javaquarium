@@ -1,5 +1,5 @@
 package com.javaquarium.views.app.fishtable;
 
-import com.management.FXMLView;
+import com.firework.View;
 
-public class FishTableView extends FXMLView {}
+public class FishTableView extends View {}

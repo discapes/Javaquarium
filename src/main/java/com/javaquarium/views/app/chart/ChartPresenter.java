@@ -3,8 +3,7 @@ package com.javaquarium.views.app.chart;
 import com.javaquarium.backend.services.AquariumService;
 import com.javaquarium.backend.services.ChartDataService;
 import com.javaquarium.backend.services.ThemeService;
-import com.management.Dependency;
-import com.management.Presenter;
+import com.firework.Dependency;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,7 +15,6 @@ import javafx.scene.control.Button;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-@Presenter
 public class ChartPresenter implements Initializable {
 
     @FXML private LineChart<String, Number> lineChart;

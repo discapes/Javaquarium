@@ -1,7 +1,7 @@
 package com.javaquarium.backend.services;
 
-import com.management.Dependency;
-import com.management.Service;
+import com.firework.Dependency;
+import com.firework.Service;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
