@@ -16,7 +16,7 @@ public abstract class EventSystem {
     private final static ArrayList<Pair<Enum<?>, Object[]>> eventBus = new ArrayList<>();
 
     static <T> void registerService(Class<T> clazz) {
-   //     Logger.log("Checking for listeners in     " + clazz.getSimpleName());
+        //     Logger.log("Checking for listeners in     " + clazz.getSimpleName());
         for (Method method : clazz.getDeclaredMethods()) {
             if (method.isAnnotationPresent(OnEvent.class)) {
                 for (OnEvent annotation : method.getAnnotationsByType(OnEvent.class)) {

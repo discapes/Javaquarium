@@ -1,10 +1,10 @@
 package com.javaquarium.views;
 
+import com.firework.Dependency;
+import com.firework.View;
 import com.javaquarium.backend.Utils;
 import com.javaquarium.backend.services.AccountService;
 import com.javaquarium.backend.services.StageService;
-import com.firework.Dependency;
-import com.firework.View;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;

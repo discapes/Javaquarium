@@ -1,10 +1,10 @@
 package com.javaquarium.backend.services;
 
-import com.javaquarium.Event;
-import com.javaquarium.backend.InvalidUsersFileException;
 import com.firework.Dependency;
 import com.firework.EventSystem;
 import com.firework.Service;
+import com.javaquarium.Event;
+import com.javaquarium.backend.InvalidUsersFileException;
 
 import java.io.*;
 import java.util.Scanner;

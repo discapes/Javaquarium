@@ -31,7 +31,7 @@ public abstract class Services {
         return service;
     }
 
-    static <T> T instantiateClass(Class<T> clazz) {
+    public static <T> T instantiateClass(Class<T> clazz) {
         try {
             T o = clazz.getConstructor().newInstance();
             Logger.log("Instantiated new object       " + getString(o));

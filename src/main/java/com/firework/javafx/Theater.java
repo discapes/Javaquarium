@@ -1,6 +1,8 @@
-package com.firework;
+package com.firework.javafx;
 
+import com.firework.*;
 import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 import java.util.HashMap;
 
@@ -9,6 +11,7 @@ import static com.firework.Services.instantiateClass;
 public abstract class Theater {
 
     private static final HashMap<Class<? extends View>, Scene> scenes = new HashMap<>();
+    private static Stage primaryStage;
 
     public static Scene getScene(Class<? extends View> clazz) {
         Logger.log("Reqested scene                " + clazz.getSimpleName());
@@ -24,5 +27,14 @@ public abstract class Theater {
             Injector.injectDependencies(presenter);
         }
         return presenter;
+    }
+
+    public static void initTheaterAndStartFirework(Stage primaryStage) {
+        Theater.primaryStage = primaryStage;
+        Firework.startServices();
+    }
+
+    public static Stage getPrimaryStage() {
+        return primaryStage;
     }
 }

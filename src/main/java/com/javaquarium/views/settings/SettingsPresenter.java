@@ -1,11 +1,11 @@
 package com.javaquarium.views.settings;
 
+import com.firework.Dependency;
+import com.firework.EventSystem;
 import com.javaquarium.Event;
 import com.javaquarium.backend.Settings;
 import com.javaquarium.backend.services.AlertService;
 import com.javaquarium.backend.services.ThemeService;
-import com.firework.Dependency;
-import com.firework.EventSystem;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;

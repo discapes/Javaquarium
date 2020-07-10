@@ -1,10 +1,14 @@
 package com.javaquarium.backend.services;
 
+import com.firework.Dependency;
+import com.firework.OnEvent;
+import com.firework.Service;
+import com.firework.View;
+import com.firework.javafx.Theater;
 import com.javaquarium.Event;
 import com.javaquarium.backend.Utils;
 import com.javaquarium.views.StartView;
 import com.javaquarium.views.app.AppView;
-import com.firework.*;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -18,12 +22,7 @@ public class StageService {
     @Dependency private AccountService accountService;
     @Dependency private ThemeService themeService;
 
-    private Stage stage;
-
-    @OnEvent(Event.STAGEREADY)
-    private void setStage(Stage stage) {
-        this.stage = stage;
-    }
+    private final Stage stage = Theater.getPrimaryStage();
 
     @OnEvent(Event.LOGIN)
     private void openApp() {

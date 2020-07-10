@@ -1,10 +1,10 @@
 package com.javaquarium.backend.services;
 
-import com.javaquarium.Event;
-import com.javaquarium.backend.Settings;
 import com.firework.Dependency;
 import com.firework.OnEvent;
 import com.firework.Service;
+import com.javaquarium.Event;
+import com.javaquarium.backend.Settings;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;

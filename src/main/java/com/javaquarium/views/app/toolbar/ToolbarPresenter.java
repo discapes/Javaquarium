@@ -1,9 +1,9 @@
 package com.javaquarium.views.app.toolbar;
 
+import com.firework.Dependency;
 import com.javaquarium.backend.Fish;
 import com.javaquarium.backend.services.*;
 import com.javaquarium.views.settings.SettingsView;
-import com.firework.Dependency;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;

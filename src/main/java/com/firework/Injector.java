@@ -11,7 +11,7 @@ public abstract class Injector {
 
     private static final Function<Class<?>, ?> dependencySupplier = Services::buildServiceIfAbsent;
 
-    static <T> void injectDependencies(T instance) {
+    public static <T> void injectDependencies(T instance) {
         Class<?> clazz = instance.getClass();
         //Logger.log("Injecting dependencies for    " + toString(instance));
         for (Field field : clazz.getDeclaredFields()) {

@@ -1,5 +1,6 @@
 package com.firework;
 
+import com.firework.javafx.Theater;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

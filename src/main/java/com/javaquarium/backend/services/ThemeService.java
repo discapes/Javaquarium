@@ -1,7 +1,7 @@
 package com.javaquarium.backend.services;
 
-import com.javaquarium.backend.Settings;
 import com.firework.Service;
+import com.javaquarium.backend.Settings;
 import com.sun.javafx.css.StyleManager;
 import javafx.application.Application;
 import javafx.scene.Scene;

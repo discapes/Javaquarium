@@ -1,11 +1,11 @@
 package com.javaquarium.backend.services;
 
+import com.firework.OnEvent;
+import com.firework.Service;
 import com.javaquarium.Event;
 import com.javaquarium.backend.Fish;
 import com.javaquarium.backend.FishSpecies;
 import com.javaquarium.backend.Settings;
-import com.firework.OnEvent;
-import com.firework.Service;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.ReadOnlyDoubleWrapper;
 import javafx.collections.ObservableList;

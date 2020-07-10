@@ -1,12 +1,12 @@
 package com.javaquarium.views;
 
+import com.firework.Dependency;
+import com.firework.View;
 import com.javaquarium.backend.InvalidUsersFileException;
 import com.javaquarium.backend.Utils;
 import com.javaquarium.backend.services.AccountService;
 import com.javaquarium.backend.services.AlertService;
 import com.javaquarium.backend.services.StageService;
-import com.firework.Dependency;
-import com.firework.View;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -24,6 +24,7 @@ public class RegisterView extends View {
     @Dependency private StageService stageService;
     @Dependency private AccountService accountService;
 
+    @SuppressWarnings("DuplicatedCode")
     @Override
     public Parent getRoot() {
         Button backBtn = new Button("Back");

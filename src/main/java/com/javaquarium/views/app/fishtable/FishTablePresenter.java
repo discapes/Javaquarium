@@ -1,12 +1,12 @@
 package com.javaquarium.views.app.fishtable;
 
+import com.firework.Dependency;
 import com.javaquarium.backend.Fish;
 import com.javaquarium.backend.FishSpecies;
 import com.javaquarium.backend.Utils;
 import com.javaquarium.backend.services.AlertService;
 import com.javaquarium.backend.services.AquariumService;
 import com.javaquarium.backend.services.StageService;
-import com.firework.Dependency;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;

@@ -1,9 +1,9 @@
 package com.javaquarium.views.app.chart;
 
+import com.firework.Dependency;
 import com.javaquarium.backend.services.AquariumService;
 import com.javaquarium.backend.services.ChartDataService;
 import com.javaquarium.backend.services.ThemeService;
-import com.firework.Dependency;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
