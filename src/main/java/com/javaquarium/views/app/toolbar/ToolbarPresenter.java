@@ -37,6 +37,7 @@ public class ToolbarPresenter {
     private void openSettings() {
         Stage stage = new Stage();
         stage.setTitle("Settings");
+        stageService.setSettingsStage(stage);
         stageService.setView(SettingsView.class, stage);
         stage.show();
     }

@@ -59,13 +59,13 @@ public class AquariumFileService {
     public void loadDefault() {
         String str;
         try {
-            str = new String(Files.readAllBytes(Paths.get(SettingsService.defaultAquarium)));
+            str = new String(Files.readAllBytes(Paths.get(SettingService.defaultAquarium)));
         } catch (IOException e) {
-            alertService.errorAlert("Could not read from " + SettingsService.defaultAquarium + " : " + e);
+            alertService.errorAlert("Could not read from " + SettingService.defaultAquarium + " : " + e);
             return;
         }
         if (!aquariumDataService.loadFromString(str)) {
-            alertService.errorAlert("Invalid aquarium file " + SettingsService.defaultAquarium);
+            alertService.errorAlert("Invalid aquarium file " + SettingService.defaultAquarium);
         }
     }
 }

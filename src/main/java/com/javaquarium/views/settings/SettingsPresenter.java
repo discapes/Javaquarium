@@ -4,7 +4,7 @@ import com.firework.Dependency;
 import com.firework.EventSystem;
 import com.javaquarium.Events;
 import com.javaquarium.backend.services.AlertService;
-import com.javaquarium.backend.services.SettingsService;
+import com.javaquarium.backend.services.SettingService;
 import com.javaquarium.backend.services.ThemeService;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
@@ -31,6 +31,7 @@ public class SettingsPresenter implements Initializable {
     @FXML private Label tickLabel;
     @FXML private Slider tickRateS;
 
+    @Dependency private SettingService settingService;
     @Dependency private ThemeService themeService;
     @Dependency private AlertService alertService;
 
@@ -54,40 +55,42 @@ public class SettingsPresenter implements Initializable {
 
     @FXML
     private void apply() {
-        themeService.setCurrentTheme(themePicker.getValue());
         int nextChartHistory = (int) chartHistoryS.getValue();
         int nextPrettyChartPoints = (int) chartNumDataS.getValue();
-        if (nextChartHistory != SettingsService.chartHistory || nextPrettyChartPoints != SettingsService.prettyChartPoints) {
-            SettingsService.chartHistory = nextChartHistory;
-            SettingsService.prettyChartPoints = nextPrettyChartPoints;
+        if (nextChartHistory != SettingService.chartHistory || nextPrettyChartPoints != SettingService.prettyChartPoints) {
+            SettingService.chartHistory = nextChartHistory;
+            SettingService.prettyChartPoints = nextPrettyChartPoints;
             EventSystem.queueAutomaticEvent(Events.CHARTSETTINGCHANGE);
         }
 
         int nextTickRate = (int) tickRateS.getValue();
-        if (SettingsService.tickRate != nextTickRate) {
-            SettingsService.tickRate = nextTickRate;
+        if (SettingService.tickRate != nextTickRate) {
+            SettingService.tickRate = nextTickRate;
             EventSystem.queueAutomaticEvent(Events.TICKRATECHANGE);
         }
     }
 
-    @FXML
-    private void reset() {
-        chartHistoryS.setValue(SettingsService.defaultChartHistory);
-        chartNumDataS.setValue(SettingsService.defaultPrettyChartPoints);
-        tickRateS.setValue(SettingsService.defaultTickRate);
-        themePicker.setValue(SettingsService.defaultTheme);
+    @FXML private void reset() {
+        chartHistoryS.setValue(SettingService.defaultChartHistory);
+        chartNumDataS.setValue(SettingService.defaultPrettyChartPoints);
+        tickRateS.setValue(SettingService.defaultTickRate);
+    }
+
+    @FXML private void applyTheme() {
+        SettingService.theme = themePicker.getValue();
+        EventSystem.queueAutomaticEvent(Events.NEWTHEME);
     }
 
     @SuppressWarnings("SpellCheckingInspection")
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         themePicker.setItems(observableArrayList(themeService.getThemes()));
-        themePicker.setValue(themeService.getCurrentTheme());
+        themePicker.setValue(SettingService.theme);
 
         /* SPENT WAYYY TOO LONG ON ALL THESE SLIDERS */
-        chartHistoryS.setValue(SettingsService.chartHistory);
-        chartNumDataS.setValue(SettingsService.prettyChartPoints);
-        tickRateS.setValue(SettingsService.tickRate);
+        chartHistoryS.setValue(SettingService.chartHistory);
+        chartNumDataS.setValue(SettingService.prettyChartPoints);
+        tickRateS.setValue(SettingService.tickRate);
 
         chartNumDataS.valueProperty().addListener((observable, oldValue, newValue) -> {
             if ((double) newValue < chartHistoryS.getValue())

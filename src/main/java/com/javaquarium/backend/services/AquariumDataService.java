@@ -94,8 +94,8 @@ public class AquariumDataService {
     private void startTimer() {
         assert timerTask == null;
         timerTask = newTimerTask();
-        if (SettingsService.tickRate > 0)
-            timer.scheduleAtFixedRate(timerTask, SettingsService.tickRate, SettingsService.tickRate);
+        if (SettingService.tickRate > 0)
+            timer.scheduleAtFixedRate(timerTask, SettingService.tickRate, SettingService.tickRate);
     }
 
     @OnEvent(Events.TICKRATECHANGE)

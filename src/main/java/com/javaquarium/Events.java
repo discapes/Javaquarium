@@ -7,4 +7,6 @@ public abstract class Events {
     public static final String LOGOUT = "LOGOUT";
     public static final String CHARTSETTINGCHANGE = "CHARTSETTINGCHANGE";
     public static final String TICKRATECHANGE = "TICKRATECHANGE";
+    public static final String NEWTHEME = "NEWTHEME";
+    public static final String EXIT = "EXIT";
 }

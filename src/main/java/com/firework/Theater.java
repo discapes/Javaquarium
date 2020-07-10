@@ -9,14 +9,12 @@ import org.reflections.scanners.TypeAnnotationsScanner;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Set;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import static com.firework.Services.getString;
 
 public abstract class Theater {
 
+    private static final HashMap<Class<?>, Object> presenters = new HashMap<>();
     private static final Logger logger = new MyLogger();
     private static final HashMap<Class<? extends View>, Scene> scenes = new HashMap<>();
     private static Stage primaryStage;
@@ -28,8 +26,10 @@ public abstract class Theater {
         return scene;
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T buildPresenterIfAbsent(Class<T> clazz) {
         logger.log("Requested presenter           " + clazz.getSimpleName());
+        if (presenters.containsValue(clazz)) return (T) presenters.get(clazz);
         T presenter = Services.getService(clazz);
         if (presenter == null) {
             presenter = instantiateClass(clazz);
@@ -37,16 +37,15 @@ public abstract class Theater {
         } else {
             logger.log("Presenter found as service");
         }
+        presenters.put(clazz, presenter);
         return presenter;
     }
 
-    public static void initTheaterAndStartFireworkAndPreloadScenes(Stage primaryStage, int preloadDelay) {
+    public static void initTheaterAndStartFireworkAndPreloadScenes(Stage primaryStage) {
         Theater.primaryStage = primaryStage;
         Firework.startServices();
         /* load scenes in the background (OMG SO FAAST) */
-        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-        executor.schedule(Theater::buildScenes, preloadDelay, TimeUnit.MILLISECONDS);
-        executor.shutdown();
+        new Thread(Theater::buildScenes).start();
     }
 
     public static Stage getPrimaryStage() {
@@ -60,6 +59,11 @@ public abstract class Theater {
         Scene scene = new Scene(view.getRoot());
         scenes.put(clazz, scene);
         return scene;
+    }
+
+    public static void startRebuildScenes() {
+        scenes.clear();
+        new Thread(Theater::buildScenes).start();
     }
 
     public static void buildScenes() {

@@ -5,6 +5,7 @@ import com.javaquarium.Events;
 import com.javaquarium.backend.Utils;
 import com.javaquarium.views.StartView;
 import com.javaquarium.views.app.AppView;
+import com.javaquarium.views.settings.SettingsView;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -14,6 +15,7 @@ import javafx.stage.Stage;
 @Service
 public class StageService {
 
+    private Stage settingsStage;
     private final Stage stage = Theater.getPrimaryStage();
     @Dependency private AlertService alertService;
     @Dependency private AccountService accountService;
@@ -24,7 +26,7 @@ public class StageService {
         setView(AppView.class);
         stage.centerOnScreen();
         stage.setOnCloseRequest(e -> {
-            if (!alertService.confirm("Close?")) e.consume();
+            if (alertService.confirm("Close?")) EventSystem.queueAutomaticEvent(Events.EXIT);
         });
     }
 
@@ -57,8 +59,23 @@ public class StageService {
         new Thread(() -> EventSystem.queueAutomaticEvent(Events.PRELOAD)).start();
     }
 
+    @OnEvent(Events.NEWTHEME)
+    private void reloadAppView() {
+        Theater.startRebuildScenes();
+        setView(AppView.class);
+        setView(SettingsView.class, settingsStage);
+    }
+
+    @OnEvent(Events.EXIT)
+    private void exit() {
+        stage.close();
+        settingsStage.close();
+    }
+
     @OnEvent(Events.LOGOUT)
     private void startView() {
         EventSystem.queueAutomaticEvent(Events.STARTVIEW);
     }
+
+    public void setSettingsStage(Stage settingsStage) { this.settingsStage = settingsStage; }
 }

@@ -23,6 +23,7 @@ public abstract class View extends StackPane {
         String name = thread.getName();
         thread.setName("view-loader-" + name);
         thread.setDaemon(true);
+        thread.setUncaughtExceptionHandler((t, e) -> {});
         return thread;
     });
 

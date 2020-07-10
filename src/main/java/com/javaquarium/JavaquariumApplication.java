@@ -13,7 +13,7 @@ public class JavaquariumApplication extends Application {
 
     @Override
     public void start(Stage stage) {
-        Theater.initTheaterAndStartFireworkAndPreloadScenes(stage, 0);
+        Theater.initTheaterAndStartFireworkAndPreloadScenes(stage);
         EventSystem.queueAutomaticEvent(Events.STARTVIEW);
 
         stage.setTitle("Javaquarium");

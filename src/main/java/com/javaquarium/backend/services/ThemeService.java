@@ -20,7 +20,6 @@ public class ThemeService {
             "Metro Light",
             "Old"
     };
-    private String currentTheme = SettingsService.defaultTheme;
 
     public ThemeService() {
         jMetro = new JMetro();
@@ -35,7 +34,7 @@ public class ThemeService {
         Application.setUserAgentStylesheet(Application.STYLESHEET_MODENA);
         jMetro.sceneProperty().set(null);
 
-        switch (currentTheme) {
+        switch (SettingService.theme) {
             case "Light":
                 break;
             case "Old":
@@ -51,17 +50,9 @@ public class ThemeService {
                 jMetro.setScene(scene);
                 break;
             default:
-                URL styleSheet = getClass().getResource("/" + currentTheme + ".css");
+                URL styleSheet = getClass().getResource("/" + SettingService.theme + ".css");
                 StyleManager.getInstance().addUserAgentStylesheet(styleSheet.toString());
         }
-    }
-
-    public String getCurrentTheme() {
-        return currentTheme;
-    }
-
-    public void setCurrentTheme(String currentTheme) {
-        this.currentTheme = currentTheme;
     }
 
     /**
