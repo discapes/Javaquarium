@@ -12,14 +12,17 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
+import java.util.function.Consumer;
+
+/** A view that has a login button and a register button. */
 @SceneView
-public class StartView extends View {
+public class StartView extends StandaloneView {
 
     @Dependency private StageService stageService;
     @Dependency private AccountService accountService;
 
-    @Override
-    public Parent getRoot() {
+    /** Returns the root node of this view. */
+    @Override public Parent getRoot() {
         Button loginBtn = new Button("Login");
         loginBtn.setOnAction(e -> stageService.setView(LoginView.class));
 

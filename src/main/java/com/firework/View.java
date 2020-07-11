@@ -12,8 +12,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
-import static com.firework.Services.getString;
+import static com.firework.MyLogger.getString;
 
+/** Is a class that represents one "view". */
 public abstract class View extends StackPane {
 
     private final static Logger logger = new MyLogger();
@@ -27,6 +28,9 @@ public abstract class View extends StackPane {
         return thread;
     });
 
+    /** Loads the conventionally named FXML file and applies CSS.
+     * Presenters are gotten by Theater.
+     */
     public Parent getRoot() {
         logger.log("getRoot called in             " + getString(this));
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(getResourceName(".fxml")));
@@ -63,6 +67,8 @@ public abstract class View extends StackPane {
         return clazz.substring(0, clazz.lastIndexOf("View"));
     }
 
+
+    /** Creates a new thread, where this::getView supplies a Parent for the consumer parameter. */
     public void getRootAsync(Consumer<Parent> consumer) {
         CompletableFuture.supplyAsync(this::getRoot, EXECUTOR_SERVICE).thenAcceptAsync(consumer, Platform::runLater);
     }

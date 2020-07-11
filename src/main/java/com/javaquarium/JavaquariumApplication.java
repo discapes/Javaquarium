@@ -1,20 +1,22 @@
 package com.javaquarium;
 
-import com.firework.EventSystem;
+import com.firework.Firework;
 import com.firework.Theater;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+/** The main JavaFX Application class. */
 public class JavaquariumApplication extends Application {
 
+    /** Called from Javaquarium. */
     public static void actualMain(String[] args) {
         launch(args);
     }
 
-    @Override
-    public void start(Stage stage) {
+    /** Starts the application. */
+    @Override public void start(Stage stage) {
         Theater.initTheaterAndStartFireworkAndPreloadScenes(stage, "com.javaquarium");
-        EventSystem.queueAutomaticEvent(Events.STARTVIEW);
+        Firework.queueAutomaticEvent(Events.STARTVIEW);
 
         stage.setTitle("Javaquarium");
         stage.show();

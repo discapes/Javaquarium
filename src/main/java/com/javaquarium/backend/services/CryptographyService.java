@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Random;
 
+/** Encrypts and decrypts strings, salts and hashes passwords, and tests if passwords match a hash. */
 @Service
 public class CryptographyService {
     private final Charset charset = StandardCharsets.UTF_8;
@@ -23,6 +24,7 @@ public class CryptographyService {
     private Cipher cipher;
     private MessageDigest digest;
 
+    /** Initializes the cipher and digest to be AES and SHA-256. */
     public CryptographyService() {
         try {
             cipher = Cipher.getInstance("AES");
@@ -34,8 +36,8 @@ public class CryptographyService {
     /**
      * Encrypts a string with a key using AES encryption.
      *
-     * @param msg the message to be encrypted.
-     * @param key the key that the message will be encrypted with.
+     * @param msg message to be encrypted
+     * @param key key that the message will be encrypted with
      * @return A Base64-encoded string of the encrypted message.
      */
     public String encrypt(String msg, String key) {
@@ -55,11 +57,11 @@ public class CryptographyService {
     /**
      * Attempts to decrypt an AES-encrypted message with a key.
      *
-     * @param msg the encrypted message.
-     * @param key the key that the message was encrypted with.
+     * @param msg encrypted message
+     * @param key key that the message was encrypted with
      * @return The just-decrypted message as a string.
-     * @throws BadPaddingException       the key is incorrect or the data is invalid.
-     * @throws IllegalBlockSizeException the key is incorrect or the data is invalid.
+     * @throws BadPaddingException       key is incorrect or the data is invalid.
+     * @throws IllegalBlockSizeException key is incorrect or the data is invalid.
      */
     public String decrypt(String msg, String key) throws BadPaddingException, IllegalBlockSizeException {
         digest.reset();
@@ -84,7 +86,7 @@ public class CryptographyService {
     /**
      * Salts and hashes a password.
      *
-     * @param pwd the password to be hashed.
+     * @param pwd password to be hashed
      * @return A string containing the salt and the hash in base64 separated by a space.
      */
     public String saltHashPassword(String pwd) {
@@ -101,9 +103,9 @@ public class CryptographyService {
     /**
      * Checks if a password is correct in relation to a salted hash.
      *
-     * @param saltAndHash a string containing the salt and the hash in base64 separated by a space.
-     * @param pwd         the password it compares the hash to.
-     * @return If the password is correct.
+     * @param saltAndHash string containing the salt and the hash in base64 separated by a space
+     * @param pwd password it compares the hash to
+     * @return A boolean indicating if the password is correct.
      */
     public boolean testPassword(String saltAndHash, String pwd) {
         digest.reset();

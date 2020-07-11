@@ -1,5 +1,5 @@
 package com.firework;
 
-public interface Logger {
+interface Logger {
     void log(String msg);
 }

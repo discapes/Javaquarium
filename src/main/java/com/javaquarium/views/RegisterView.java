@@ -19,13 +19,15 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
+/** View that allows a user to create a new account. */
 @SceneView
-public class RegisterView extends View {
+public class RegisterView extends StandaloneView {
 
     @Dependency private AlertService alertService;
     @Dependency private StageService stageService;
     @Dependency private AccountService accountService;
 
+    /** Returns the root node of this view. */
     @SuppressWarnings("DuplicatedCode")
     @Override
     public Parent getRoot() {

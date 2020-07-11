@@ -10,8 +10,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Set;
 
-import static com.firework.Services.getString;
+import static com.firework.MyLogger.getString;
 
+/** JavaFX component integrated into Firework. */
 public abstract class Theater {
 
     private static final HashMap<Class<?>, Object> presenters = new HashMap<>();
@@ -19,6 +20,7 @@ public abstract class Theater {
     private static final HashMap<Class<? extends View>, Scene> scenes = new HashMap<>();
     private static Stage primaryStage;
 
+    /** Gets a prebuilt scene, or builds it and adds it to the list. */
     public static Scene getScene(Class<? extends View> clazz) {
         logger.log("Reqested scene                " + clazz.getSimpleName());
         Scene scene = scenes.get(clazz);
@@ -27,7 +29,7 @@ public abstract class Theater {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T buildPresenterIfAbsent(Class<T> clazz) {
+    static <T> T buildPresenterIfAbsent(Class<T> clazz) {
         logger.log("Requested presenter           " + clazz.getSimpleName());
         if (presenters.containsValue(clazz)) return (T) presenters.get(clazz);
         T presenter = Services.getService(clazz);
@@ -43,6 +45,7 @@ public abstract class Theater {
 
     private static String pkg;
 
+    /** Initializes the Firework with support for JavaFX and start's building scenes in the background. */
     public static void initTheaterAndStartFireworkAndPreloadScenes(Stage primaryStage, String pkg) {
         Theater.pkg = pkg;
         Theater.primaryStage = primaryStage;
@@ -51,6 +54,7 @@ public abstract class Theater {
         new Thread(Theater::buildScenes).start();
     }
 
+    /** Returns the primary stage of the application. */
     public static Stage getPrimaryStage() {
         return primaryStage;
     }
@@ -64,12 +68,13 @@ public abstract class Theater {
         return scene;
     }
 
+    /** Clears the list of scenes and starts rebuilding them in the background. */
     public static void startRebuildScenes() {
         scenes.clear();
         new Thread(Theater::buildScenes).start();
     }
 
-    public static void buildScenes() {
+    private static void buildScenes() {
         logger.log("Starting scenes...");
         Reflections reflections = new Reflections(pkg, new SubTypesScanner(false), new TypeAnnotationsScanner());
         Set<Class<? extends View>> sceneViewClasses = reflections.getSubTypesOf(View.class);
@@ -78,7 +83,7 @@ public abstract class Theater {
         sceneViewClasses.forEach(Theater::buildScene);
     }
 
-    public static <T> T instantiateClass(Class<T> clazz) {
+    static <T> T instantiateClass(Class<T> clazz) {
         try {
             T o = clazz.getConstructor().newInstance();
             logger.log("Instantiated new object       " + getString(o));

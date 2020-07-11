@@ -5,14 +5,15 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.function.Function;
 
-import static com.firework.Services.getString;
+import static com.firework.MyLogger.getString;
 
-public abstract class Injector {
+/** Dependency injection for Firework. */
+abstract class Injector {
 
     private static final Logger logger = new MyLogger();
     private static final Function<Class<?>, ?> dependencySupplier = Services::buildServiceIfAbsent;
 
-    public static <T> void injectDependencies(T instance) {
+    static <T> void injectDependencies(T instance) {
         Class<?> clazz = instance.getClass();
         //logger.log("Injecting dependencies for    " + toString(instance));
         for (Field field : clazz.getDeclaredFields()) {

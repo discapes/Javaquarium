@@ -6,7 +6,7 @@ import static javafx.scene.paint.Color.BLUE;
 import static javafx.scene.paint.Color.PALEGOLDENROD;
 
 /**
- * An enumerator with all the possible species of fish, their base speeds and base colors
+ * An enum containing all the possible species of fish, their base speeds and base colors.
  */
 public enum FishSpecies {
     BLUETANG(100, BLUE, "Blue tang"),
@@ -22,12 +22,16 @@ public enum FishSpecies {
         this.name = name;
     }
 
+    /** Returns the base speed of a species. */
     public int getSpeed() { return speed; }
 
+    /** Returns the base color of a species. */
     public Color getColor() { return color; }
 
-    @Override
-    public String toString() {
+    /** Returns a pretty string of the name of the fish that might contain spaces.
+     * If you want to write to a configuration use name().
+     */
+    @Override public String toString() {
         return name;
     }
 }

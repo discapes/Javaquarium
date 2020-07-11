@@ -1,5 +1,6 @@
 package com.javaquarium;
 
+/** Class full of constants to make sure we use the right event. */
 public abstract class Events {
     public static final String STARTVIEW = "STARTVIEW";
     public static final String PRELOAD = "PRELOAD";

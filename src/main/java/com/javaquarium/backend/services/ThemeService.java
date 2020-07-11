@@ -10,6 +10,9 @@ import jfxtras.styles.jmetro.Style;
 
 import java.net.URL;
 
+/** Applies themes to the application.
+ * Note: Metro themes cannot be used without rebuilding all scenes.
+ */
 @Service
 public class ThemeService {
 

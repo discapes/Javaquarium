@@ -7,6 +7,7 @@ import javafx.scene.control.ButtonType;
 
 import java.util.Optional;
 
+/** Shows alerts on the screen. */
 @Service
 public class AlertService {
 
@@ -22,21 +23,21 @@ public class AlertService {
     }
 
     /**
-     * Shows information.
+     * Shows an informational alert.
      */
     public void inform(String message) {
         inform(message, null);
     }
 
     /**
-     * Shows information with a custom header.
+     * Shows an informational alert with a custom header.
      */
     public void inform(String message, String headerText) {
         inform(message, headerText, ButtonType.OK);
     }
 
     /**
-     * Shows information with custom buttons and header.
+     * Shows an informational alert with custom buttons and header.
      */
     public Optional<ButtonType> inform(String message, String headerText, ButtonType... buttonTypes) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION, message, buttonTypes);

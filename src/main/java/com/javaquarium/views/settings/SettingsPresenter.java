@@ -1,7 +1,7 @@
 package com.javaquarium.views.settings;
 
 import com.firework.Dependency;
-import com.firework.EventSystem;
+import com.firework.Firework;
 import com.javaquarium.Events;
 import com.javaquarium.backend.services.AlertService;
 import com.javaquarium.backend.services.SettingService;
@@ -60,13 +60,13 @@ public class SettingsPresenter implements Initializable {
         if (nextChartHistory != settingService.chartHistory || nextPrettyChartPoints != settingService.prettyChartPoints) {
             settingService.chartHistory = nextChartHistory;
             settingService.prettyChartPoints = nextPrettyChartPoints;
-            EventSystem.queueAutomaticEvent(Events.CHARTSETTINGCHANGE);
+            Firework.queueAutomaticEvent(Events.CHARTSETTINGCHANGE);
         }
 
         int nextTickRate = (int) tickRateS.getValue();
         if (settingService.tickRate != nextTickRate) {
             settingService.tickRate = nextTickRate;
-            EventSystem.queueAutomaticEvent(Events.TICKRATECHANGE);
+            Firework.queueAutomaticEvent(Events.TICKRATECHANGE);
         }
     }
 
@@ -78,7 +78,7 @@ public class SettingsPresenter implements Initializable {
 
     @FXML private void applyTheme() {
         settingService.theme = themePicker.getValue();
-        EventSystem.queueAutomaticEvent(Events.NEWTHEME);
+        Firework.queueAutomaticEvent(Events.NEWTHEME);
     }
 
     @SuppressWarnings("SpellCheckingInspection")

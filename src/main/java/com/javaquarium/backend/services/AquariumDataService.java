@@ -20,6 +20,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import static javafx.collections.FXCollections.observableArrayList;
 
+/** Contains and manipulates the data of the aquarium. */
 @Service
 public class AquariumDataService {
 
@@ -35,15 +36,17 @@ public class AquariumDataService {
     private double oxygenAddAmount = 0;
     private TimerTask timerTask;
 
+    @Dependency private SettingService settingService;
+
+    /** Returns a list of all the fish in the aquarium. */
     public ObservableList<Fish> getFish() {
         return fish;
     }
 
+    /** Returns the filtered list of fish to be displayed in the table. */
     public FilteredList<Fish> getVisibleFish() {
         return visibleFish;
     }
-
-    @Dependency private SettingService settingService;
 
     @SuppressWarnings("ConstantConditions")
     private void updateFishHealth() {
@@ -132,24 +135,28 @@ public class AquariumDataService {
         };
     }
 
+    /** Returns the read only property containing the amount of oxygen in the aquarium. */
     public ReadOnlyDoubleProperty getOxygen() {
         return oxygen.getReadOnlyProperty();
     }
 
+    /** Returns the read only property containing the amount of food in the aquarium. */
     public ReadOnlyDoubleProperty getFood() {
         return food.getReadOnlyProperty();
     }
 
+    /** Adds or subtracts from the amount of oxygen in the aquarium. */
     public void addOxygen(double amount) {
         oxygen.set(oxygen.get() + amount);
     }
 
+    /** Adds or subtracts from the amount of food in the aquarium. */
     public void addFood(double amount) {
         food.set(food.get() + amount);
     }
 
-    @Override
-    public String toString() {
+    /** Returns a string containing the oxygen and food amounts along with all the fish and their attributes. */
+    @Override public String toString() {
         StringBuilder string = new StringBuilder();
         string.append(oxygen.get()).append(" ").append(food.get()).append("\n");
         for (Fish fish : fish) {
@@ -158,6 +165,7 @@ public class AquariumDataService {
         return string.toString();
     }
 
+    /** Sets the data of the aquarium from a string created by toString(). */
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean loadFromString(String string) {
         ObservableList<Fish> loadedFish = observableArrayList();

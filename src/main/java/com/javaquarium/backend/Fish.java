@@ -38,11 +38,8 @@ public class Fish {
         this.color.set(species.get().getColor().deriveColor(ThreadLocalRandom.current().nextDouble(-50, 50), 1, 1, 1));
     }
 
-    /**
-     * Includes all of the fish's stats into a string.
-     */
-    @Override
-    public String toString() {
+    /** Returns a string containing all of the fish's data. */
+    @Override public String toString() {
         return name.get().replace(' ', '%') + " " + species.get().name() + " " + speed.get() + " " + Utils.colorToString(color.get()) + " " + health.get();
     }
 

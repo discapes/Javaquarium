@@ -19,13 +19,15 @@ import javafx.scene.layout.VBox;
 
 import java.io.FileNotFoundException;
 
+/** View that allows the user to login. */
 @SceneView
-public class LoginView extends View {
+public class LoginView extends StandaloneView {
 
     @Dependency private AlertService alertService;
     @Dependency private AccountService accountService;
     @Dependency private StageService stageService;
 
+    /** Returns the root node of this view. */
     @SuppressWarnings("DuplicatedCode")
     @Override
     public Parent getRoot() {

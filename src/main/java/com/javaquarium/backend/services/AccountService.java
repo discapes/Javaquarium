@@ -1,7 +1,7 @@
 package com.javaquarium.backend.services;
 
 import com.firework.Dependency;
-import com.firework.EventSystem;
+import com.firework.Firework;
 import com.firework.Service;
 import com.javaquarium.Events;
 import com.javaquarium.backend.InvalidUsersFileException;
@@ -10,7 +10,7 @@ import java.io.*;
 import java.util.Scanner;
 
 /**
- * Is responsible for logging the user in an out.
+ * Is responsible for managing accounts in ~/.javaquariumusers.txt.
  */
 @SuppressWarnings("unused")
 @Service
@@ -21,6 +21,7 @@ public class AccountService {
     private String currentAccount;
     /* "username base64salt base64hash" */
 
+    /** Creates the users file if it doesn't already exist. */
     public AccountService() {
         try {
             //noinspection ResultOfMethodCallIgnored
@@ -31,29 +32,29 @@ public class AccountService {
     }
 
     /**
-     * Logs in as an arbitrary guest user, doesn't read any files.
+     * Logs in as an arbitrary guest user, doesn't read any files. Fires LOGIN.
      */
     public void loginAsGuest() {
         currentAccount = "Guest N/A N/A";
-        EventSystem.queueAutomaticEvent(Events.LOGIN);
+        Firework.queueAutomaticEvent(Events.LOGIN);
     }
 
     /**
-     * Logs out and stops the sessionManager.
+     * Fires LOGOUT.
      */
     public void logout() {
         currentAccount = "not_logged_in N/A N/A";
-        EventSystem.queueAutomaticEvent(Events.LOGOUT);
+        Firework.queueAutomaticEvent(Events.LOGOUT);
     }
 
     /**
-     * Attempts to login.
+     * Reads the users file and attempts to login. Fires LOGIN.
      *
-     * @param username username.
-     * @param password password.
-     * @return A boolean indicating if the login was successful
-     * @throws FileNotFoundException     if .javaquariumusers.txt doesn't exist.
-     * @throws InvalidUsersFileException if .javaquariumusers.txt is invalid.
+     * @param username username
+     * @param password password
+     * @return A boolean indicating if the login was successful.
+     * @throws FileNotFoundException     the users file doesn't exist.
+     * @throws InvalidUsersFileException the users file is invalid.
      */
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean login(String username, String password) throws FileNotFoundException, InvalidUsersFileException {
@@ -71,7 +72,7 @@ public class AccountService {
             if (username.equalsIgnoreCase(lineUsername)) {
                 if (cryptographyService.testPassword(hash, password)) {
                     currentAccount = line;
-                    EventSystem.queueAutomaticEvent(Events.LOGIN);
+                    Firework.queueAutomaticEvent(Events.LOGIN);
                     return true;
                 }
             }
@@ -80,13 +81,13 @@ public class AccountService {
     }
 
     /**
-     * Attempts to register a new account.
+     * Attempts to register a new account to the users file.
      *
-     * @param username username to be registered.
-     * @param password password to be registered with the username.
+     * @param username username to be registered
+     * @param password password to be registered with the username
      * @return A boolean indicating if the registration was successful or not.
-     * @throws IOException               if the .javaquariumusers.txt can't be written to.
-     * @throws InvalidUsersFileException if .javaquariumusers.txt is invalid.
+     * @throws IOException               the the users file can't be written to.
+     * @throws InvalidUsersFileException the users file is invalid.
      */
     public boolean register(String username, String password) throws IOException, InvalidUsersFileException {
         File file = new File(accountsPath);

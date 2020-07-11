@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+/** Reads aquarium data from files and handles the errors by showing alerts. */
 @Service
 public class AquariumFileService {
 
@@ -41,6 +42,9 @@ public class AquariumFileService {
         }
     }
 
+    /** Saves the current data of the aquarium to a file, with an optional encryption key.
+     * Encryption is used unless the key is empty.
+     */
     public void save(File file, String key) {
         String str = aquariumDataService.toString();
         if (key.length() > 0) {
@@ -54,6 +58,9 @@ public class AquariumFileService {
         alertService.inform("Saved aquarium to " + file.getPath() + (key.length() > 0 ? " encrypted with key " + key : ""));
     }
 
+    /** Tries to load the data from a file into the aquarium, with an optional decryption key.
+     * Assumes data is encrypted unless the key is empty.
+     */
     public void load(File file, String key) {
         String str;
         try {
@@ -78,7 +85,7 @@ public class AquariumFileService {
     }
 
     @OnEvent(Events.PRELOAD)
-    public void loadDefault() {
+    private void loadDefault() {
         String str;
         try {
             str = new String(Files.readAllBytes(Paths.get(settingService.defaultAquarium)));
