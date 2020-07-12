@@ -20,7 +20,10 @@ public abstract class Theater {
     private static final HashMap<Class<? extends View>, Scene> scenes = new HashMap<>();
     private static Stage primaryStage;
 
-    /** Gets a prebuilt scene, or builds it and adds it to the list. */
+    /** Gets a prebuilt scene, or builds it and adds it to the list.
+     * @param clazz view scene should be built for
+     * @return a scene built from the view parameter
+     * */
     public static Scene getScene(Class<? extends View> clazz) {
         logger.log("Reqested scene                " + clazz.getSimpleName());
         Scene scene = scenes.get(clazz);
@@ -45,7 +48,9 @@ public abstract class Theater {
 
     private static String pkg;
 
-    /** Initializes the Firework with support for JavaFX and start's building scenes in the background. */
+    /** Initializes the Firework with support for JavaFX and start's building scenes in the background.
+     * @param primaryStage stage to keep in store. Is only useful with getPrimaryStage()
+     * @param pkg package where all of the @Service and @MainView classes are. */
     public static void initTheaterAndStartFireworkAndPreloadScenes(Stage primaryStage, String pkg) {
         Theater.pkg = pkg;
         Theater.primaryStage = primaryStage;
@@ -54,7 +59,9 @@ public abstract class Theater {
         new Thread(Theater::buildScenes).start();
     }
 
-    /** Returns the primary stage of the application. */
+    /** Returns the primary stage Theater was initialized with.
+     * @return the primary stage Theater was initialized with
+     * */
     public static Stage getPrimaryStage() {
         return primaryStage;
     }

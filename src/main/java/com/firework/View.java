@@ -30,6 +30,7 @@ public abstract class View extends StackPane {
 
     /** Loads the conventionally named FXML file and applies CSS.
      * Presenters are gotten by Theater.
+     * @return the root node of the view
      */
     public Parent getRoot() {
         logger.log("getRoot called in             " + getString(this));
@@ -68,7 +69,9 @@ public abstract class View extends StackPane {
     }
 
 
-    /** Creates a new thread, where this::getView supplies a Parent for the consumer parameter. */
+    /** Creates a new thread, where this::getView supplies a Parent for the consumer parameter.
+     * @param consumer method that takes in the loaded Parent
+     * */
     public void getRootAsync(Consumer<Parent> consumer) {
         CompletableFuture.supplyAsync(this::getRoot, EXECUTOR_SERVICE).thenAcceptAsync(consumer, Platform::runLater);
     }

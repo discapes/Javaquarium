@@ -38,12 +38,14 @@ public class AquariumDataService {
 
     @Dependency private SettingService settingService;
 
-    /** Returns a list of all the fish in the aquarium. */
+    /** Returns a list of all the fish in the aquarium.
+     * @return an ObservableList */
     public ObservableList<Fish> getFish() {
         return fish;
     }
 
-    /** Returns the filtered list of fish to be displayed in the table. */
+    /** Returns the filtered list of fish to be displayed in the table.
+     * @return a FilteredList */
     public FilteredList<Fish> getVisibleFish() {
         return visibleFish;
     }
@@ -135,27 +137,34 @@ public class AquariumDataService {
         };
     }
 
-    /** Returns the read only property containing the amount of oxygen in the aquarium. */
+    /** Returns the ReadOnlyProperty containing the amount of food in the aquarium.
+     * @return ReadOnlyDoubleProperty containing the amount of oxygen in the aquarium */
     public ReadOnlyDoubleProperty getOxygen() {
         return oxygen.getReadOnlyProperty();
     }
 
-    /** Returns the read only property containing the amount of food in the aquarium. */
+    /** Returns the ReadOnlyProperty containing the amount of food in the aquarium.
+     * @return ReadOnlyDoubleProperty containing the amount of food in the aquarium */
     public ReadOnlyDoubleProperty getFood() {
         return food.getReadOnlyProperty();
     }
 
-    /** Adds or subtracts from the amount of oxygen in the aquarium. */
+    /** Adds or subtracts from the amount of oxygen in the aquarium.
+     * @param amount amount to add or subtract
+     * */
     public void addOxygen(double amount) {
         oxygen.set(oxygen.get() + amount);
     }
 
-    /** Adds or subtracts from the amount of food in the aquarium. */
+    /** Adds or subtracts from the amount of food in the aquarium.
+     * @param amount amount to add or subtract
+     * */
     public void addFood(double amount) {
         food.set(food.get() + amount);
     }
 
-    /** Returns a string containing the oxygen and food amounts along with all the fish and their attributes. */
+    /** Returns a string containing the oxygen and food amounts along with all the fish and their attributes.
+     * @return a string, first line having the oxygen and food separated by a space, and fish on following lines*/
     @Override public String toString() {
         StringBuilder string = new StringBuilder();
         string.append(oxygen.get()).append(" ").append(food.get()).append("\n");
@@ -165,7 +174,9 @@ public class AquariumDataService {
         return string.toString();
     }
 
-    /** Sets the data of the aquarium from a string created by toString(). */
+    /** Sets the data of the aquarium from a string created by toString().
+     * @param string string containing the data, in format of that created by toString()
+     * @return a boolean indicating if the data was valid */
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean loadFromString(String string) {
         ObservableList<Fish> loadedFish = observableArrayList();

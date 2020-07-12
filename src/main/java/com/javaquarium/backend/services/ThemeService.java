@@ -34,6 +34,7 @@ public class ThemeService {
 
     /**
      * Applies the current theme to a scene.
+     * @param scene scene the current theme will be applied to
      */
     public void applyTheme(Scene scene) {
         StyleManager.getInstance().platformUserAgentStylesheetContainers.clear();
@@ -63,6 +64,7 @@ public class ThemeService {
 
     /**
      * Returns a list of all themes.
+     * @return a list of all the themes
      */
     public String[] getThemes() {
         return themes;

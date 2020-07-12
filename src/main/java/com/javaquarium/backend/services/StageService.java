@@ -30,20 +30,27 @@ public class StageService {
         });
     }
 
-    /** Sets the view of a custom stage. */
+    /** Sets the view of a custom stage.
+     * @param clazz class of the view to be displayed
+     * @param stage stage the view will be displayed on
+     * */
     public void setView(Class<? extends View> clazz, Stage stage) {
         Scene scene = Theater.getScene(clazz);
         themeService.applyTheme(scene);
         stage.setScene(scene);
     }
 
-    /** Sets the view of the primary stage. */
+    /** Sets the view of the primary stage.
+     * @param clazz class of the view to be displayed */
     public void setView(Class<? extends View> clazz) {
         setView(clazz, stage);
     }
 
     /** Creates a quick stage from the parent passed to it, with a custom title.
      * Surrounds the passed parent with 50 pixels of padding.
+     * @param parent Parent node to be put into an AnchorPane into a stage
+     * @param title title of the stage
+     * @return the created stage
      */
     public Stage quickStage(Parent parent, String title) {
         Stage stage = new Stage();

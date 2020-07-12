@@ -2,7 +2,6 @@ package com.javaquarium.views;
 
 import com.firework.Dependency;
 import com.firework.SceneView;
-import com.firework.View;
 import com.javaquarium.backend.Utils;
 import com.javaquarium.backend.services.AccountService;
 import com.javaquarium.backend.services.StageService;
@@ -12,16 +11,13 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
-import java.util.function.Consumer;
-
-/** A view that has a login button and a register button. */
+/** View that has a login button, a register button and a guest button. */
 @SceneView
 public class StartView extends StandaloneView {
 
     @Dependency private StageService stageService;
     @Dependency private AccountService accountService;
 
-    /** Returns the root node of this view. */
     @Override public Parent getRoot() {
         Button loginBtn = new Button("Login");
         loginBtn.setOnAction(e -> stageService.setView(LoginView.class));

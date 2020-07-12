@@ -2,7 +2,6 @@ package com.javaquarium.views;
 
 import com.firework.Dependency;
 import com.firework.SceneView;
-import com.firework.View;
 import com.javaquarium.backend.InvalidUsersFileException;
 import com.javaquarium.backend.Utils;
 import com.javaquarium.backend.services.AccountService;

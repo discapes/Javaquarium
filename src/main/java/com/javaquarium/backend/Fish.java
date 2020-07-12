@@ -30,6 +30,7 @@ public class Fish {
     /**
      * Creates a new fish, with the species being random, and the color and speed being random,
      * but influenced by the species's base speed and color.
+     * @param name name of the fish to be added
      */
     public Fish(String name) {
         this.name.set(name);
@@ -38,7 +39,9 @@ public class Fish {
         this.color.set(species.get().getColor().deriveColor(ThreadLocalRandom.current().nextDouble(-50, 50), 1, 1, 1));
     }
 
-    /** Returns a string containing all of the fish's data. */
+    /** Returns a string containing all of the fish's data.
+     * @return a string that contains all of that fish's data
+     * */
     @Override public String toString() {
         return name.get().replace(' ', '%') + " " + species.get().name() + " " + speed.get() + " " + Utils.colorToString(color.get()) + " " + health.get();
     }

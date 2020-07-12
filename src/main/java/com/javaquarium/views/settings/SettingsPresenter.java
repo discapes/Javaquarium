@@ -81,9 +81,7 @@ public class SettingsPresenter implements Initializable {
         Firework.queueAutomaticEvent(Events.NEWTHEME);
     }
 
-    @SuppressWarnings("SpellCheckingInspection")
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    @Override public void initialize(URL url, ResourceBundle resourceBundle) {
         themePicker.setItems(observableArrayList(themeService.getThemes()));
         themePicker.setValue(settingService.theme);
 

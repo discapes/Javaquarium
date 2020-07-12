@@ -4,7 +4,8 @@ package com.javaquarium;
  * from Application, which is required for JavaFX.
  */
 public class Javaquarium {
-    /** Calls the actual main method. */
+    /** Calls the actual main method.
+     * @param args command line arguments */
     public static void main(String[] args) {
         JavaquariumApplication.actualMain(args);
     }

@@ -21,7 +21,9 @@ public abstract class Firework {
     private final static ArrayList<Pair<String, Object[]>> eventBus = new ArrayList<>();
     private static final Logger logger = new MyLogger();
 
-    /** Starts all of the @Service classes, and adds their @OnEvent functions to the event system */
+    /** Starts all of the @Service classes, and adds their @OnEvent functions to the event system
+     * @param pkg package where all of the @Service classes are
+     * */
     public static void startServices(String pkg) {
         logger.log("Starting services...");
         Reflections reflections = new Reflections(pkg, new SubTypesScanner(false), new TypeAnnotationsScanner());
@@ -47,7 +49,10 @@ public abstract class Firework {
         }
     }
 
-    /** Adds an event to the event queue, with optional parameters to be passed to the @OnEvent listener methods. */
+    /** Adds an event to the event queue, with optional parameters to be passed to the @OnEvent listener methods.
+     * @param event name of the event to be fired
+     * @param params parameters to call the @OnEvent methods with
+     * */
     public static void queueAutomaticEvent(String event, Object... params) {
         logger.log("Queuing event                 " + event + " (" + params.length + ")");
         eventBus.add(new Pair<>(event, params));

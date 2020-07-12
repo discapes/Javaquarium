@@ -8,7 +8,8 @@ import javafx.stage.Stage;
 /** The main JavaFX Application class. */
 public class JavaquariumApplication extends Application {
 
-    /** Called from Javaquarium. */
+    /** Called from Javaquarium.
+     * @param args command line arguments */
     public static void actualMain(String[] args) {
         launch(args);
     }

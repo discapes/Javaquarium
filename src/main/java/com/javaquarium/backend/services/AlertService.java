@@ -15,6 +15,7 @@ public class AlertService {
 
     /**
      * Shows an error alert.
+     * @param message error message to be shown in the alert
      */
     public void errorAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
@@ -24,6 +25,7 @@ public class AlertService {
 
     /**
      * Shows an informational alert.
+     * @param message information to be shown in the alert
      */
     public void inform(String message) {
         inform(message, null);
@@ -31,6 +33,8 @@ public class AlertService {
 
     /**
      * Shows an informational alert with a custom header.
+     * @param message information to be shown in the alert
+     * @param headerText header text for the alert
      */
     public void inform(String message, String headerText) {
         inform(message, headerText, ButtonType.OK);
@@ -38,6 +42,10 @@ public class AlertService {
 
     /**
      * Shows an informational alert with custom buttons and header.
+     * @param message information to be shown in the alert
+     * @param headerText header text for the alert
+     * @param buttonTypes custom button types to be used in the alert
+     * @return the type of button that was pressed
      */
     public Optional<ButtonType> inform(String message, String headerText, ButtonType... buttonTypes) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION, message, buttonTypes);
@@ -48,6 +56,8 @@ public class AlertService {
 
     /**
      * Shows and returns the result of a confirmation alert.
+     * @param msg question to ask the user
+     * @return a boolean indicating if the user has clicked yes (true) or no (false)
      */
     public boolean confirm(String msg) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, msg, ButtonType.YES, ButtonType.NO);

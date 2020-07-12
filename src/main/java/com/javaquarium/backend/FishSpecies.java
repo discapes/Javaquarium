@@ -22,10 +22,14 @@ public enum FishSpecies {
         this.name = name;
     }
 
-    /** Returns the base speed of a species. */
+    /** Returns the base speed of a species.
+     * @return base speed of the species
+     */
     public int getSpeed() { return speed; }
 
-    /** Returns the base color of a species. */
+    /** Returns the base color of a species.
+     * @return base color of the species
+     * */
     public Color getColor() { return color; }
 
     /** Returns a pretty string of the name of the fish that might contain spaces.

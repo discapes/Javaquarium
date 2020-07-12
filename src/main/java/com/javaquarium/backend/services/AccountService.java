@@ -18,8 +18,7 @@ public class AccountService {
 
     private final String accountsPath = System.getProperty("user.home") + "/.javaquariumusers.txt";
     @Dependency private CryptographyService cryptographyService;
-    private String currentAccount;
-    /* "username base64salt base64hash" */
+    private String currentAccount; /* "username base64salt base64hash" */
 
     /** Creates the users file if it doesn't already exist. */
     public AccountService() {
@@ -112,6 +111,7 @@ public class AccountService {
 
     /**
      * Returns the username of the currently logged in account.
+     * @return the username of the currently logged in account
      */
     public String getUsername() {
         return currentAccount.substring(0, currentAccount.indexOf(" "));
@@ -119,6 +119,7 @@ public class AccountService {
 
     /**
      * Returns the salt of the currently logged in account.
+     * @return the salt of the currently logged in account
      */
     public String getSalt() {
         return currentAccount.substring(currentAccount.indexOf(' ') + 1, currentAccount.lastIndexOf(' '));
@@ -126,7 +127,8 @@ public class AccountService {
 
     /**
      * Returns the salted hash of the currently logged in account.
-     */
+     * @return the salted hash of the currently logged in account
+     * */
     public String getHash() {
         return currentAccount.substring(currentAccount.lastIndexOf(' ') + 1);
     }

@@ -1,11 +1,20 @@
 package com.javaquarium.views.app;
 
 import com.firework.SceneView;
-import com.firework.View;
+import com.javaquarium.views.StandaloneView;
+import javafx.scene.Parent;
+import javafx.scene.layout.AnchorPane;
 
+import java.awt.*;
+
+
+/** Main view of the application. */
 @SceneView
-public class AppView extends View {
-        /* TODO
+public class AppView extends StandaloneView {
+
+    @Override
+    public Parent getRoot() {
+        AnchorPane root = (AnchorPane) super.getRoot();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double scrWidth = screenSize.getWidth();
         double scrHeight = screenSize.getHeight();
@@ -17,6 +26,8 @@ public class AppView extends View {
         if (1000 > scrWidth) {
             width = (int)scrWidth - 100;
         }
-        ((AnchorPane) root).setPrefHeight(height);
-        ((AnchorPane) root).setPrefWidth(width);*/
+        root.setPrefHeight(height);
+        root.setPrefWidth(width);
+        return root;
+    }
 }

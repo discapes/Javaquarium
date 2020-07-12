@@ -44,6 +44,8 @@ public class AquariumFileService {
 
     /** Saves the current data of the aquarium to a file, with an optional encryption key.
      * Encryption is used unless the key is empty.
+     * @param file file the data will be written to
+     * @param key key the data will be encrypted with, or empty
      */
     public void save(File file, String key) {
         String str = aquariumDataService.toString();
@@ -60,6 +62,8 @@ public class AquariumFileService {
 
     /** Tries to load the data from a file into the aquarium, with an optional decryption key.
      * Assumes data is encrypted unless the key is empty.
+     * @param file file that data will be read from
+     * @param key key the data was encrypted with, or empty
      */
     public void load(File file, String key) {
         String str;
