@@ -18,6 +18,7 @@ public class JavaquariumApplication extends Application {
     @Override public void start(Stage stage) {
         Theater.initTheaterAndStartFireworkAndPreloadScenes(stage, "com.javaquarium");
         Firework.queueAutomaticEvent(Events.STARTVIEW);
+        Thread.setDefaultUncaughtExceptionHandler((t, e) -> {});
 
         stage.setTitle("Javaquarium");
         stage.show();

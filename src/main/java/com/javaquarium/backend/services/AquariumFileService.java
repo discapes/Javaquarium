@@ -29,13 +29,36 @@ public class AquariumFileService {
             boolean isNew = defaultFile.createNewFile();
             if (isNew) {
                 Files.writeString(defaultFile.toPath(),
-                        "100 100\n" +
-                        "Candice COD 164 #eedfaa 100\n" +
-                        "Bob COD 234 #eebbaa 100\n" +
-                        "Angelina BLUETANG 84 #00ff00 100\n" +
-                        "Dave COD 197 #ff9980 100\n" +
-                        "Jack BLUETANG 195 #800080 100\n" +
-                        "Joe COD 118 #00cdff 100\n");
+                "111.1901731292121 97.23256384546005\n" +
+                "Jacob BLUETANG 158 #6884ee 0\n" +
+                "Michael NEONTETRA 131 #00b2ff 100\n" +
+                "Matthew NORTHERNPIKE 99 #d3de87 57\n" +
+                "Joshua COD 54 #d2c08c 33\n" +
+                "Emily REDSNAPPER 67 #cd775c 87\n" +
+                "Hannah NEONTETRA 324 #00ff88 77\n" +
+                "Christopher COD 147 #d29a8c 0\n" +
+                "Nicholas GOLFISH 88 #ff9700 19\n" +
+                "Madison NEONTETRA 308 #00ff7d 33\n" +
+                "Andrew COD 63 #cad28c 0\n" +
+                "Ashley BLUETANG 155 #c768ee 53\n" +
+                "Sarah GOLFISH 106 #ffff00 100\n" +
+                "Alexis BLUETANG 31 #8268ee 53\n" +
+                "Samantha COD 143 #d1d28c 14\n" +
+                "Joseph COD 81 #d2bd8c 51\n" +
+                "Daniel BLUETANG 145 #687fee 51\n" +
+                "Tyler GOLFISH 126 #ff2b00 78\n" +
+                "William COD 227 #d28c9a 73\n" +
+                "Jessica OCEANSUNFISH 100 #f7ffcd 6\n" +
+                "Elizabeth MAHIMAHI 350 #2e8b6e 60\n" +
+                "Brandon GOLFISH 73 #ff2400 100\n" +
+                "Taylor COD 197 #d29f8c 100\n" +
+                "Lauren CLOWNFISH 23 #b9ff00 45\n" +
+                "Ryan NEONTETRA 136 #00ecff 100\n" +
+                "John NORTHERNPIKE 55 #de8798 88\n" +
+                "Alyssa BLUETANG 42 #689fee 88\n" +
+                "Zachary OCEANSUNFISH 232 #ffcdd1 22\n" +
+                "Kayla GOLFISH 67 #ffcf00 82\n" +
+                "Megan BLUETANG 70 #687fee 100\n");
             }
         } catch (IOException e) {
             alertService.errorAlert("Could not create default aquarium file " + settingService.defaultAquarium + ": " + e);

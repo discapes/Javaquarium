@@ -75,9 +75,8 @@ public class ToolbarPresenter {
     private void saveToFile() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt"));
-        File rawFile = fileChooser.showSaveDialog(new Stage());
-        if (rawFile == null) return;
-        File file = new File(rawFile.getAbsolutePath() + ".txt");
+        File file = fileChooser.showSaveDialog(new Stage());
+        if (file == null) return;
 
         TextField keyField = new TextField();
         keyField.setPromptText("Key");

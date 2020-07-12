@@ -7,6 +7,7 @@ import com.javaquarium.backend.Utils;
 import com.javaquarium.backend.services.AlertService;
 import com.javaquarium.backend.services.AquariumDataService;
 import com.javaquarium.backend.services.StageService;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -93,7 +94,9 @@ public class FishTablePresenter implements Initializable {
                     aquariumDataService.getFish().remove(fish);
             }
         });
-        tableView.setItems(aquariumDataService.getVisibleFish());
+        SortedList<Fish> sortedList = new SortedList<>(aquariumDataService.getVisibleFish());
+        sortedList.comparatorProperty().bind(tableView.comparatorProperty());
+        tableView.setItems(sortedList);
     }
 
     private static class CustomStringConverter extends StringConverter<String> {

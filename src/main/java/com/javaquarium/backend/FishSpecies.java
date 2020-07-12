@@ -2,15 +2,21 @@ package com.javaquarium.backend;
 
 import javafx.scene.paint.Color;
 
-import static javafx.scene.paint.Color.BLUE;
-import static javafx.scene.paint.Color.PALEGOLDENROD;
+import static javafx.scene.paint.Color.*;
 
 /**
  * An enum containing all the possible species of fish, their base speeds and base colors.
  */
 public enum FishSpecies {
-    BLUETANG(100, BLUE, "Blue tang"),
-    COD(120, PALEGOLDENROD, "Cod");
+    BLUETANG(100, MEDIUMSLATEBLUE, "Blue tang"),
+    COD(120, TAN, "Cod"),
+    GOLFISH(70, ORANGERED, "Goldfish"),
+    MAHIMAHI(200, SEAGREEN, "Mahi-Mahi"),
+    OCEANSUNFISH(150, BLANCHEDALMOND, "Ocean Sunfish"),
+    CLOWNFISH(25, ORANGE, "Clownfish"),
+    REDSNAPPER(100, INDIANRED, "Red Snapper"),
+    NEONTETRA(170, AQUA, "Neon Tetra"),
+    NORTHERNPIKE(50, BURLYWOOD, "Northern Pike");
 
     private final int speed;
     private final Color color;

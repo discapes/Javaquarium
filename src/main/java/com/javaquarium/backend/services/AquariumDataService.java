@@ -8,6 +8,7 @@ import com.javaquarium.backend.Fish;
 import com.javaquarium.backend.FishSpecies;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.ReadOnlyDoubleWrapper;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.scene.paint.Color;
@@ -26,10 +27,10 @@ public class AquariumDataService {
 
     private final ReadOnlyDoubleWrapper oxygen = new ReadOnlyDoubleWrapper(100);
     private final ReadOnlyDoubleWrapper food = new ReadOnlyDoubleWrapper(100);
-    private final ObservableList<Fish> over0HPFish = observableArrayList();
-    private final ObservableList<Fish> under100HPFish = observableArrayList();
     private final Timer timer = new Timer(true);
     private final ObservableList<Fish> fish = observableArrayList();
+    private final ObservableList<Fish> over0HPFish;
+    private final ObservableList<Fish> under100HPFish;
     private final FilteredList<Fish> visibleFish = fish.filtered((f) -> true);
     private int ticks = 0;
     private double foodAddAmount = 0;
@@ -37,6 +38,11 @@ public class AquariumDataService {
     private TimerTask timerTask;
 
     @Dependency private SettingService settingService;
+
+    public AquariumDataService() {
+        over0HPFish = fish.filtered((f) -> f.getHealth() > 0);
+        under100HPFish = fish.filtered((f) -> f.getHealth() < 100);
+    }
 
     /** Returns a list of all the fish in the aquarium.
      * @return an ObservableList */
@@ -57,22 +63,18 @@ public class AquariumDataService {
                 if (amount < 50 || amount > 150) {
                     if (over0HPFish.size() > 0) {
                         Fish fish = getRandomFish(over0HPFish);
-                        if (fish.getHealth() == 100) under100HPFish.add(fish);
                         fish.setHealth(fish.getHealth() - (int) (Math.abs(100 - amount) * 0.2));
 
                         if (fish.getHealth() < 0) {
                             fish.setHealth(0);
-                            over0HPFish.remove(fish);
                         }
                     }
                 } else if (under100HPFish.size() > 0) {
                     Fish fish = getRandomFish(under100HPFish);
-                    if (fish.getHealth() == 0) over0HPFish.add(fish);
                     fish.setHealth(fish.getHealth() + 5);
 
                     if (fish.getHealth() > 100) {
                         fish.setHealth(100);
-                        under100HPFish.remove(fish);
                     }
                 }
             }
@@ -196,7 +198,6 @@ public class AquariumDataService {
             return false;
         }
         fish.setAll(loadedFish);
-        over0HPFish.setAll(loadedFish);
         return true;
     }
 }
